@@ -1628,7 +1628,7 @@ const ADDITIONAL_COMPANIES: SampleCompany[] = [
     name: 'BioHarvest Organics',
     description: 'Small organic farm-to-table food company',
     industry: 'Food',
-    scale: 'thousands',
+    scale: 'ones',
     stockPrice: 8,
     sharesOutstanding: 500,
     balances: {
