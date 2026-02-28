@@ -264,6 +264,9 @@ export default function RatioDashboard() {
   const selectedCompany = useLedgerStore((s) => s.selectedCompany)
   const ratios = useRatios()
 
+  // Top-level collapse state for the entire dashboard
+  const [dashboardCollapsed, setDashboardCollapsed] = useState(false)
+
   // All sections start expanded
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
     const map: Record<string, boolean> = {}
@@ -295,23 +298,75 @@ export default function RatioDashboard() {
     >
       {/* Dashboard header */}
       <div
-        className="px-5 py-3"
-        style={{ borderBottom: '1px solid var(--color-border)' }}
+        className="px-5 py-3 flex items-center justify-between cursor-pointer select-none"
+        style={{ borderBottom: dashboardCollapsed ? 'none' : '1px solid var(--color-border)' }}
+        onClick={() => setDashboardCollapsed((c) => !c)}
       >
-        <h2
-          className="text-lg font-semibold"
-          style={{ fontFamily: 'var(--font-display)' }}
+        <div className="flex items-center gap-2">
+          <span
+            style={{
+              display: 'inline-block',
+              transition: 'transform 0.25s ease',
+              transform: dashboardCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)',
+              fontSize: '0.7rem',
+              color: 'var(--color-text-muted)',
+              lineHeight: 1,
+            }}
+          >
+            ▼
+          </span>
+          <div>
+            <h2
+              className="text-lg font-semibold"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              Financial Ratios
+            </h2>
+            {!dashboardCollapsed && (
+              <p
+                className="text-xs mt-0.5"
+                style={{ color: 'var(--color-text-muted)' }}
+              >
+                23 ratios across 5 categories
+              </p>
+            )}
+          </div>
+        </div>
+        <button
+          type="button"
+          className="flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors cursor-pointer"
+          style={{
+            background: 'var(--color-border)',
+            color: 'var(--color-text-muted)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.7rem',
+            border: 'none',
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            setDashboardCollapsed((c) => !c)
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--color-text-muted)'
+            e.currentTarget.style.color = 'var(--color-surface)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--color-border)'
+            e.currentTarget.style.color = 'var(--color-text-muted)'
+          }}
         >
-          Financial Ratios
-        </h2>
-        <p
-          className="text-xs mt-0.5"
-          style={{ color: 'var(--color-text-muted)' }}
-        >
-          23 ratios across 5 categories
-        </p>
+          {dashboardCollapsed ? 'Expand' : 'Minimize'}
+        </button>
       </div>
 
+      <div
+        style={{
+          overflow: 'hidden',
+          transition: 'max-height 0.35s ease, opacity 0.25s ease',
+          maxHeight: dashboardCollapsed ? 0 : '5000px',
+          opacity: dashboardCollapsed ? 0 : 1,
+        }}
+      >
       <div className="px-5 py-4 space-y-2">
         {/* Standard sections: Profitability, Liquidity, Solvency, Efficiency */}
         {SECTIONS.map((section) => (
@@ -365,6 +420,7 @@ export default function RatioDashboard() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

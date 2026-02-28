@@ -66,6 +66,7 @@ export default function BalanceSheet() {
       title="Balance Sheet"
       subtitle="Classified"
       headerRight={<BalancedIndicator balanced={bs.isBalanced} />}
+      collapsible
     >
       <table className="w-full">
         <tbody>

@@ -13,42 +13,61 @@ function SegmentedControl<T extends string>({
   options,
   value,
   onChange,
+  size = 'default',
 }: {
   options: { label: string; value: T }[]
   value: T
   onChange: (v: T) => void
+  /** 'large' makes tabs bigger and more button-like */
+  size?: 'default' | 'large'
 }) {
+  const isLarge = size === 'large'
   return (
-    <div className="flex rounded-md overflow-hidden">
-      {options.map((opt) => (
-        <button
-          key={opt.value}
-          type="button"
-          onClick={() => onChange(opt.value)}
-          className="px-2.5 py-1 text-white transition-colors cursor-pointer"
-          style={{
-            fontSize: '0.78rem',
-            background:
-              value === opt.value
-                ? 'rgba(255,255,255,0.2)'
-                : 'rgba(255,255,255,0.1)',
-            fontWeight: value === opt.value ? 600 : 400,
-          }}
-          onMouseEnter={(e) => {
-            if (value !== opt.value) {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
-            }
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background =
-              value === opt.value
-                ? 'rgba(255,255,255,0.2)'
+    <div className="flex rounded-md overflow-hidden" style={{ gap: isLarge ? 2 : 0 }}>
+      {options.map((opt) => {
+        const isActive = value === opt.value
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            className="text-white transition-all cursor-pointer"
+            style={{
+              fontSize: isLarge ? '0.88rem' : '0.78rem',
+              padding: isLarge ? '6px 14px' : '4px 10px',
+              background: isActive
+                ? 'rgba(255,255,255,0.25)'
+                : 'rgba(255,255,255,0.08)',
+              fontWeight: isActive ? 700 : 400,
+              borderRadius: isLarge ? 6 : 0,
+              border: isActive
+                ? '1px solid rgba(255,255,255,0.3)'
+                : '1px solid rgba(255,255,255,0.1)',
+              boxShadow: isActive && isLarge
+                ? '0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.15)'
+                : 'none',
+              letterSpacing: isLarge ? '0.02em' : 'normal',
+              fontFamily: isLarge ? 'var(--font-display)' : 'inherit',
+            }}
+            onMouseEnter={(e) => {
+              if (!isActive) {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.18)'
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = isActive
+                ? 'rgba(255,255,255,0.25)'
+                : 'rgba(255,255,255,0.08)'
+              e.currentTarget.style.borderColor = isActive
+                ? 'rgba(255,255,255,0.3)'
                 : 'rgba(255,255,255,0.1)'
-          }}
-        >
-          {opt.label}
-        </button>
-      ))}
+            }}
+          >
+            {opt.label}
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -197,7 +216,7 @@ export function Toolbar() {
               color: '#DAA520',
             }}
           >
-            Dr. Imran
+            Imran Dar
           </span>
         </div>
 
@@ -235,6 +254,7 @@ export function Toolbar() {
               ]}
               value={viewMode}
               onChange={setViewMode}
+              size="large"
             />
           </div>
         )}

@@ -55,7 +55,7 @@ export default function IncomeStatement() {
       : 0
 
   return (
-    <StatementPanel title="Income Statement" subtitle="Multi-Step">
+    <StatementPanel title="Income Statement" subtitle="Multi-Step" collapsible>
       <table className="w-full">
         <tbody>
           {/* ── Revenue ───────────────────────── */}

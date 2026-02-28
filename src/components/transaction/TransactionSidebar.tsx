@@ -235,7 +235,13 @@ export function TransactionSidebar({ onRecorded }: TransactionSidebarProps) {
       </div>
 
       {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <form
+        className="flex-1 overflow-y-auto p-4 space-y-3"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (canRecord && isBalanced) handleRecord()
+        }}
+      >
         {/* Topic Filter */}
         <div>
           <label
@@ -418,8 +424,7 @@ export function TransactionSidebar({ onRecorded }: TransactionSidebarProps) {
         {/* Record Button */}
         {selectedTemplate && (
           <button
-            type="button"
-            onClick={handleRecord}
+            type="submit"
             disabled={!canRecord || !isBalanced}
             className="w-full rounded-md py-2 font-semibold transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
@@ -443,7 +448,7 @@ export function TransactionSidebar({ onRecorded }: TransactionSidebarProps) {
           </button>
         )}
 
-      </div>
+      </form>
     </div>
   )
 }

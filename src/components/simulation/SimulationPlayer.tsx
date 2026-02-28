@@ -51,6 +51,7 @@ const SPEEDS = [
 
 const CATEGORIES = [
   { id: 'revenue', label: '💵 Revenue & Sales', color: '#2D6A4F' },
+  { id: 'inventory', label: '📦 Inventory & COGS', color: '#92400E' },
   { id: 'expenses', label: '📋 Expenses & Operations', color: '#B03A2E' },
   { id: 'assets', label: '🏗️ Assets & Investing', color: '#2563EB' },
   { id: 'liabilities', label: '🏦 Liabilities & Financing', color: '#D97706' },
@@ -401,7 +402,7 @@ const SCENARIOS: Scenario[] = [
     name: 'Purchase Inventory on Account',
     description: 'A company buys $15,000 of inventory on credit. Assets and liabilities both increase — but no expense yet!',
     icon: '📦',
-    category: 'expenses',
+    category: 'inventory',
     steps: [
       {
         title: 'Step 1: Record the Purchase',
@@ -445,6 +446,393 @@ const SCENARIOS: Scenario[] = [
       },
     ],
   },
+  {
+    id: 'purchase-inventory-cash',
+    name: 'Purchase Inventory for Cash',
+    description: 'A company buys $10,000 of merchandise inventory with cash. One asset replaces another — but which statement is affected?',
+    icon: '🛒',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Record the Cash Purchase',
+        description: 'The company pays $10,000 cash to purchase merchandise inventory. Inventory (asset) goes up, Cash (asset) goes down.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Inventory', change: 10000, side: 'debit' },
+          { name: 'Cash', change: 10000, side: 'credit' },
+        ],
+        statements: {},
+      },
+      {
+        title: 'Step 2: Income Statement — No Impact!',
+        description: 'Buying inventory is NOT an expense. Inventory is an asset until it is sold. Only then does it become Cost of Goods Sold (COGS).',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+        },
+      },
+      {
+        title: 'Step 3: Balance Sheet',
+        description: 'Cash decreases by $10,000, but Inventory increases by $10,000. Total assets are UNCHANGED — it\'s simply an asset swap.',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+          balanceSheet: { assets: 0, liabilities: 0, equity: 0 },
+        },
+      },
+      {
+        title: 'Step 4: Cash Flow Statement',
+        description: 'Operating cash outflow of $10,000. The increase in inventory uses cash, even though there is no expense on the Income Statement.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+          balanceSheet: { assets: 0, liabilities: 0, equity: 0 },
+          cashFlow: { operating: -10000, investing: 0, financing: 0, netChange: -10000 },
+        },
+      },
+    ],
+  },
+  {
+    id: 'sell-inventory-cogs',
+    name: 'Full Sales Cycle (Revenue + COGS)',
+    description: 'A company sells inventory costing $6,000 for $10,000 cash. Two entries in one transaction — see how gross profit is created!',
+    icon: '🔄',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Record the Revenue',
+        description: 'The company sells goods for $10,000 cash. The first half of a sales transaction recognizes the revenue.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Cash', change: 10000, side: 'debit' },
+          { name: 'Sales Revenue', change: 10000, side: 'credit' },
+        ],
+        statements: {
+          incomeStatement: { revenue: 10000, expenses: 0, netIncome: 10000 },
+        },
+      },
+      {
+        title: 'Step 2: Record Cost of Goods Sold',
+        description: 'The inventory that was sold had a cost of $6,000. This is the COGS entry — inventory leaves the Balance Sheet and becomes an expense.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Cost of Goods Sold', change: 6000, side: 'debit' },
+          { name: 'Inventory', change: 6000, side: 'credit' },
+        ],
+        statements: {
+          incomeStatement: { revenue: 10000, expenses: 6000, netIncome: 4000 },
+        },
+      },
+      {
+        title: 'Step 3: Income Statement — Gross Profit!',
+        description: 'Revenue $10,000 − COGS $6,000 = Gross Profit $4,000. This is the markup on the inventory. The gross profit margin is 40%.',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 10000, expenses: 6000, netIncome: 4000 },
+        },
+      },
+      {
+        title: 'Step 4: Balance Sheet',
+        description: 'Cash increases $10,000, Inventory decreases $6,000 → net asset increase of $4,000. Equity increases by $4,000 (the profit). A = L + E!',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 10000, expenses: 6000, netIncome: 4000 },
+          balanceSheet: { assets: 4000, liabilities: 0, equity: 4000 },
+        },
+      },
+      {
+        title: 'Step 5: Cash Flow Statement',
+        description: 'Operating cash inflow of $10,000 from the customer. Net Income is $4,000, plus the decrease in Inventory ($6,000) is added back as a non-cash adjustment.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 10000, expenses: 6000, netIncome: 4000 },
+          balanceSheet: { assets: 4000, liabilities: 0, equity: 4000 },
+          cashFlow: { operating: 10000, investing: 0, financing: 0, netChange: 10000 },
+        },
+      },
+    ],
+  },
+  {
+    id: 'inventory-write-down',
+    name: 'Inventory Write-Down (LCM)',
+    description: 'Inventory originally costing $8,000 has a market value of only $5,000. Under Lower-of-Cost-or-Market, a $3,000 loss must be recorded.',
+    icon: '📉',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Identify the Impairment',
+        description: 'Inventory with a cost of $8,000 now has a net realisable value of $5,000 (damaged, obsolete, or market decline). We must write it down by $3,000.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Cost of Goods Sold', change: 3000, side: 'debit' },
+          { name: 'Inventory', change: 3000, side: 'credit' },
+        ],
+        statements: {},
+      },
+      {
+        title: 'Step 2: Income Statement',
+        description: 'The $3,000 write-down is recorded as COGS (or a separate loss). This reduces Net Income — the company takes an immediate hit to profitability.',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 3000, netIncome: -3000 },
+        },
+      },
+      {
+        title: 'Step 3: Balance Sheet',
+        description: 'Inventory (asset) decreases by $3,000. Retained Earnings (equity) decreases by $3,000 through the loss. The asset is now stated at its lower market value.',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 3000, netIncome: -3000 },
+          balanceSheet: { assets: -3000, liabilities: 0, equity: -3000 },
+        },
+      },
+      {
+        title: 'Step 4: Cash Flow Statement',
+        description: 'No cash impact! The write-down is a non-cash charge. Net Income decreases by $3,000, but it\'s added back in the indirect method as a non-cash adjustment.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 3000, netIncome: -3000 },
+          balanceSheet: { assets: -3000, liabilities: 0, equity: -3000 },
+          cashFlow: { operating: 0, investing: 0, financing: 0, netChange: 0 },
+        },
+      },
+    ],
+  },
+  {
+    id: 'purchase-returns',
+    name: 'Return Inventory to Supplier',
+    description: 'A company returns $4,000 of defective inventory to the supplier for a credit. See how a purchase return reverses the original entry.',
+    icon: '↩️',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Record the Purchase Return',
+        description: 'The company returns $4,000 of defective goods purchased on account. Accounts Payable decreases (we owe less), Inventory decreases (goods returned).',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Accounts Payable', change: 4000, side: 'debit' },
+          { name: 'Inventory', change: 4000, side: 'credit' },
+        ],
+        statements: {},
+      },
+      {
+        title: 'Step 2: Income Statement — No Impact!',
+        description: 'Returning unsold inventory is NOT a revenue or expense event. The goods were never sold, so there is no impact on the Income Statement.',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+        },
+      },
+      {
+        title: 'Step 3: Balance Sheet',
+        description: 'Inventory (asset) decreases by $4,000 AND Accounts Payable (liability) decreases by $4,000. Both sides shrink equally — equation balances!',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+          balanceSheet: { assets: -4000, liabilities: -4000, equity: 0 },
+        },
+      },
+      {
+        title: 'Step 4: Cash Flow Statement',
+        description: 'No cash impact! The return reduces both inventory and payables. Cash is unaffected since neither was involved in the original or return transaction.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+          balanceSheet: { assets: -4000, liabilities: -4000, equity: 0 },
+          cashFlow: { operating: 0, investing: 0, financing: 0, netChange: 0 },
+        },
+      },
+    ],
+  },
+  {
+    id: 'inventory-freight-in',
+    name: 'Freight-In on Inventory Purchase',
+    description: 'A company pays $800 freight to ship purchased inventory. Is freight an expense or part of inventory cost? The answer matters!',
+    icon: '🚚',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Record the Freight Cost',
+        description: 'The company pays $800 cash for shipping on a merchandise purchase. Under FOB Shipping Point, freight-in is added to the cost of inventory.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Inventory', change: 800, side: 'debit' },
+          { name: 'Cash', change: 800, side: 'credit' },
+        ],
+        statements: {},
+      },
+      {
+        title: 'Step 2: Income Statement — No Immediate Impact!',
+        description: 'Freight-in is capitalized to inventory (an asset), not expensed immediately. It becomes part of COGS only when the goods are sold later.',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+        },
+      },
+      {
+        title: 'Step 3: Balance Sheet',
+        description: 'Cash (asset) decreases by $800, but Inventory (asset) increases by $800. Total assets unchanged — freight is part of the inventory cost basis.',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+          balanceSheet: { assets: 0, liabilities: 0, equity: 0 },
+        },
+      },
+      {
+        title: 'Step 4: Cash Flow Statement',
+        description: 'Operating cash outflow of $800. Even though no expense is recorded, cash is used. The increase in inventory is reflected in working capital adjustments.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 0, expenses: 0, netIncome: 0 },
+          balanceSheet: { assets: 0, liabilities: 0, equity: 0 },
+          cashFlow: { operating: -800, investing: 0, financing: 0, netChange: -800 },
+        },
+      },
+    ],
+  },
+  {
+    id: 'fifo-costing',
+    name: 'FIFO Inventory Costing',
+    description: 'A company has 3 inventory purchases at different prices, then sells 150 units. Under FIFO, the oldest costs are expensed first. Compare how FIFO yields lower COGS and higher profit when prices are rising.',
+    icon: '1️⃣',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Three Inventory Purchases',
+        description: 'The company makes 3 purchases at rising prices: Batch 1: 100 units @ $10 = $1,000 | Batch 2: 100 units @ $12 = $1,200 | Batch 3: 100 units @ $15 = $1,500. Total inventory: 300 units costing $3,700.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Inventory', change: 3700, side: 'debit' },
+          { name: 'Cash', change: 3700, side: 'credit' },
+        ],
+        statements: {},
+      },
+      {
+        title: 'Step 2: Sell 150 Units Under FIFO',
+        description: 'Under FIFO (First-In, First-Out), the oldest costs are expensed first. Sell all 100 units from Batch 1 @ $10 = $1,000, then 50 units from Batch 2 @ $12 = $600. COGS = $1,600. Revenue = 150 units × $20 selling price = $3,000.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Cash', change: 3000, side: 'debit' },
+          { name: 'Sales Revenue', change: 3000, side: 'credit' },
+          { name: 'Cost of Goods Sold', change: 1600, side: 'debit' },
+          { name: 'Inventory', change: 1600, side: 'credit' },
+        ],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 1600, netIncome: 1400 },
+        },
+      },
+      {
+        title: 'Step 3: Income Statement Impact (FIFO)',
+        description: 'Revenue: $3,000 minus COGS: $1,600 = Gross Profit: $1,400. Because FIFO expenses the OLDEST (cheapest) costs first, COGS is lower and profit is HIGHER when prices are rising.',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 1600, netIncome: 1400 },
+        },
+      },
+      {
+        title: 'Step 4: Balance Sheet — Ending Inventory',
+        description: 'Remaining inventory: 50 units from Batch 2 @ $12 = $600 + 100 units from Batch 3 @ $15 = $1,500. Ending inventory = $2,100. Under FIFO, ending inventory reflects the NEWER (higher) costs, giving a more current balance sheet valuation.',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 1600, netIncome: 1400 },
+          balanceSheet: { assets: 700, liabilities: 0, equity: 700 },
+        },
+      },
+      {
+        title: 'Step 5: Summary — FIFO Key Takeaway',
+        description: 'FIFO produces: lower COGS ($1,600), higher net income ($1,400), and higher ending inventory ($2,100). It better reflects current replacement costs on the balance sheet but results in more income tax when prices are rising.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 1600, netIncome: 1400 },
+          balanceSheet: { assets: 700, liabilities: 0, equity: 700 },
+          cashFlow: { operating: -700, investing: 0, financing: 0, netChange: -700 },
+        },
+      },
+    ],
+  },
+  {
+    id: 'lifo-costing',
+    name: 'LIFO Inventory Costing',
+    description: 'Same 3 purchases and sale as FIFO, but under LIFO the newest costs are expensed first. See how LIFO yields higher COGS and lower profit when prices rise — and the tax advantage.',
+    icon: '🔄',
+    category: 'inventory',
+    steps: [
+      {
+        title: 'Step 1: Same Three Purchases',
+        description: 'Identical purchases to the FIFO scenario: Batch 1: 100 units @ $10 = $1,000 | Batch 2: 100 units @ $12 = $1,200 | Batch 3: 100 units @ $15 = $1,500. Total inventory: 300 units costing $3,700.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Inventory', change: 3700, side: 'debit' },
+          { name: 'Cash', change: 3700, side: 'credit' },
+        ],
+        statements: {},
+      },
+      {
+        title: 'Step 2: Sell 150 Units Under LIFO',
+        description: 'Under LIFO (Last-In, First-Out), the newest costs are expensed first. Sell all 100 units from Batch 3 @ $15 = $1,500, then 50 units from Batch 2 @ $12 = $600. COGS = $2,100. Revenue = 150 units × $20 = $3,000.',
+        highlight: 'journal',
+        accounts: [
+          { name: 'Cash', change: 3000, side: 'debit' },
+          { name: 'Sales Revenue', change: 3000, side: 'credit' },
+          { name: 'Cost of Goods Sold', change: 2100, side: 'debit' },
+          { name: 'Inventory', change: 2100, side: 'credit' },
+        ],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 2100, netIncome: 900 },
+        },
+      },
+      {
+        title: 'Step 3: Income Statement Impact (LIFO)',
+        description: 'Revenue: $3,000 minus COGS: $2,100 = Gross Profit: $900. LIFO shows HIGHER COGS ($500 more than FIFO) and LOWER profit because the newest (most expensive) costs are expensed first.',
+        highlight: 'income',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 2100, netIncome: 900 },
+        },
+      },
+      {
+        title: 'Step 4: Balance Sheet — Ending Inventory',
+        description: 'Remaining inventory: 100 units from Batch 1 @ $10 = $1,000 + 50 units from Batch 2 @ $12 = $600. Ending inventory = $1,600 ($500 lower than FIFO). The LIFO reserve is $2,100 - $1,600 = $500. Under LIFO, ending inventory reflects OLDER (lower) costs.',
+        highlight: 'balance',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 2100, netIncome: 900 },
+          balanceSheet: { assets: 200, liabilities: 0, equity: 200 },
+        },
+      },
+      {
+        title: 'Step 5: FIFO vs LIFO Comparison',
+        description: 'Side-by-side: FIFO — COGS $1,600, Gross Profit $1,400, Ending Inventory $2,100. LIFO — COGS $2,100, Gross Profit $900, Ending Inventory $1,600. Difference: $500. LIFO saves taxes but shows lower profit. Note: LIFO is allowed under US GAAP but NOT under IFRS.',
+        highlight: 'cashflow',
+        accounts: [],
+        statements: {
+          incomeStatement: { revenue: 3000, expenses: 2100, netIncome: 900 },
+          balanceSheet: { assets: 200, liabilities: 0, equity: 200 },
+          cashFlow: { operating: -700, investing: 0, financing: 0, netChange: -700 },
+        },
+      },
+    ],
+  },
+
+  // ─── Expenses & Operations (continued) ──
   {
     id: 'pay-accounts-payable',
     name: 'Pay Supplier (Accounts Payable)',

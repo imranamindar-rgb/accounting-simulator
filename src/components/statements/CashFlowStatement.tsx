@@ -45,6 +45,7 @@ export default function CashFlowStatement() {
       title="Cash Flow Statement"
       subtitle="Statement of Cash Flows"
       headerRight={<MethodBadge method={cashFlowMethod} />}
+      collapsible
     >
       <table className="w-full">
         <tbody>
