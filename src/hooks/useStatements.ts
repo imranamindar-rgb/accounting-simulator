@@ -6,6 +6,10 @@
  * calls getStatements() outside the selector and memoises the result with
  * useMemo keyed on a change counter that increments when the ledger
  * actually mutates.
+ *
+ * ledgerVersion is bumped by WhatIfMode when sliders are adjusted,
+ * ensuring statements recompute even though the ledger object reference
+ * doesn't change.
  */
 import { useMemo } from 'react'
 import { useLedgerStore } from '../store/ledgerStore'
@@ -17,14 +21,13 @@ export function useStatements() {
   const ledger = useLedgerStore((s) => s.ledger)
   const beginningBalances = useLedgerStore((s) => s.beginningBalances)
   const sharesOutstanding = useLedgerStore((s) => s.sharesOutstanding)
+  const ledgerVersion = useLedgerStore((s) => s.ledgerVersion)
   const getStatements = useLedgerStore((s) => s.getStatements)
 
-  // We use the ledger instance + its snapshot as a proxy for "did data change".
-  // ledger is a class instance so the reference is stable per company load;
-  // takeSnapshot() is called elsewhere, so we rely on Zustand's set() calls
-  // to signal changes.  useMemo with these deps will recompute only when
-  // the store's ledger/beginningBalances/sharesOutstanding change.
-  return useMemo(() => getStatements(), [ledger, beginningBalances, sharesOutstanding, getStatements])
+  return useMemo(
+    () => getStatements(),
+    [ledger, beginningBalances, sharesOutstanding, ledgerVersion, getStatements],
+  )
 }
 
 /**
@@ -34,6 +37,7 @@ export function useRatios() {
   const getRatios = useLedgerStore((s) => s.getRatios)
   const ledger = useLedgerStore((s) => s.ledger)
   const beginningBalances = useLedgerStore((s) => s.beginningBalances)
+  const ledgerVersion = useLedgerStore((s) => s.ledgerVersion)
 
-  return useMemo(() => getRatios(), [ledger, beginningBalances, getRatios])
+  return useMemo(() => getRatios(), [ledger, beginningBalances, ledgerVersion, getRatios])
 }

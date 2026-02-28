@@ -10,6 +10,15 @@ export interface SampleCompany {
 
 export const SAMPLE_COMPANIES: SampleCompany[] = [
   {
+    name: 'Blank Company (Start from Zero)',
+    description: 'Start with a clean slate — all accounts at zero. Build the financial statements yourself.',
+    industry: 'Education',
+    scale: 'ones',
+    stockPrice: 10,
+    sharesOutstanding: 1000,
+    balances: {},
+  },
+  {
     name: 'Sound & Light Pty Ltd',
     description: 'A retail electronics company used throughout the textbook.',
     industry: 'Education',

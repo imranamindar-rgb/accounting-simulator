@@ -50,6 +50,7 @@ interface LedgerState {
   currentPeriod: number
   selectedCompany: SampleCompany | null
   sharesOutstanding: number
+  ledgerVersion: number
 
   // Actions
   initFromCompany: (company: SampleCompany) => void
@@ -58,6 +59,7 @@ interface LedgerState {
   redo: () => void
   reset: () => void
   closePeriod: (label: string) => void
+  bumpLedgerVersion: () => void
 
   // Derived (computed on demand)
   getStatements: () => {
@@ -90,6 +92,7 @@ export const useLedgerStore = create<LedgerState>()((set, get) => {
     currentPeriod: 0,
     selectedCompany: null,
     sharesOutstanding: 1,
+    ledgerVersion: 0,
 
     initFromCompany: (company: SampleCompany) => {
       const ledger = new Ledger()
@@ -200,6 +203,10 @@ export const useLedgerStore = create<LedgerState>()((set, get) => {
       if (selectedCompany) {
         get().initFromCompany(selectedCompany)
       }
+    },
+
+    bumpLedgerVersion: () => {
+      set((state) => ({ ledgerVersion: state.ledgerVersion + 1 }))
     },
 
     closePeriod: (label: string) => {

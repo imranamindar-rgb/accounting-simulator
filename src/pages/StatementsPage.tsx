@@ -18,6 +18,7 @@ import EquityStatement from '../components/statements/EquityStatement'
 import RatioDashboard from '../components/analysis/RatioDashboard'
 import WhatIfMode from '../components/analysis/WhatIfMode'
 import FlowDiagram from '../components/flow/FlowDiagram'
+import SimulationPlayer from '../components/simulation/SimulationPlayer'
 import TrialBalance from '../components/views/TrialBalance'
 import TAccountView from '../components/views/TAccountView'
 import GeneralLedger from '../components/views/GeneralLedger'
@@ -30,6 +31,7 @@ function StatementsCenter() {
   return (
     <div className="space-y-4">
       <FlowDiagram />
+      <SimulationPlayer />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <BalanceSheet />
         <IncomeStatement />

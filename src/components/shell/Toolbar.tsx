@@ -138,10 +138,14 @@ export function Toolbar() {
   const closePeriod = useLedgerStore((s) => s.closePeriod)
   const initFromCompany = useLedgerStore((s) => s.initFromCompany)
 
-  /* Auto-select first company on mount if nothing is selected */
+  /* Auto-select Sound & Light (the educational company) on mount, or first non-blank */
   useEffect(() => {
     if (!selectedCompany && SAMPLE_COMPANIES.length > 0) {
-      initFromCompany(SAMPLE_COMPANIES[0])
+      const defaultCompany =
+        SAMPLE_COMPANIES.find((c) => c.name.startsWith('Sound & Light')) ??
+        SAMPLE_COMPANIES.find((c) => Object.keys(c.balances).length > 0) ??
+        SAMPLE_COMPANIES[0]
+      initFromCompany(defaultCompany)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
