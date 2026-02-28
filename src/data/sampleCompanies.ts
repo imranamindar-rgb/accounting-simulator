@@ -77,7 +77,7 @@ export const SAMPLE_COMPANIES: SampleCompany[] = [
       'Accounts Payable': 80000, 'Salaries Payable': 10000, 'Tax Payable': 3000,
       'Unearned Revenue': 14000, 'Current Portion of Long-Term Debt': 8000,
       'Notes Payable - Long Term': 58000, 'Lease Liability': 72000,
-      'Common Stock': 100000, 'Share Premium': 5000, 'Retained Earnings': -24800,
+      'Common Stock': 100000, 'Share Premium': 5000, 'Retained Earnings': -159800,
       'Sales Revenue': 575000, 'Cost of Goods Sold': 304000,
       'Salaries Expense': 80000, 'Depreciation Expense': 48000,
       'Tax Expense': 8000,

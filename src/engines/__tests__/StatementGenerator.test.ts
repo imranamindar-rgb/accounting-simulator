@@ -494,7 +494,9 @@ describe('StatementGenerator', () => {
         [{ account: 'Retained Earnings', amount: 10000 }],
       )
 
-      const es = generateEquityStatement(ledger, beginningBalances, 10000)
+      // After closing, Sales Revenue balance is 0, so net income is 0
+      // (the income has been transferred to RE via closing entry)
+      const es = generateEquityStatement(ledger, beginningBalances, 0)
 
       expect(es.totalBeginning).toBe(143900)
       expect(es.totalEnding).toBe(153900) // 143900 + 10000

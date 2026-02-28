@@ -60,17 +60,18 @@ describe('Sample Companies', () => {
     const typeMap = new Map(CHART_OF_ACCOUNTS.map(a => [a.name, a.type]))
 
     for (const company of SAMPLE_COMPANIES) {
-      let assets = 0, liabilities = 0, equity = 0
+      let assets = 0, liabilities = 0, equity = 0, revenue = 0, expenses = 0
       for (const [name, bal] of Object.entries(company.balances)) {
         const type = typeMap.get(name)
         if (type === 'Asset') assets += bal
         else if (type === 'Liability') liabilities += bal
         else if (type === 'Equity') equity += bal
-        // Revenue/Expense entries are supplementary income statement data
-        // and don't participate in the balance equation (retained earnings
-        // already reflects prior-period closings)
+        else if (type === 'Revenue') revenue += bal
+        else if (type === 'Expense') expenses += bal
       }
-      expect(assets).toBeCloseTo(liabilities + equity, 0)
+      // During an open period: A = L + E + Net Income (revenue - expenses)
+      const netIncome = revenue - expenses
+      expect(assets).toBeCloseTo(liabilities + equity + netIncome, 0)
     }
   })
 

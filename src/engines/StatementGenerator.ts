@@ -118,7 +118,7 @@ export function generateBalanceSheet(ledger: Ledger): BalanceSheet {
   const totalEquity = equityAccounts.reduce((sum, a) => sum + a.balance, 0) + currentPeriodNetIncome
 
   const totalLiabilitiesAndEquity = totalLiabilities + totalEquity
-  const isBalanced = totalAssets === totalLiabilitiesAndEquity
+  const isBalanced = Math.abs(totalAssets - totalLiabilitiesAndEquity) < 0.01
 
   return {
     currentAssets,
@@ -469,7 +469,7 @@ export function generateCashFlowDirect(
 export function generateEquityStatement(
   ledger: Ledger,
   beginningBalances: Map<string, number>,
-  _netIncome: number,
+  netIncome: number,
 ): EquityStatement {
   const equityAccounts = ledger.getAccountsByType('Equity')
 
@@ -494,8 +494,18 @@ export function generateEquityStatement(
     }
   }
 
+  // Include current-period net income as a change entry
+  // (revenue/expense accounts haven't been closed to RE yet)
+  if (netIncome !== 0) {
+    changes.push({
+      account: 'Retained Earnings',
+      description: 'Net Income',
+      amount: netIncome,
+    })
+  }
+
   const totalBeginning = beginningBals.reduce((s, a) => s + a.amount, 0)
-  const totalEnding = endingBals.reduce((s, a) => s + a.amount, 0)
+  const totalEnding = endingBals.reduce((s, a) => s + a.amount, 0) + netIncome
 
   return {
     beginningBalances: beginningBals,
