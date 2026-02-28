@@ -141,12 +141,20 @@ export function TransactionSidebar({ onRecorded }: TransactionSidebarProps) {
       })
     }
 
-    // Notify parent
-    onRecorded({
+    const recorded = {
       template: selectedTemplate,
       params: { ...params },
       changes,
+    }
+
+    // Store in UI store for flow diagram highlighting
+    useUIStore.getState().setLastTransaction({
+      ...recorded,
+      timestamp: Date.now(),
     })
+
+    // Notify parent
+    onRecorded(recorded)
 
     // Show success message
     setSuccessMessage('Transaction recorded!')

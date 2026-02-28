@@ -23,18 +23,114 @@ import { TransactionSidebar } from '../components/transaction/TransactionSidebar
 import { InsightSidebar } from '../components/transaction/InsightSidebar'
 import type { RecordedTransaction } from '../components/transaction/TransactionSidebar'
 
+/** Collapsible group heading for the 4 financial statements */
+function StatementsGroup() {
+  const collapsed = useUIStore((s) => s.statementsCollapsed)
+  const toggle = useUIStore((s) => s.toggleStatementsCollapsed)
+
+  return (
+    <div
+      className="rounded-lg shadow-sm overflow-hidden"
+      style={{
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+      }}
+    >
+      {/* Group Header */}
+      <div
+        className="px-5 py-3 flex items-center justify-between cursor-pointer select-none"
+        style={{
+          borderBottom: collapsed ? 'none' : '1px solid var(--color-border)',
+          background: 'linear-gradient(135deg, rgba(139,0,0,0.04) 0%, rgba(218,165,32,0.04) 100%)',
+        }}
+        onClick={toggle}
+      >
+        <div className="flex items-center gap-2">
+          <span
+            style={{
+              display: 'inline-block',
+              transition: 'transform 0.25s ease',
+              transform: collapsed ? 'rotate(-90deg)' : 'rotate(0deg)',
+              fontSize: '0.7rem',
+              color: 'var(--color-text-muted)',
+              lineHeight: 1,
+            }}
+          >
+            ▼
+          </span>
+          <div>
+            <h2
+              className="text-lg font-semibold leading-tight"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              Financial Statements
+            </h2>
+            {!collapsed && (
+              <p
+                className="text-xs mt-0.5"
+                style={{ color: 'var(--color-text-muted)' }}
+              >
+                Balance Sheet · Income Statement · Cash Flow · Equity
+              </p>
+            )}
+          </div>
+        </div>
+        <button
+          type="button"
+          className="flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors cursor-pointer"
+          style={{
+            background: 'var(--color-border)',
+            color: 'var(--color-text-muted)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.7rem',
+            border: 'none',
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            toggle()
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--color-text-muted)'
+            e.currentTarget.style.color = 'var(--color-surface)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'var(--color-border)'
+            e.currentTarget.style.color = 'var(--color-text-muted)'
+          }}
+        >
+          {collapsed ? 'Expand' : 'Minimize'}
+        </button>
+      </div>
+
+      {/* Statements content */}
+      <div
+        style={{
+          overflow: 'hidden',
+          transition: 'max-height 0.35s ease, opacity 0.25s ease',
+          maxHeight: collapsed ? 0 : '10000px',
+          opacity: collapsed ? 0 : 1,
+        }}
+      >
+        <div className="p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <BalanceSheet />
+            <IncomeStatement />
+            <CashFlowStatement />
+            <EquityStatement />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /** Center content for the default "statements" view */
 function StatementsCenter() {
   return (
     <div className="space-y-4">
       <FlowDiagram />
       <SimulationPlayer />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <BalanceSheet />
-        <IncomeStatement />
-        <CashFlowStatement />
-        <EquityStatement />
-      </div>
+      <StatementsGroup />
       <RatioDashboard />
     </div>
   )

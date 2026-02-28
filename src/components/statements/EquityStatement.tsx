@@ -23,7 +23,6 @@ export default function EquityStatement() {
     <StatementPanel
       title="Statement of Changes in Equity"
       subtitle="For the Period"
-      collapsible
     >
       <table className="w-full">
         <tbody>

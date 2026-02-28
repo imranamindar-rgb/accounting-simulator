@@ -1,8 +1,16 @@
 import { create } from 'zustand'
+import type { LedgerChange, TransactionTemplate } from '../engines/types'
 
 type ViewMode = 'statements' | 'trialBalance' | 'tAccounts' | 'generalLedger'
 type CashFlowMethod = 'indirect' | 'direct'
 type AppMode = 'transaction' | 'whatif'
+
+export interface LastTransaction {
+  template: TransactionTemplate
+  params: Record<string, number>
+  changes: LedgerChange[]
+  timestamp: number
+}
 
 interface UIState {
   mode: AppMode
@@ -15,6 +23,8 @@ interface UIState {
   cashFlowMethod: CashFlowMethod
   viewMode: ViewMode
   selectedTopic: string | null
+  lastTransaction: LastTransaction | null
+  statementsCollapsed: boolean
 
   // Actions
   setMode: (mode: AppMode) => void
@@ -26,6 +36,8 @@ interface UIState {
   setSelectedTopic: (topic: string | null) => void
   unlockTier: (tier: string) => void
   unlockAll: () => void
+  setLastTransaction: (tx: LastTransaction | null) => void
+  toggleStatementsCollapsed: () => void
 }
 
 export const useUIStore = create<UIState>()((set) => ({
@@ -39,6 +51,8 @@ export const useUIStore = create<UIState>()((set) => ({
   cashFlowMethod: 'indirect',
   viewMode: 'statements',
   selectedTopic: null,
+  lastTransaction: null,
+  statementsCollapsed: false,
 
   setMode: (mode) => set({ mode }),
 
@@ -65,4 +79,9 @@ export const useUIStore = create<UIState>()((set) => ({
     set({
       unlockedTiers: new Set(['starter', 'accruals', 'intermediate', 'advanced']),
     }),
+
+  setLastTransaction: (tx) => set({ lastTransaction: tx }),
+
+  toggleStatementsCollapsed: () =>
+    set((state) => ({ statementsCollapsed: !state.statementsCollapsed })),
 }))
