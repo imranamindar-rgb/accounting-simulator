@@ -1,4 +1,5 @@
 import { useMAStore } from '../../store/maStore'
+import { isFinancingMixValid } from '../../engines/MAEngine'
 import ImportStep from './ImportStep'
 import AnalyzeStep from './AnalyzeStep'
 import StrategizeStep from './StrategizeStep'
@@ -17,11 +18,12 @@ export default function WorkbenchLayout() {
   const reset = useMAStore((s) => s.resetWorkbench)
   const target = useMAStore((s) => s.targetCompany)
   const acquirer = useMAStore((s) => s.acquirerCompany)
+  const dealTerms = useMAStore((s) => s.dealTerms)
 
   const canAdvance = (): boolean => {
     if (step === 0) return target !== null && acquirer !== null
     if (step === 1) return true
-    if (step === 2) return true
+    if (step === 2) return isFinancingMixValid(dealTerms)
     return false
   }
 

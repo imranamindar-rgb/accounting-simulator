@@ -4,6 +4,7 @@ import {
   computeHealthMetrics,
   computeDCF,
   computeComps,
+  isFinancingMixValid,
   buildMACompanyInput,
 } from '../MAEngine'
 import type { MACompanyInput, MADealInput, DCFInput, CompInput } from '../MAEngine'
@@ -234,6 +235,13 @@ describe('computeMA', () => {
     expect(computeMA(acq, noShares, makeDealInput())).toBeNull()
   })
 
+  it('returns null when financing mix does not sum to 100%', () => {
+    const acq = makeCompanyInput({})
+    const tgt = makeCompanyInput({ name: 'Target' })
+    const invalidDeal = makeDealInput({ cashPct: 50, stockPct: 30, debtPct: 10 })
+    expect(computeMA(acq, tgt, invalidDeal)).toBeNull()
+  })
+
   it('handles dilutive deal correctly', () => {
     // Very expensive target with low synergies
     const acq = makeCompanyInput({ netIncome: 50000, sharesOut: 1000, sharePrice: 100 })
@@ -281,6 +289,16 @@ describe('computeMA', () => {
     const d = makeDealInput({ synergies: 0 })
     const result = computeMA(acq, tgt, d)!
     expect(result.proFormaPE).toBeNull()
+  })
+})
+
+describe('isFinancingMixValid', () => {
+  it('returns true when financing mix sums to 100%', () => {
+    expect(isFinancingMixValid({ cashPct: 50, stockPct: 30, debtPct: 20 })).toBe(true)
+  })
+
+  it('returns false when financing mix does not sum to 100%', () => {
+    expect(isFinancingMixValid({ cashPct: 50, stockPct: 30, debtPct: 10 })).toBe(false)
   })
 })
 
@@ -636,6 +654,45 @@ describe('computeComps', () => {
     expect(result.medianEVEbitda).toBeNull()
     expect(result.medianEVRevenue).toBeNull()
     expect(result.medianPBook).toBeNull()
+  })
+
+  it('uses Interest Expense (not Interest Payable) when deriving net income for P/E', () => {
+    const subject: CompInput = {
+      name: 'Subject',
+      stockPrice: 100,
+      sharesOutstanding: 1000,
+      balances: {},
+    }
+
+    const companies: CompInput[] = [
+      subject,
+      {
+        name: 'CompWithInterest',
+        stockPrice: 10,
+        sharesOutstanding: 200,
+        balances: {
+          'Cash': 100,
+          'Sales Revenue': 1000,
+          'Cost of Goods Sold': 100,
+          'Salaries Expense': 100,
+          'Depreciation Expense': 50,
+          'Interest Expense': 40,
+          'Interest Payable': 4000,
+          'Tax Expense': 50,
+          'Common Stock': 500,
+          'Retained Earnings': 200,
+        },
+      },
+    ]
+
+    const result = computeComps(subject, companies)
+    expect(result.comps).toHaveLength(1)
+
+    const pe = result.comps[0].pe
+    expect(pe).not.toBeNull()
+    // MC = 10 * 200 = 2000
+    // NI = 1000 - 100 - 100 - 50 - 40 - 50 = 660
+    expect(pe).toBeCloseTo(2000 / 660, 6)
   })
 })
 
