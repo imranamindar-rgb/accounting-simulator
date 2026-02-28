@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+:root {
+  --color-base: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-accent: #4A0A12;
+  --color-accent-light: #8B0000;
+  --color-gold: #DAA520;
+  --color-green: #2D6A4F;
+  --color-text: #2D3748;
+  --color-text-muted: #8B6F5E;
+  --color-border: #E8D5B7;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'IBM Plex Sans', -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-base);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
