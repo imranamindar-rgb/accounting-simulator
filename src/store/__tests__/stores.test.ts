@@ -4,8 +4,8 @@ import { useUIStore } from '../uiStore.ts'
 import { useMAStore } from '../maStore.ts'
 import { SAMPLE_COMPANIES } from '../../data/sampleCompanies.ts'
 
-// Sound & Light Pty Ltd is the first sample company
-const soundAndLight = SAMPLE_COMPANIES[0]
+// Sound & Light Pty Ltd — find by name (Blank Company is now at index 0)
+const soundAndLight = SAMPLE_COMPANIES.find(c => c.name.includes('Sound'))!
 
 // ── Ledger Store ────────────────────────────────────────────────────
 

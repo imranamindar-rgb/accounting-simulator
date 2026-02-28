@@ -274,18 +274,12 @@ describe('StatementGenerator', () => {
       // Cash went up by 10000, so totalAssets = 232400 + 10000 = 242400
       expect(bs.totalAssets).toBe(242400)
 
-      // Revenue is not on BS but income flows through equity implicitly
-      // However, since Revenue is a separate type, BS equity doesn't change unless we close
-      // The BS won't be balanced because revenue hasn't been closed to RE yet.
-      // BUT: The original monolith includes only Asset, Liability, Equity accounts on BS.
-      // Revenue is NOT an equity account. So the equation check will show unbalanced
-      // unless revenue is closed.
-
-      // Actually, looking at the sample data: assets went up by 10000 but equity didn't.
-      // So isBalanced = false (until revenue is closed to RE).
-      expect(bs.totalEquity).toBe(143900) // unchanged
+      // Revenue of 10000 flows into equity as "Current Period Net Income"
+      // totalEquity = 143900 (equity accounts) + 10000 (net income) = 153900
+      expect(bs.totalEquity).toBe(153900)
       expect(bs.totalLiabilities).toBe(88500) // unchanged
-      expect(bs.isBalanced).toBe(false) // 242400 !== 88500 + 143900
+      expect(bs.totalLiabilitiesAndEquity).toBe(242400)
+      expect(bs.isBalanced).toBe(true) // 242400 = 88500 + 153900
     })
 
     it('holds when revenue is closed to retained earnings', () => {

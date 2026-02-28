@@ -52,8 +52,8 @@ describe('Chart of Accounts', () => {
 })
 
 describe('Sample Companies', () => {
-  it('has 10 companies', () => {
-    expect(SAMPLE_COMPANIES).toHaveLength(10)
+  it('has 11 companies', () => {
+    expect(SAMPLE_COMPANIES).toHaveLength(11)
   })
 
   it('all balance sheets balance (A = L + E for BS accounts)', () => {
