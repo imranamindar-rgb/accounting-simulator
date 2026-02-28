@@ -122,7 +122,7 @@ export function Toolbar() {
   const setSelectedTopic = useUIStore((s) => s.setSelectedTopic)
   const sensitivityOpen = useUIStore((s) => s.sensitivityOpen)
   const toggleSensitivity = useUIStore((s) => s.toggleSensitivity)
-  const toggleDrawer = useUIStore((s) => s.toggleDrawer)
+
 
   const [aiModalOpen, setAiModalOpen] = useState(false)
   const [aiConfigured, setAiConfigured] = useState(() => !!getAISettings().apiKey)
@@ -352,11 +352,6 @@ export function Toolbar() {
           title="Compare accounting policies"
         >
           Compare Policies
-        </ToolbarButton>
-
-        {/* Drawer toggle */}
-        <ToolbarButton onClick={toggleDrawer} title="Toggle transaction drawer">
-          Drawer
         </ToolbarButton>
 
         {/* Spacer to push AI button to the right */}
