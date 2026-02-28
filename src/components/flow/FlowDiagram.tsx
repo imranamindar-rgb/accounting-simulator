@@ -1,115 +1,88 @@
 /**
  * FlowDiagram -- visual diagram showing how the four financial
- * statements connect to each other with numbered arrow indicators
- * and SVG connection lines.
+ * statements connect to each other with numbered connection indicators
+ * and clean CSS-based dashed lines.
  *
- * Layout:
+ * Layout (2×2 grid):
  *   Income Statement  ──→  Balance Sheet
  *        │                      ↑
  *        ↓                      │
  *   Equity Statement  ←──  Cash Flow Statement
  *
- * Uses SVG overlay for connection lines to ensure they are long,
- * visible, and properly connect the statement boxes.
+ * Between each pair of boxes, a labelled arrow bar shows the numbered
+ * connections with hover tooltips explaining the relationship.
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState } from 'react'
 import { useStatements } from '../../hooks/useStatements'
+import { useLedgerStore } from '../../store/ledgerStore'
+import { formatCurrency } from '../shared/FormatCurrency'
 import StatementPanel from '../statements/StatementPanel'
 
-// ── Currency formatting ────────────────────────────────────────────
+// ── Connection definitions ────────────────────────────────────────
 
-function formatCompact(value: number): string {
-  const abs = Math.abs(value)
-  const sign = value < 0 ? '-' : ''
-
-  if (abs >= 1_000_000_000) {
-    return `${sign}$${(abs / 1_000_000_000).toFixed(1)}B`
-  }
-  if (abs >= 1_000_000) {
-    return `${sign}$${(abs / 1_000_000).toFixed(1)}M`
-  }
-  if (abs >= 1_000) {
-    return `${sign}$${(abs / 1_000).toFixed(0)}K`
-  }
-  return `${sign}$${abs.toFixed(0)}`
-}
-
-// ── Types ──────────────────────────────────────────────────────────
-
-interface FlowBoxProps {
-  id: string
-  title: string
-  color: string
-  bgColor: string
-  lines: { label: string; value: number }[]
-  refCallback: (el: HTMLDivElement | null) => void
-}
-
-interface Connection {
-  id: string
+interface ConnectionDef {
   number: number
+  title: string
   label: string
   from: string
   to: string
   color: string
 }
 
-// ── Connection definitions ────────────────────────────────────────
-
-const CONNECTIONS: Connection[] = [
+const CONNECTIONS: ConnectionDef[] = [
   {
-    id: 'income-to-bs',
     number: 1,
-    label: 'Net Income affects Retained Earnings in Equity',
+    title: 'Net Income \u2192 Retained Earnings',
+    label: 'Net Income from the Income Statement flows into Retained Earnings on the Balance Sheet, representing accumulated profits.',
     from: 'IS',
     to: 'BS',
     color: '#2D6A4F',
   },
   {
-    id: 'is-to-eq',
     number: 2,
-    label: 'Net Income flows to Equity Statement',
-    from: 'IS',
-    to: 'EQ',
-    color: '#2D6A4F',
-  },
-  {
-    id: 'income-to-cf',
-    number: 3,
-    label: 'Net Income is starting point for Operating Cash Flow',
+    title: 'Net Income (starting point)',
+    label: 'The Cash Flow Statement (indirect method) starts with Net Income and adjusts for non-cash items.',
     from: 'IS',
     to: 'CF',
     color: '#2D6A4F',
   },
   {
-    id: 'bs-to-cf',
-    number: 4,
-    label: 'Changes in working capital adjust Operating Cash Flow',
+    number: 3,
+    title: 'Working Capital Changes',
+    label: 'Changes in working capital accounts (AR, AP, Inventory) on the Balance Sheet affect Operating Cash Flow.',
     from: 'BS',
     to: 'CF',
     color: '#2563EB',
   },
   {
-    id: 'cf-to-bs',
-    number: 5,
-    label: 'Net cash change updates Cash on Balance Sheet',
+    number: 4,
+    title: 'Ending Cash',
+    label: 'The ending cash balance from the Cash Flow Statement matches Cash on the Balance Sheet.',
     from: 'CF',
     to: 'BS',
     color: '#D97706',
   },
   {
-    id: 'eq-to-bs',
+    number: 5,
+    title: 'Net Income \u2192 Equity',
+    label: 'Net Income flows into Retained Earnings in the Statement of Equity.',
+    from: 'IS',
+    to: 'EQ',
+    color: '#2D6A4F',
+  },
+  {
     number: 6,
-    label: 'Total Equity ties to Balance Sheet',
+    title: 'Total Equity',
+    label: 'Total Equity from the Equity Statement flows to the Balance Sheet equity section.',
     from: 'EQ',
     to: 'BS',
     color: '#7C3AED',
   },
   {
-    id: 'cf-to-eq',
     number: 7,
-    label: 'Dividends paid affect Equity',
+    title: 'Dividends Paid',
+    label: 'Dividends paid (from financing activities) reduce Retained Earnings in the Equity Statement.',
     from: 'CF',
     to: 'EQ',
     color: '#D97706',
@@ -118,7 +91,7 @@ const CONNECTIONS: Connection[] = [
 
 // ── Color config ──────────────────────────────────────────────────
 
-const COLORS = {
+const COLORS: Record<string, { color: string; bg: string }> = {
   IS: { color: '#2D6A4F', bg: '#EAFAF1' },
   BS: { color: '#2563EB', bg: '#EBF5FB' },
   EQ: { color: '#7C3AED', bg: '#F4ECF7' },
@@ -127,17 +100,26 @@ const COLORS = {
 
 // ── FlowBox component ─────────────────────────────────────────────
 
-function FlowBox({ id, title, color, bgColor, lines, refCallback }: FlowBoxProps) {
+function FlowBox({
+  title,
+  color,
+  bgColor,
+  lines,
+  scale,
+}: {
+  title: string
+  color: string
+  bgColor: string
+  lines: { label: string; value: number }[]
+  scale: 'ones' | 'millions'
+}) {
   return (
     <div
-      ref={refCallback}
-      data-flow-box={id}
-      className="rounded-lg p-4 relative"
+      className="rounded-lg p-4"
       style={{
         background: bgColor,
         border: `2px solid ${color}40`,
         borderTop: `4px solid ${color}`,
-        zIndex: 2,
       }}
     >
       <h3
@@ -161,7 +143,7 @@ function FlowBox({ id, title, color, bgColor, lines, refCallback }: FlowBoxProps
               className="font-semibold ml-2"
               style={{ color: line.value < 0 ? '#DC2626' : 'var(--color-text)' }}
             >
-              {formatCompact(line.value)}
+              {formatCurrency(line.value, scale)}
             </span>
           </div>
         ))}
@@ -170,114 +152,177 @@ function FlowBox({ id, title, color, bgColor, lines, refCallback }: FlowBoxProps
   )
 }
 
-// ── SVG Arrow with number badge ─────────────────────────────────
+// ── Numbered Badge ───────────────────────────────────────────────
 
-function SvgArrow({
-  x1,
-  y1,
-  x2,
-  y2,
-  connection,
-  showTooltip,
-  onHover,
+function Badge({
+  conn,
+  hovered,
+  onEnter,
   onLeave,
 }: {
-  x1: number
-  y1: number
-  x2: number
-  y2: number
-  connection: Connection
-  showTooltip: boolean
-  onHover: () => void
+  conn: ConnectionDef
+  hovered: boolean
+  onEnter: () => void
   onLeave: () => void
 }) {
-  const midX = (x1 + x2) / 2
-  const midY = (y1 + y2) / 2
+  return (
+    <span
+      className="relative inline-flex items-center justify-center shrink-0 cursor-help"
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      style={{
+        width: 22,
+        height: 22,
+        borderRadius: '50%',
+        background: conn.color,
+        color: '#fff',
+        fontSize: '0.65rem',
+        fontWeight: 700,
+        fontFamily: 'var(--font-mono)',
+        boxShadow: hovered ? `0 0 0 3px ${conn.color}40` : 'none',
+        transition: 'box-shadow 0.2s',
+      }}
+    >
+      {conn.number}
+      {/* Tooltip */}
+      {hovered && (
+        <span
+          className="absolute z-30 pointer-events-none"
+          style={{
+            top: -40,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0,0,0,0.88)',
+            color: '#fff',
+            padding: '6px 12px',
+            borderRadius: 6,
+            fontSize: '0.7rem',
+            fontFamily: 'var(--font-body)',
+            fontWeight: 400,
+            maxWidth: 260,
+            whiteSpace: 'normal',
+            textAlign: 'center',
+            lineHeight: 1.4,
+          }}
+        >
+          <strong style={{ display: 'block', marginBottom: 2 }}>{conn.title}</strong>
+          {conn.label}
+        </span>
+      )}
+    </span>
+  )
+}
 
-  // Calculate angle for arrowhead
-  const angle = Math.atan2(y2 - y1, x2 - x1)
-  const arrowLen = 10
-  const arrowAngle = Math.PI / 6
+// ── Horizontal Arrow ────────────────────────────────────────────
 
-  const ax1 = x2 - arrowLen * Math.cos(angle - arrowAngle)
-  const ay1 = y2 - arrowLen * Math.sin(angle - arrowAngle)
-  const ax2 = x2 - arrowLen * Math.cos(angle + arrowAngle)
-  const ay2 = y2 - arrowLen * Math.sin(angle + arrowAngle)
+function HArrow({
+  connections,
+  direction = 'right',
+}: {
+  connections: ConnectionDef[]
+  direction?: 'left' | 'right'
+}) {
+  const [hovered, setHovered] = useState<number | null>(null)
 
   return (
-    <g
-      onMouseEnter={onHover}
-      onMouseLeave={onLeave}
-      style={{ cursor: 'help' }}
-    >
-      {/* Line */}
-      <line
-        x1={x1}
-        y1={y1}
-        x2={x2}
-        y2={y2}
-        stroke={connection.color}
-        strokeWidth={2.5}
-        strokeDasharray="6 3"
-        opacity={0.7}
-      />
-
-      {/* Arrowhead */}
-      <polygon
-        points={`${x2},${y2} ${ax1},${ay1} ${ax2},${ay2}`}
-        fill={connection.color}
-        opacity={0.8}
-      />
-
-      {/* Number badge */}
-      <circle
-        cx={midX}
-        cy={midY}
-        r={12}
-        fill={connection.color}
-        stroke="white"
-        strokeWidth={2}
-      />
-      <text
-        x={midX}
-        y={midY}
-        textAnchor="middle"
-        dominantBaseline="central"
-        fill="white"
-        fontSize="10"
-        fontWeight="bold"
-        fontFamily="var(--font-mono)"
-      >
-        {connection.number}
-      </text>
-
-      {/* Tooltip */}
-      {showTooltip && (
-        <g>
-          <rect
-            x={midX - 120}
-            y={midY - 35}
-            width={240}
-            height={24}
-            rx={4}
-            fill="rgba(0,0,0,0.85)"
-          />
-          <text
-            x={midX}
-            y={midY - 23}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill="white"
-            fontSize="10"
-            fontFamily="var(--font-body)"
-          >
-            {connection.label.length > 45
-              ? connection.label.slice(0, 42) + '...'
-              : connection.label}
-          </text>
-        </g>
+    <div className="flex items-center gap-1 px-1" style={{ minWidth: 80 }}>
+      {direction === 'left' && (
+        <span style={{ color: connections[0]?.color ?? '#888', fontSize: 18 }}>◀</span>
       )}
-    </g>
+      <div
+        className="flex-1 relative flex items-center justify-center gap-1"
+        style={{ minHeight: 28 }}
+      >
+        {/* Dashed line background */}
+        <div
+          className="absolute left-0 right-0"
+          style={{
+            top: '50%',
+            height: 3,
+            transform: 'translateY(-50%)',
+            background: `repeating-linear-gradient(
+              ${direction === 'right' ? '90deg' : '270deg'},
+              ${connections[0]?.color ?? '#888'} 0px,
+              ${connections[0]?.color ?? '#888'} 8px,
+              transparent 8px,
+              transparent 14px
+            )`,
+            opacity: 0.5,
+          }}
+        />
+        {/* Badges */}
+        {connections.map((c) => (
+          <Badge
+            key={c.number}
+            conn={c}
+            hovered={hovered === c.number}
+            onEnter={() => setHovered(c.number)}
+            onLeave={() => setHovered(null)}
+          />
+        ))}
+      </div>
+      {direction === 'right' && (
+        <span style={{ color: connections[0]?.color ?? '#888', fontSize: 18 }}>▶</span>
+      )}
+    </div>
+  )
+}
+
+// ── Vertical Arrow ──────────────────────────────────────────────
+
+function VArrow({
+  connections,
+  direction = 'down',
+}: {
+  connections: ConnectionDef[]
+  direction?: 'up' | 'down'
+}) {
+  const [hovered, setHovered] = useState<number | null>(null)
+
+  return (
+    <div
+      className="flex flex-col items-center gap-1 py-1"
+      style={{ minHeight: 60 }}
+    >
+      {direction === 'up' && (
+        <span style={{ color: connections[0]?.color ?? '#888', fontSize: 18, lineHeight: 1 }}>▲</span>
+      )}
+      <div
+        className="flex-1 relative flex flex-col items-center justify-center gap-1"
+        style={{ minWidth: 28 }}
+      >
+        {/* Dashed line background */}
+        <div
+          className="absolute top-0 bottom-0"
+          style={{
+            left: '50%',
+            width: 3,
+            transform: 'translateX(-50%)',
+            background: `repeating-linear-gradient(
+              ${direction === 'down' ? '180deg' : '0deg'},
+              ${connections[0]?.color ?? '#888'} 0px,
+              ${connections[0]?.color ?? '#888'} 8px,
+              transparent 8px,
+              transparent 14px
+            )`,
+            opacity: 0.5,
+          }}
+        />
+        {/* Badges */}
+        {connections.map((c) => (
+          <Badge
+            key={c.number}
+            conn={c}
+            hovered={hovered === c.number}
+            onEnter={() => setHovered(c.number)}
+            onLeave={() => setHovered(null)}
+          />
+        ))}
+      </div>
+      {direction === 'down' && (
+        <span style={{ color: connections[0]?.color ?? '#888', fontSize: 18, lineHeight: 1 }}>▼</span>
+      )}
+    </div>
   )
 }
 
@@ -286,33 +331,51 @@ function SvgArrow({
 function Legend() {
   return (
     <div
-      className="mt-4 rounded-lg p-4"
+      className="mt-4 rounded-lg p-5"
       style={{
         background: 'var(--color-base)',
         border: '1px solid var(--color-border)',
       }}
     >
-      <h4
-        className="text-xs font-semibold mb-3 uppercase tracking-wide"
-        style={{
-          color: 'var(--color-text-muted)',
-          fontFamily: 'var(--font-display)',
-        }}
-      >
-        How the Statements Connect
-      </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {CONNECTIONS.map((c) => (
-          <div key={c.id} className="flex items-start gap-2 text-xs">
+          <div key={c.number} className="flex items-start gap-3">
             <span
-              className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-[10px] font-bold shrink-0 mt-0.5"
-              style={{ background: c.color }}
+              className="inline-flex items-center justify-center shrink-0 mt-0.5"
+              style={{
+                width: 28,
+                height: 28,
+                borderRadius: '50%',
+                background: c.color,
+                color: '#fff',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                fontFamily: 'var(--font-mono)',
+              }}
             >
               {c.number}
             </span>
-            <span style={{ color: 'var(--color-text)', fontFamily: 'var(--font-body)' }}>
-              <strong>{c.from} {'\u2192'} {c.to}:</strong> {c.label}
-            </span>
+            <div>
+              <div
+                className="font-bold text-sm mb-0.5"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  color: 'var(--color-text)',
+                }}
+              >
+                {c.title}
+              </div>
+              <p
+                className="text-xs leading-relaxed"
+                style={{
+                  color: 'var(--color-text-muted)',
+                  fontFamily: 'var(--font-body)',
+                  lineHeight: 1.6,
+                }}
+              >
+                {c.label}
+              </p>
+            </div>
           </div>
         ))}
       </div>
@@ -325,260 +388,138 @@ function Legend() {
 export default function FlowDiagram() {
   const { balanceSheet, incomeStatement, cashFlowStatement, equityStatement } =
     useStatements()
+  const scale = useLedgerStore((s) => s.selectedCompany?.scale ?? 'ones')
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const boxRefs = useRef<Record<string, HTMLDivElement | null>>({})
-  const [hoveredConnection, setHoveredConnection] = useState<string | null>(null)
-  const [linePositions, setLinePositions] = useState<
-    { conn: Connection; x1: number; y1: number; x2: number; y2: number }[]
-  >([])
-
-  const setBoxRef = useCallback(
-    (id: string) => (el: HTMLDivElement | null) => {
-      boxRefs.current[id] = el
-    },
-    [],
-  )
-
-  // Calculate SVG line positions based on box positions
-  const updatePositions = useCallback(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    const containerRect = container.getBoundingClientRect()
-    const positions: typeof linePositions = []
-
-    for (const conn of CONNECTIONS) {
-      const fromBox = boxRefs.current[conn.from]
-      const toBox = boxRefs.current[conn.to]
-      if (!fromBox || !toBox) continue
-
-      const fromRect = fromBox.getBoundingClientRect()
-      const toRect = toBox.getBoundingClientRect()
-
-      // Calculate edge midpoints based on relative position
-      let x1: number, y1: number, x2: number, y2: number
-
-      const fromCenterX = fromRect.left + fromRect.width / 2 - containerRect.left
-      const fromCenterY = fromRect.top + fromRect.height / 2 - containerRect.top
-      const toCenterX = toRect.left + toRect.width / 2 - containerRect.left
-      const toCenterY = toRect.top + toRect.height / 2 - containerRect.top
-
-      // Determine connection direction and pick edge points
-      const dx = toCenterX - fromCenterX
-      const dy = toCenterY - fromCenterY
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        // Horizontal connection
-        if (dx > 0) {
-          // Left to right
-          x1 = fromRect.right - containerRect.left
-          y1 = fromCenterY
-          x2 = toRect.left - containerRect.left
-          y2 = toCenterY
-        } else {
-          // Right to left
-          x1 = fromRect.left - containerRect.left
-          y1 = fromCenterY
-          x2 = toRect.right - containerRect.left
-          y2 = toCenterY
-        }
-      } else {
-        // Vertical connection
-        if (dy > 0) {
-          // Top to bottom
-          x1 = fromCenterX
-          y1 = fromRect.bottom - containerRect.top
-          x2 = toCenterX
-          y2 = toRect.top - containerRect.top
-        } else {
-          // Bottom to top
-          x1 = fromCenterX
-          y1 = fromRect.top - containerRect.top
-          x2 = toCenterX
-          y2 = toRect.bottom - containerRect.top
-        }
-      }
-
-      // Add small offsets for parallel arrows to avoid overlap
-      const offset = conn.number * 3 - 12
-      if (Math.abs(dx) > Math.abs(dy)) {
-        y1 += offset
-        y2 += offset
-      } else {
-        x1 += offset
-        x2 += offset
-      }
-
-      positions.push({ conn, x1, y1, x2, y2 })
-    }
-
-    setLinePositions(positions)
-  }, [])
-
-  useEffect(() => {
-    updatePositions()
-    const timer = setTimeout(updatePositions, 100)
-    window.addEventListener('resize', updatePositions)
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('resize', updatePositions)
-    }
-  }, [updatePositions, balanceSheet, incomeStatement])
+  // Filter connections by position in the layout
+  const isToBS = CONNECTIONS.filter((c) => c.from === 'IS' && c.to === 'BS') // #1: right
+  const isToCF = CONNECTIONS.filter((c) => c.from === 'IS' && c.to === 'CF') // #3: diagonal -> shown vertically on IS side
+  const isToEQ = CONNECTIONS.filter((c) => c.from === 'IS' && c.to === 'EQ') // #2: down
+  const bsToCF = CONNECTIONS.filter((c) => c.from === 'BS' && c.to === 'CF') // #4: down
+  const cfToBS = CONNECTIONS.filter((c) => c.from === 'CF' && c.to === 'BS') // #5: up/right
+  const eqToBS = CONNECTIONS.filter((c) => c.from === 'EQ' && c.to === 'BS') // #6: right
+  const cfToEQ = CONNECTIONS.filter((c) => c.from === 'CF' && c.to === 'EQ') // #7: left
 
   return (
     <StatementPanel
       title="How Statements Connect"
       subtitle="Follow the numbered arrows to see how data flows between the four financial statements"
     >
-      {/* Desktop: 2x2 grid layout with SVG arrows */}
+      {/* Desktop: 2×2 grid with arrows between boxes */}
       <div className="hidden md:block">
-        <div ref={containerRef} className="relative">
-          {/* SVG overlay for connection lines */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 1 }}
-          >
-            {linePositions.map(({ conn, x1, y1, x2, y2 }) => (
-              <SvgArrow
-                key={conn.id}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                connection={conn}
-                showTooltip={hoveredConnection === conn.id}
-                onHover={() => setHoveredConnection(conn.id)}
-                onLeave={() => setHoveredConnection(null)}
-              />
-            ))}
-          </svg>
+        {/*
+         * Grid layout:
+         *   [IS]   →arrows→   [BS]
+         *    ↓                  ↑↓
+         *   [EQ]   ←arrows←   [CF]
+         */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr auto 1fr',
+            gridTemplateRows: 'auto auto auto',
+            gap: 0,
+            alignItems: 'center',
+          }}
+        >
+          {/* Row 1: IS | horizontal arrows | BS */}
+          <FlowBox
+            title="Income Statement"
+            color={COLORS.IS.color}
+            bgColor={COLORS.IS.bg}
+            scale={scale}
+            lines={[
+              { label: 'Revenue', value: incomeStatement.totalRevenue },
+              { label: 'Expenses', value: incomeStatement.totalOperatingExpenses + incomeStatement.totalCOGS },
+              { label: 'Net Income', value: incomeStatement.netIncome },
+            ]}
+          />
+          <HArrow
+            connections={[...isToBS, ...isToCF]}
+            direction="right"
+          />
+          <FlowBox
+            title="Balance Sheet"
+            color={COLORS.BS.color}
+            bgColor={COLORS.BS.bg}
+            scale={scale}
+            lines={[
+              { label: 'Assets', value: balanceSheet.totalAssets },
+              { label: 'Liabilities', value: balanceSheet.totalLiabilities },
+              { label: 'Equity', value: balanceSheet.totalEquity },
+            ]}
+          />
 
-          {/* 2x2 grid of statement boxes */}
-          <div
-            className="grid gap-8"
-            style={{
-              gridTemplateColumns: '1fr 1fr',
-              gridTemplateRows: 'auto auto',
-              padding: '16px 0',
-            }}
-          >
-            {/* Row 1: IS | BS */}
-            <FlowBox
-              id="IS"
-              title="Income Statement"
-              color={COLORS.IS.color}
-              bgColor={COLORS.IS.bg}
-              refCallback={setBoxRef('IS')}
-              lines={[
-                { label: 'Revenue', value: incomeStatement.totalRevenue },
-                { label: 'Expenses', value: incomeStatement.totalOperatingExpenses + incomeStatement.totalCOGS },
-                { label: 'Net Income', value: incomeStatement.netIncome },
-              ]}
-            />
-            <FlowBox
-              id="BS"
-              title="Balance Sheet"
-              color={COLORS.BS.color}
-              bgColor={COLORS.BS.bg}
-              refCallback={setBoxRef('BS')}
-              lines={[
-                { label: 'Assets', value: balanceSheet.totalAssets },
-                { label: 'Liabilities', value: balanceSheet.totalLiabilities },
-                { label: 'Equity', value: balanceSheet.totalEquity },
-              ]}
-            />
+          {/* Row 2: vertical arrows down from IS | center (empty) | vertical arrows down from BS */}
+          <VArrow connections={isToEQ} direction="down" />
+          <div />
+          <VArrow connections={[...bsToCF, ...cfToBS]} direction="down" />
 
-            {/* Row 2: EQ | CF */}
-            <FlowBox
-              id="EQ"
-              title="Equity Statement"
-              color={COLORS.EQ.color}
-              bgColor={COLORS.EQ.bg}
-              refCallback={setBoxRef('EQ')}
-              lines={[
-                { label: 'Beginning', value: equityStatement.totalBeginning },
-                { label: 'Net Income', value: incomeStatement.netIncome },
-                { label: 'Ending', value: equityStatement.totalEnding },
-              ]}
-            />
-            <FlowBox
-              id="CF"
-              title="Cash Flow Statement"
-              color={COLORS.CF.color}
-              bgColor={COLORS.CF.bg}
-              refCallback={setBoxRef('CF')}
-              lines={[
-                { label: 'Operating', value: cashFlowStatement.totalOperating },
-                { label: 'Investing', value: cashFlowStatement.totalInvesting },
-                { label: 'Financing', value: cashFlowStatement.totalFinancing },
-                { label: 'Net Change', value: cashFlowStatement.netChange },
-              ]}
-            />
-          </div>
+          {/* Row 3: EQ | horizontal arrows | CF */}
+          <FlowBox
+            title="Equity Statement"
+            color={COLORS.EQ.color}
+            bgColor={COLORS.EQ.bg}
+            scale={scale}
+            lines={[
+              { label: 'Beginning', value: equityStatement.totalBeginning },
+              { label: 'Net Income', value: incomeStatement.netIncome },
+              { label: 'Ending', value: equityStatement.totalEnding },
+            ]}
+          />
+          <HArrow
+            connections={[...eqToBS, ...cfToEQ]}
+            direction="left"
+          />
+          <FlowBox
+            title="Cash Flow Statement"
+            color={COLORS.CF.color}
+            bgColor={COLORS.CF.bg}
+            scale={scale}
+            lines={[
+              { label: 'Operating', value: cashFlowStatement.totalOperating },
+              { label: 'Investing', value: cashFlowStatement.totalInvesting },
+              { label: 'Financing', value: cashFlowStatement.totalFinancing },
+              { label: 'Net Change', value: cashFlowStatement.netChange },
+            ]}
+          />
         </div>
       </div>
 
-      {/* Mobile: stacked vertical layout with simple arrows */}
+      {/* Mobile: stacked vertical layout */}
       <div className="md:hidden space-y-2">
         <FlowBox
-          id="IS-m"
           title="Income Statement"
           color={COLORS.IS.color}
           bgColor={COLORS.IS.bg}
-          refCallback={() => {}}
+          scale={scale}
           lines={[
             { label: 'Revenue', value: incomeStatement.totalRevenue },
             { label: 'Expenses', value: incomeStatement.totalOperatingExpenses + incomeStatement.totalCOGS },
             { label: 'Net Income', value: incomeStatement.netIncome },
           ]}
         />
-        <div className="flex justify-center py-1">
-          <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-            {CONNECTIONS.filter((c) => c.from === 'IS').map((c) => (
-              <span
-                key={c.id}
-                className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-[10px] font-bold"
-                style={{ background: c.color }}
-              >
-                {c.number}
-              </span>
-            ))}
-            <span style={{ fontSize: '16px' }}>{'\u2193'}</span>
-          </div>
+        <div className="flex justify-center">
+          <VArrow connections={[...isToBS, ...isToEQ, ...isToCF]} direction="down" />
         </div>
         <FlowBox
-          id="BS-m"
           title="Balance Sheet"
           color={COLORS.BS.color}
           bgColor={COLORS.BS.bg}
-          refCallback={() => {}}
+          scale={scale}
           lines={[
             { label: 'Assets', value: balanceSheet.totalAssets },
             { label: 'Liabilities', value: balanceSheet.totalLiabilities },
             { label: 'Equity', value: balanceSheet.totalEquity },
           ]}
         />
-        <div className="flex justify-center py-1">
-          <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-            {CONNECTIONS.filter((c) => c.from === 'BS' || c.to === 'CF').slice(0, 2).map((c) => (
-              <span
-                key={c.id}
-                className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-[10px] font-bold"
-                style={{ background: c.color }}
-              >
-                {c.number}
-              </span>
-            ))}
-            <span style={{ fontSize: '16px' }}>{'\u2193'}</span>
-          </div>
+        <div className="flex justify-center">
+          <VArrow connections={[...bsToCF, ...cfToBS]} direction="down" />
         </div>
         <FlowBox
-          id="CF-m"
           title="Cash Flow Statement"
           color={COLORS.CF.color}
           bgColor={COLORS.CF.bg}
-          refCallback={() => {}}
+          scale={scale}
           lines={[
             { label: 'Operating', value: cashFlowStatement.totalOperating },
             { label: 'Investing', value: cashFlowStatement.totalInvesting },
@@ -586,26 +527,14 @@ export default function FlowDiagram() {
             { label: 'Net Change', value: cashFlowStatement.netChange },
           ]}
         />
-        <div className="flex justify-center py-1">
-          <div className="flex items-center gap-2 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-            {CONNECTIONS.filter((c) => c.from === 'CF' || c.from === 'EQ').slice(0, 2).map((c) => (
-              <span
-                key={c.id}
-                className="inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-[10px] font-bold"
-                style={{ background: c.color }}
-              >
-                {c.number}
-              </span>
-            ))}
-            <span style={{ fontSize: '16px' }}>{'\u2193'}</span>
-          </div>
+        <div className="flex justify-center">
+          <VArrow connections={[...eqToBS, ...cfToEQ]} direction="down" />
         </div>
         <FlowBox
-          id="EQ-m"
           title="Equity Statement"
           color={COLORS.EQ.color}
           bgColor={COLORS.EQ.bg}
-          refCallback={() => {}}
+          scale={scale}
           lines={[
             { label: 'Beginning', value: equityStatement.totalBeginning },
             { label: 'Net Income', value: incomeStatement.netIncome },

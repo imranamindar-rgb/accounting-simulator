@@ -8,8 +8,7 @@
  * 3. How Balance Sheet adjusts
  * 4. How Cash Flow and Equity statements are affected
  *
- * The user can play/pause, step forward/back, and see
- * highlighted values animate between steps.
+ * Controls: Play, Pause, Replay, Step Forward/Back, Speed control
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react'
@@ -37,6 +36,15 @@ interface Scenario {
   steps: SimulationStep[]
 }
 
+// ── Speed options ───────────────────────────────────────────────
+
+const SPEEDS = [
+  { label: '0.5×', ms: 5000 },
+  { label: '1×', ms: 3000 },
+  { label: '1.5×', ms: 2000 },
+  { label: '2×', ms: 1500 },
+] as const
+
 // ── Pre-built Scenarios ─────────────────────────────────────────
 
 const SCENARIOS: Scenario[] = [
@@ -44,7 +52,7 @@ const SCENARIOS: Scenario[] = [
     id: 'cash-sale',
     name: 'Cash Sale of Goods',
     description: 'A company sells $5,000 of inventory (cost $3,000) for cash. Watch how this single transaction touches all four statements.',
-    icon: '\uD83D\uDCB0',
+    icon: '💰',
     steps: [
       {
         title: 'Step 1: Record the Sale',
@@ -118,7 +126,7 @@ const SCENARIOS: Scenario[] = [
     id: 'buy-equipment',
     name: 'Purchase Equipment on Credit',
     description: 'A company buys $20,000 of equipment by signing a note payable. See how a non-cash transaction still flows through.',
-    icon: '\uD83C\uDFED',
+    icon: '🏭',
     steps: [
       {
         title: 'Step 1: Record the Purchase',
@@ -132,7 +140,7 @@ const SCENARIOS: Scenario[] = [
       },
       {
         title: 'Step 2: Income Statement - No Impact!',
-        description: 'Buying an asset does NOT affect the Income Statement. Equipment is not an expense \u2014 it will be depreciated over its useful life.',
+        description: 'Buying an asset does NOT affect the Income Statement. Equipment is not an expense — it will be depreciated over its useful life.',
         highlight: 'income',
         accounts: [],
         statements: {
@@ -166,7 +174,7 @@ const SCENARIOS: Scenario[] = [
     id: 'pay-dividends',
     name: 'Declare and Pay Dividends',
     description: 'A company declares and pays $1,000 in cash dividends. Watch how dividends affect equity and cash flow.',
-    icon: '\uD83D\uDCCA',
+    icon: '📊',
     steps: [
       {
         title: 'Step 1: Record the Dividend Payment',
@@ -226,7 +234,7 @@ const SCENARIOS: Scenario[] = [
     id: 'credit-sale',
     name: 'Sale on Account (Credit Sale)',
     description: 'A company sells $8,000 of services on account. No cash yet! See the difference between revenue recognition and cash collection.',
-    icon: '\uD83D\uDCDD',
+    icon: '📝',
     steps: [
       {
         title: 'Step 1: Record the Credit Sale',
@@ -400,19 +408,77 @@ function JournalEntry({
   )
 }
 
+// ── Control Button ──────────────────────────────────────────────
+
+function ControlButton({
+  onClick,
+  disabled = false,
+  primary = false,
+  active = false,
+  children,
+  title,
+}: {
+  onClick: () => void
+  disabled?: boolean
+  primary?: boolean
+  active?: boolean
+  children: React.ReactNode
+  title?: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      title={title}
+      className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      style={{
+        background: primary
+          ? '#2D6A4F'
+          : active
+            ? 'rgba(45,106,79,0.15)'
+            : 'var(--color-base)',
+        border: primary
+          ? 'none'
+          : active
+            ? '2px solid #2D6A4F'
+            : '1px solid var(--color-border)',
+        color: primary ? 'white' : active ? '#2D6A4F' : 'var(--color-text)',
+        fontFamily: 'var(--font-mono)',
+      }}
+      onMouseEnter={(e) => {
+        if (!disabled && !primary) {
+          e.currentTarget.style.borderColor = '#2D6A4F'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!disabled && !primary && !active) {
+          e.currentTarget.style.borderColor = 'var(--color-border)'
+        }
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
 // ── Main Component ──────────────────────────────────────────────
 
 export default function SimulationPlayer() {
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null)
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [speedIdx, setSpeedIdx] = useState(1) // default 1× (3000ms)
   const playTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const step = selectedScenario ? selectedScenario.steps[currentStep] : null
   const totalSteps = selectedScenario ? selectedScenario.steps.length : 0
+  const speed = SPEEDS[speedIdx]
 
   // Auto-play timer
   useEffect(() => {
+    if (playTimerRef.current) clearInterval(playTimerRef.current)
+
     if (isPlaying && selectedScenario) {
       playTimerRef.current = setInterval(() => {
         setCurrentStep((prev) => {
@@ -422,12 +488,12 @@ export default function SimulationPlayer() {
           }
           return prev + 1
         })
-      }, 3000)
+      }, speed.ms)
     }
     return () => {
       if (playTimerRef.current) clearInterval(playTimerRef.current)
     }
-  }, [isPlaying, selectedScenario])
+  }, [isPlaying, selectedScenario, speed.ms])
 
   const handleSelectScenario = useCallback((scenario: Scenario) => {
     setSelectedScenario(scenario)
@@ -439,6 +505,15 @@ export default function SimulationPlayer() {
     setSelectedScenario(null)
     setCurrentStep(0)
     setIsPlaying(false)
+  }, [])
+
+  const handleReplay = useCallback(() => {
+    setCurrentStep(0)
+    setIsPlaying(true)
+  }, [])
+
+  const handleCycleSpeed = useCallback(() => {
+    setSpeedIdx((prev) => (prev + 1) % SPEEDS.length)
   }, [])
 
   // Get cumulative statement values up to current step
@@ -461,6 +536,7 @@ export default function SimulationPlayer() {
   }, [step])
 
   const vals = getStatementValues()
+  const isAtEnd = currentStep >= totalSteps - 1
 
   // Scenario selection screen
   if (!selectedScenario) {
@@ -533,7 +609,7 @@ export default function SimulationPlayer() {
                 className="mt-2 text-xs font-semibold"
                 style={{ color: '#2D6A4F', fontFamily: 'var(--font-mono)' }}
               >
-                {scenario.steps.length} steps {'\u2192'}
+                {scenario.steps.length} steps →
               </div>
             </button>
           ))}
@@ -568,7 +644,7 @@ export default function SimulationPlayer() {
             onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.25)' }}
             onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.15)' }}
           >
-            {'\u2190'} Back
+            ← Back
           </button>
           <div>
             <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>
@@ -674,82 +750,76 @@ export default function SimulationPlayer() {
         </div>
 
         {/* Playback controls */}
-        <div className="flex items-center justify-center gap-3 mt-4 pt-3" style={{ borderTop: '1px solid var(--color-border)' }}>
-          <button
-            type="button"
+        <div
+          className="flex flex-wrap items-center justify-center gap-2 mt-4 pt-3"
+          style={{ borderTop: '1px solid var(--color-border)' }}
+        >
+          {/* Navigation group */}
+          <ControlButton
             onClick={() => { setCurrentStep(0); setIsPlaying(false) }}
             disabled={currentStep === 0}
-            className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{
-              background: 'var(--color-base)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              fontFamily: 'var(--font-mono)',
-            }}
+            title="Go to first step"
           >
-            {'\u23EE'} Start
-          </button>
-          <button
-            type="button"
+            ⏮ Start
+          </ControlButton>
+          <ControlButton
             onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
             disabled={currentStep === 0}
-            className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{
-              background: 'var(--color-base)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              fontFamily: 'var(--font-mono)',
-            }}
+            title="Previous step"
           >
-            {'\u25C0'} Prev
-          </button>
-          <button
-            type="button"
+            ◀ Prev
+          </ControlButton>
+
+          {/* Play / Pause */}
+          <ControlButton
             onClick={() => setIsPlaying(!isPlaying)}
-            className="px-5 py-2 rounded text-sm font-bold cursor-pointer"
-            style={{
-              background: isPlaying ? '#DC2626' : '#2D6A4F',
-              color: 'white',
-              border: 'none',
-              fontFamily: 'var(--font-display)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.85'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1'
-            }}
+            primary
+            title={isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? '\u23F8 Pause' : '\u25B6 Play'}
-          </button>
-          <button
-            type="button"
+            {isPlaying ? '⏸ Pause' : '▶ Play'}
+          </ControlButton>
+
+          <ControlButton
             onClick={() => setCurrentStep(Math.min(totalSteps - 1, currentStep + 1))}
-            disabled={currentStep >= totalSteps - 1}
-            className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{
-              background: 'var(--color-base)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              fontFamily: 'var(--font-mono)',
-            }}
+            disabled={isAtEnd}
+            title="Next step"
           >
-            Next {'\u25B6'}
-          </button>
-          <button
-            type="button"
+            Next ▶
+          </ControlButton>
+          <ControlButton
             onClick={() => { setCurrentStep(totalSteps - 1); setIsPlaying(false) }}
-            disabled={currentStep >= totalSteps - 1}
-            className="px-3 py-1.5 rounded text-xs font-semibold cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{
-              background: 'var(--color-base)',
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text)',
-              fontFamily: 'var(--font-mono)',
-            }}
+            disabled={isAtEnd}
+            title="Go to last step"
           >
-            End {'\u23ED'}
-          </button>
+            End ⏭
+          </ControlButton>
+
+          {/* Separator */}
+          <div
+            style={{
+              width: 1,
+              height: 24,
+              background: 'var(--color-border)',
+              margin: '0 4px',
+            }}
+          />
+
+          {/* Replay */}
+          <ControlButton
+            onClick={handleReplay}
+            title="Restart and auto-play from the beginning"
+          >
+            🔄 Replay
+          </ControlButton>
+
+          {/* Speed */}
+          <ControlButton
+            onClick={handleCycleSpeed}
+            active={speedIdx !== 1}
+            title={`Playback speed: ${speed.label}. Click to cycle.`}
+          >
+            🏃 {speed.label}
+          </ControlButton>
         </div>
       </div>
     </div>

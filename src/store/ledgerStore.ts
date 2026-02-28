@@ -153,49 +153,48 @@ export const useLedgerStore = create<LedgerState>()((set, get) => {
         { templateId, templateName, params, timestamp: Date.now(), changes },
       ]
 
-      set({
+      set((state) => ({
         undoStack: newUndoStack,
         redoStack: [],
         transactionHistory: newHistory,
-      })
+        ledgerVersion: state.ledgerVersion + 1,
+      }))
     },
 
     undo: () => {
       const { ledger, undoStack, redoStack } = get()
       if (undoStack.length === 0) return
 
-      // Save current state to redo stack
       const currentSnapshot = ledger.takeSnapshot()
       const newRedoStack = [...redoStack, currentSnapshot]
 
-      // Pop the last undo snapshot and restore it
       const newUndoStack = [...undoStack]
       const previousSnapshot = newUndoStack.pop()!
       ledger.restoreSnapshot(previousSnapshot)
 
-      set({
+      set((state) => ({
         undoStack: newUndoStack,
         redoStack: newRedoStack,
-      })
+        ledgerVersion: state.ledgerVersion + 1,
+      }))
     },
 
     redo: () => {
       const { ledger, undoStack, redoStack } = get()
       if (redoStack.length === 0) return
 
-      // Save current state to undo stack
       const currentSnapshot = ledger.takeSnapshot()
       const newUndoStack = [...undoStack, currentSnapshot]
 
-      // Pop the last redo snapshot and restore it
       const newRedoStack = [...redoStack]
       const nextSnapshot = newRedoStack.pop()!
       ledger.restoreSnapshot(nextSnapshot)
 
-      set({
+      set((state) => ({
         undoStack: newUndoStack,
         redoStack: newRedoStack,
-      })
+        ledgerVersion: state.ledgerVersion + 1,
+      }))
     },
 
     reset: () => {
@@ -241,14 +240,15 @@ export const useLedgerStore = create<LedgerState>()((set, get) => {
         },
       ]
 
-      set({
+      set((state) => ({
         periods: newPeriods,
         currentPeriod: currentPeriod + 1,
         beginningBalances: postClosingSnapshot,
         transactionHistory: [...transactionHistory, closingRecord],
         undoStack: [],
         redoStack: [],
-      })
+        ledgerVersion: state.ledgerVersion + 1,
+      }))
     },
 
     getStatements: () => {

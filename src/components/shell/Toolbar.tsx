@@ -142,8 +142,7 @@ export function Toolbar() {
   useEffect(() => {
     if (!selectedCompany && SAMPLE_COMPANIES.length > 0) {
       const defaultCompany =
-        SAMPLE_COMPANIES.find((c) => c.name.startsWith('Sound & Light')) ??
-        SAMPLE_COMPANIES.find((c) => Object.keys(c.balances).length > 0) ??
+        SAMPLE_COMPANIES.find((c) => c.name.startsWith('Blank Company')) ??
         SAMPLE_COMPANIES[0]
       initFromCompany(defaultCompany)
     }
