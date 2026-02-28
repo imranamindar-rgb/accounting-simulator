@@ -71,6 +71,25 @@ export function generateBalanceSheet(ledger: Ledger): BalanceSheet {
     contra: a.contra,
   }))
 
+  // Include current-period net income in equity.
+  // Revenue and Expense accounts hold balances until the period is closed,
+  // at which point they are zeroed and transferred to Retained Earnings.
+  // During an open period the Balance Sheet must include this net income
+  // so that Assets = Liabilities + Equity stays balanced.
+  const revenues = ledger.getAccountsByType('Revenue')
+  const expenses = ledger.getAccountsByType('Expense')
+  const currentPeriodRevenue = revenues.reduce((sum, a) => sum + a.balance, 0)
+  const currentPeriodExpenses = expenses.reduce((sum, a) => sum + a.balance, 0)
+  const currentPeriodNetIncome = currentPeriodRevenue - currentPeriodExpenses
+
+  if (currentPeriodNetIncome !== 0) {
+    equity.push({
+      name: 'Current Period Net Income',
+      balance: currentPeriodNetIncome,
+      contra: false,
+    })
+  }
+
   const currentAssets = flattenGroups(currentAssetGroups)
   const noncurrentAssets = flattenGroups(noncurrentAssetGroups)
   const currentLiabilities = flattenGroups(currentLiabilityGroups)
@@ -96,7 +115,7 @@ export function generateBalanceSheet(ledger: Ledger): BalanceSheet {
 
   const totalLiabilities = totalCurrentLiabilities + totalNoncurrentLiabilities
 
-  const totalEquity = equityAccounts.reduce((sum, a) => sum + a.balance, 0)
+  const totalEquity = equityAccounts.reduce((sum, a) => sum + a.balance, 0) + currentPeriodNetIncome
 
   const totalLiabilitiesAndEquity = totalLiabilities + totalEquity
   const isBalanced = totalAssets === totalLiabilitiesAndEquity

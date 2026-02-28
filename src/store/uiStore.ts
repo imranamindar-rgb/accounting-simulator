@@ -35,7 +35,7 @@ export const useUIStore = create<UIState>()((set) => ({
   sensitivityOpen: false,
   tutorialStep: null,
   quizzesEnabled: false,
-  unlockedTiers: new Set(['starter']),
+  unlockedTiers: new Set(['starter', 'accruals', 'intermediate', 'advanced']),
   cashFlowMethod: 'indirect',
   viewMode: 'statements',
   selectedTopic: null,

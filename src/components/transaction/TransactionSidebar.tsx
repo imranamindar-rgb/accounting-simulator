@@ -443,27 +443,6 @@ export function TransactionSidebar({ onRecorded }: TransactionSidebarProps) {
           </button>
         )}
 
-        {/* Explanation */}
-        {selectedTemplate && (
-          <div
-            className="rounded-lg p-3"
-            style={{
-              background: '#FFFBF0',
-              border: '1px solid #E8D5B7',
-              fontSize: '0.78rem',
-              color: 'var(--color-text)',
-              lineHeight: '1.5',
-            }}
-          >
-            <div
-              className="font-semibold mb-1"
-              style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}
-            >
-              Explanation
-            </div>
-            {selectedTemplate.explanation}
-          </div>
-        )}
       </div>
     </div>
   )

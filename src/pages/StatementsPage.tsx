@@ -4,8 +4,6 @@
  * LEFT:   TransactionSidebar (always visible, record transactions)
  * CENTER: FlowDiagram at top, then statement grid / views below
  * RIGHT:  InsightSidebar (shows last transaction impact)
- *
- * In What-If mode the center replaces with the WhatIfMode editor.
  */
 
 import { useState } from 'react'
@@ -16,7 +14,6 @@ import IncomeStatement from '../components/statements/IncomeStatement'
 import CashFlowStatement from '../components/statements/CashFlowStatement'
 import EquityStatement from '../components/statements/EquityStatement'
 import RatioDashboard from '../components/analysis/RatioDashboard'
-import WhatIfMode from '../components/analysis/WhatIfMode'
 import FlowDiagram from '../components/flow/FlowDiagram'
 import SimulationPlayer from '../components/simulation/SimulationPlayer'
 import TrialBalance from '../components/views/TrialBalance'
@@ -63,7 +60,6 @@ function CenterContent() {
 
 export default function StatementsPage() {
   const selectedCompany = useLedgerStore((s) => s.selectedCompany)
-  const mode = useUIStore((s) => s.mode)
 
   const [lastRecorded, setLastRecorded] = useState<RecordedTransaction | null>(null)
 
@@ -76,11 +72,6 @@ export default function StatementsPage() {
         <p className="text-lg">Select a company from the toolbar to begin</p>
       </div>
     )
-  }
-
-  // What-if mode replaces only the center column
-  if (mode === 'whatif') {
-    return <WhatIfMode />
   }
 
   return (

@@ -111,8 +111,6 @@ function Separator() {
 /* ── main toolbar ── */
 
 export function Toolbar() {
-  const mode = useUIStore((s) => s.mode)
-  const setMode = useUIStore((s) => s.setMode)
   const activeTab = useUIStore((s) => s.activeTab)
   const viewMode = useUIStore((s) => s.viewMode)
   const setViewMode = useUIStore((s) => s.setViewMode)
@@ -222,18 +220,6 @@ export function Toolbar() {
           borderTop: '1px solid rgba(255,255,255,0.1)',
         }}
       >
-        {/* Mode toggle */}
-        <div className="rounded-md overflow-hidden" style={controlGroupStyle}>
-          <SegmentedControl
-            options={[
-              { label: 'Transaction', value: 'transaction' as const },
-              { label: 'What-If', value: 'whatif' as const },
-            ]}
-            value={mode}
-            onChange={setMode}
-          />
-        </div>
-
         {/* View mode toggle - only visible on statements tab */}
         {activeTab === 'statements' && (
           <div
