@@ -7,6 +7,7 @@
  */
 
 import { useLedgerStore } from '../../store/ledgerStore'
+import { useStatements } from '../../hooks/useStatements'
 import { useUIStore } from '../../store/uiStore'
 import StatementPanel from './StatementPanel'
 import {
@@ -30,7 +31,7 @@ function MethodBadge({ method }: { method: 'indirect' | 'direct' }) {
 }
 
 export default function CashFlowStatement() {
-  const statements = useLedgerStore((s) => s.getStatements())
+  const statements = useStatements()
   const scale = useLedgerStore((s) => s.selectedCompany?.scale ?? 'ones')
   const cashFlowMethod = useUIStore((s) => s.cashFlowMethod)
 

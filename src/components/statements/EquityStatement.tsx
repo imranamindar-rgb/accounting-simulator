@@ -6,6 +6,7 @@
  */
 
 import { useLedgerStore } from '../../store/ledgerStore'
+import { useStatements } from '../../hooks/useStatements'
 import StatementPanel from './StatementPanel'
 import {
   LineItem,
@@ -14,7 +15,7 @@ import {
   TotalRow,
 } from './LineItem'
 export default function EquityStatement() {
-  const statements = useLedgerStore((s) => s.getStatements())
+  const statements = useStatements()
   const scale = useLedgerStore((s) => s.selectedCompany?.scale ?? 'ones')
   const { equityStatement: eq } = statements
 

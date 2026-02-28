@@ -12,7 +12,7 @@
  */
 
 import { useState } from 'react'
-import { useLedgerStore } from '../../store/ledgerStore'
+import { useStatements } from '../../hooks/useStatements'
 import StatementPanel from '../statements/StatementPanel'
 
 // ── Currency formatting ────────────────────────────────────────────
@@ -352,7 +352,7 @@ function Legend() {
 
 export default function FlowDiagram() {
   const { balanceSheet, incomeStatement, cashFlowStatement, equityStatement } =
-    useLedgerStore((s) => s.getStatements())
+    useStatements()
 
   // Group connections by their position in the grid
   const topHorizontal = CONNECTIONS.filter((c) => c.from === 'IS' && c.to === 'BS')

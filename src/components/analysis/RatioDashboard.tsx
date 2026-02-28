@@ -8,6 +8,7 @@
 
 import { useState } from 'react'
 import { useLedgerStore } from '../../store/ledgerStore'
+import { useRatios } from '../../hooks/useStatements'
 import RatioCard from './RatioCard'
 import type { RatioCardProps } from './RatioCard'
 import DuPontChart from './DuPontChart'
@@ -260,8 +261,8 @@ function SectionHeader({
 // ── Main dashboard ──────────────────────────────────────────────────
 
 export default function RatioDashboard() {
-  const getRatios = useLedgerStore((s) => s.getRatios)
   const selectedCompany = useLedgerStore((s) => s.selectedCompany)
+  const ratios = useRatios()
 
   // All sections start expanded
   const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
@@ -272,8 +273,6 @@ export default function RatioDashboard() {
   })
 
   if (!selectedCompany) return null
-
-  const ratios = getRatios()
 
   function toggle(key: string) {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }))

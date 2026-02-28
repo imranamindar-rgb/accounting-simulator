@@ -10,6 +10,7 @@
 
 import { useState } from 'react'
 import { useLedgerStore } from '../../store/ledgerStore'
+import { useStatements } from '../../hooks/useStatements'
 
 type Tab = 'depreciation' | 'inventory'
 
@@ -175,10 +176,8 @@ function DepreciationTab() {
 }
 
 function InventoryTab() {
-  const getStatements = useLedgerStore((s) => s.getStatements)
   const ledger = useLedgerStore((s) => s.ledger)
-
-  const { incomeStatement } = getStatements()
+  const { incomeStatement } = useStatements()
 
   const currentCOGS = incomeStatement.totalCOGS
   const totalRevenue = incomeStatement.totalRevenue

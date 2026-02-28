@@ -6,6 +6,7 @@
  */
 
 import { useLedgerStore } from '../../store/ledgerStore'
+import { useStatements } from '../../hooks/useStatements'
 import StatementPanel from './StatementPanel'
 import {
   LineItem,
@@ -56,7 +57,7 @@ function BalancedIndicator({ balanced }: { balanced: boolean }) {
 }
 
 export default function BalanceSheet() {
-  const statements = useLedgerStore((s) => s.getStatements())
+  const statements = useStatements()
   const scale = useLedgerStore((s) => s.selectedCompany?.scale ?? 'ones')
   const { balanceSheet: bs } = statements
 

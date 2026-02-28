@@ -8,6 +8,7 @@
  */
 
 import { useLedgerStore } from '../../store/ledgerStore'
+import { useStatements } from '../../hooks/useStatements'
 import StatementPanel from './StatementPanel'
 import {
   LineItem,
@@ -43,7 +44,7 @@ function AccountLines({
 }
 
 export default function IncomeStatement() {
-  const statements = useLedgerStore((s) => s.getStatements())
+  const statements = useStatements()
   const scale = useLedgerStore((s) => s.selectedCompany?.scale ?? 'ones')
   const sharesOutstanding = useLedgerStore((s) => s.sharesOutstanding)
   const { incomeStatement: is } = statements
