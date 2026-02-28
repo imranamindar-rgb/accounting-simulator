@@ -4,10 +4,12 @@
  * and numbered connection badges.
  *
  * Layout (2×2 grid):
- *   Income Statement  ──→  Balance Sheet
- *        │                      ↑↓
- *        ↓                      │
- *   Equity Statement  ←──  Cash Flow Statement
+ *   Income Statement  ──①──→  Equity Statement
+ *        │                          │
+ *        ②                          ③
+ *        ↓                          ↓
+ *   Cash Flow Statement ──④──→  Balance Sheet
+ *                       ←──⑤──
  *
  * Uses refs to measure box positions and draws accurate SVG
  * curved arrows between the correct edges of each box.
@@ -49,87 +51,73 @@ interface ConnectionDef {
 }
 
 /**
- * 6 connections with zero crossings:
+ * 5 connections with zero crossings:
  *
- *  IS ──①──→ BS
- *  |          ↑↑
- *  ②    ⑤↗  ③↓ ④↑
- *  ↓
- *  EQ ←──⑥── CF
+ *  IS ──①──→ EQ
+ *  │          │
+ *  ②          ③
+ *  ↓          ↓
+ *  CF ──④──→ BS
+ *     ←──⑤──
  */
 const CONNECTIONS: ConnectionDef[] = [
   {
     number: 1,
     title: 'Net Income → Retained Earnings',
     label:
-      'Net Income from the Income Statement flows into Retained Earnings on the Balance Sheet.',
+      'Net Income from the Income Statement flows into Retained Earnings in the Equity Statement.',
     from: 'IS',
-    to: 'BS',
+    to: 'EQ',
     color: '#2D6A4F',
     fromEdge: 'right',
     toEdge: 'left',
   },
   {
     number: 2,
-    title: 'Net Income → Equity',
+    title: 'Net Income → Cash Flow',
     label:
-      'Net Income flows into Retained Earnings in the Statement of Equity.',
+      'Net Income is the starting point of the Cash Flow Statement (indirect method), then adjusted for non-cash items and working capital changes.',
     from: 'IS',
-    to: 'EQ',
-    color: '#7C3AED',
+    to: 'CF',
+    color: '#D97706',
     fromEdge: 'bottom',
     toEdge: 'top',
   },
   {
     number: 3,
-    title: 'Working Capital Changes',
+    title: 'Ending Equity → Balance Sheet',
     label:
-      'Changes in working capital accounts (AR, AP, Inventory) on the Balance Sheet affect Operating Cash Flow.',
-    from: 'BS',
-    to: 'CF',
-    color: '#2563EB',
-    fromEdge: 'bottom',
-    toEdge: 'top',
-    fromOffset: -18,
-    toOffset: -18,
-  },
-  {
-    number: 4,
-    title: 'Ending Cash',
-    label:
-      'The ending cash balance from the Cash Flow Statement matches Cash on the Balance Sheet.',
-    from: 'CF',
-    to: 'BS',
-    color: '#D97706',
-    fromEdge: 'top',
-    toEdge: 'bottom',
-    fromOffset: 18,
-    toOffset: 18,
-  },
-  {
-    number: 5,
-    title: 'Total Equity → Balance Sheet',
-    label:
-      'Total Equity from the Equity Statement flows to the Balance Sheet equity section.',
+      'Total Ending Equity from the Equity Statement flows to the equity section of the Balance Sheet.',
     from: 'EQ',
     to: 'BS',
     color: '#7C3AED',
+    fromEdge: 'bottom',
+    toEdge: 'top',
+  },
+  {
+    number: 4,
+    title: 'Ending Cash → Balance Sheet',
+    label:
+      'The ending cash balance from the Cash Flow Statement matches the Cash asset on the Balance Sheet.',
+    from: 'CF',
+    to: 'BS',
+    color: '#2563EB',
     fromEdge: 'right',
     toEdge: 'left',
     fromOffset: -12,
-    toOffset: 18,
+    toOffset: -12,
   },
   {
-    number: 6,
-    title: 'Dividends Paid',
+    number: 5,
+    title: 'Working Capital Changes',
     label:
-      'Dividends paid (from financing activities) reduce Retained Earnings in the Equity Statement.',
-    from: 'CF',
-    to: 'EQ',
-    color: '#D97706',
+      'Changes in Balance Sheet accounts (AR, AP, Inventory) between periods flow back as operating adjustments in the Cash Flow Statement.',
+    from: 'BS',
+    to: 'CF',
+    color: '#2563EB',
     fromEdge: 'left',
     toEdge: 'right',
-    fromOffset: 0,
+    fromOffset: 12,
     toOffset: 12,
   },
 ]
@@ -182,8 +170,10 @@ function getAffectedStatements(
         break
     }
   }
-  // Net income always flows IS → BS → EQ
+  // Net income flows IS → EQ → BS and IS → CF
   if (affected.has('IS')) {
+    affected.add('EQ')
+    affected.add('CF')
     affected.add('BS')
   }
   return affected
@@ -228,6 +218,7 @@ function getHighlightLines(
     hl.IS.add('Net Income')
     hl.EQ.add('Net Income')
     hl.EQ.add('Ending')
+    hl.CF.add('Operating') // CFS starts with Net Income (indirect method)
   }
   return hl
 }
@@ -559,47 +550,6 @@ function Legend({
           )
         })}
 
-        {/* Note about CFS starting with Net Income */}
-        <div className="flex items-start gap-3 sm:col-span-2">
-          <span
-            className="inline-flex items-center justify-center shrink-0 mt-0.5"
-            style={{
-              width: 28,
-              height: 28,
-              borderRadius: '50%',
-              background: '#B03A2E',
-              color: '#fff',
-              fontSize: '0.7rem',
-              fontWeight: 700,
-              fontFamily: 'var(--font-mono)',
-            }}
-          >
-            ℹ
-          </span>
-          <div>
-            <div
-              className="font-bold text-sm mb-0.5"
-              style={{
-                fontFamily: 'var(--font-display)',
-                color: 'var(--color-text)',
-              }}
-            >
-              Cash Flow Starting Point
-            </div>
-            <p
-              className="text-xs leading-relaxed"
-              style={{
-                color: 'var(--color-text-muted)',
-                fontFamily: 'var(--font-body)',
-                lineHeight: 1.6,
-              }}
-            >
-              The Cash Flow Statement (indirect method) starts with Net
-              Income from the Income Statement and adjusts for non-cash
-              items and working capital changes.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -1204,7 +1154,7 @@ export default function FlowDiagram() {
               )
             })()}
 
-          {/* Grid with statement boxes */}
+          {/* Grid with statement boxes — IS/EQ top row, CF/BS bottom row */}
           <div
             style={{
               display: 'grid',
@@ -1214,6 +1164,7 @@ export default function FlowDiagram() {
               zIndex: 10,
             }}
           >
+            {/* Top-left: Income Statement */}
             <FlowBox
               title="Income Statement"
               color={COLORS.IS.color}
@@ -1233,23 +1184,7 @@ export default function FlowDiagram() {
                 { label: 'Net Income', value: incomeStatement.netIncome },
               ]}
             />
-            <FlowBox
-              title="Balance Sheet"
-              color={COLORS.BS.color}
-              bgColor={COLORS.BS.bg}
-              scale={scale}
-              boxRef={bsRef}
-              highlightLines={hlLines.BS}
-              isAffected={highlightActive && affectedStatements.has('BS')}
-              lines={[
-                { label: 'Assets', value: balanceSheet.totalAssets },
-                {
-                  label: 'Liabilities',
-                  value: balanceSheet.totalLiabilities,
-                },
-                { label: 'Equity', value: balanceSheet.totalEquity },
-              ]}
-            />
+            {/* Top-right: Equity Statement */}
             <FlowBox
               title="Equity Statement"
               color={COLORS.EQ.color}
@@ -1270,6 +1205,7 @@ export default function FlowDiagram() {
                 { label: 'Ending', value: equityStatement.totalEnding },
               ]}
             />
+            {/* Bottom-left: Cash Flow Statement */}
             <FlowBox
               title="Cash Flow Statement"
               color={COLORS.CF.color}
@@ -1297,11 +1233,29 @@ export default function FlowDiagram() {
                 },
               ]}
             />
+            {/* Bottom-right: Balance Sheet */}
+            <FlowBox
+              title="Balance Sheet"
+              color={COLORS.BS.color}
+              bgColor={COLORS.BS.bg}
+              scale={scale}
+              boxRef={bsRef}
+              highlightLines={hlLines.BS}
+              isAffected={highlightActive && affectedStatements.has('BS')}
+              lines={[
+                { label: 'Assets', value: balanceSheet.totalAssets },
+                {
+                  label: 'Liabilities',
+                  value: balanceSheet.totalLiabilities,
+                },
+                { label: 'Equity', value: balanceSheet.totalEquity },
+              ]}
+            />
           </div>
         </div>
       </div>
 
-      {/* Mobile: stacked vertical layout */}
+      {/* Mobile: stacked vertical layout — IS → EQ → CF → BS */}
       <div className="md:hidden space-y-3">
         <FlowBox
           title="Income Statement"
@@ -1334,15 +1288,15 @@ export default function FlowDiagram() {
           </div>
         </div>
         <FlowBox
-          title="Balance Sheet"
-          color={COLORS.BS.color}
-          bgColor={COLORS.BS.bg}
+          title="Equity Statement"
+          color={COLORS.EQ.color}
+          bgColor={COLORS.EQ.bg}
           scale={scale}
           boxRef={{ current: null }}
           lines={[
-            { label: 'Assets', value: balanceSheet.totalAssets },
-            { label: 'Liabilities', value: balanceSheet.totalLiabilities },
-            { label: 'Equity', value: balanceSheet.totalEquity },
+            { label: 'Beginning', value: equityStatement.totalBeginning },
+            { label: 'Net Income', value: incomeStatement.netIncome },
+            { label: 'Ending', value: equityStatement.totalEnding },
           ]}
         />
         <div className="flex justify-center">
@@ -1351,11 +1305,11 @@ export default function FlowDiagram() {
               style={{
                 width: 3,
                 height: 20,
-                background: '#2563EB',
+                background: '#D97706',
                 borderRadius: 2,
               }}
             />
-            <span style={{ color: '#2563EB', fontSize: 14 }}>▼</span>
+            <span style={{ color: '#D97706', fontSize: 14 }}>▼</span>
           </div>
         </div>
         <FlowBox
@@ -1377,23 +1331,23 @@ export default function FlowDiagram() {
               style={{
                 width: 3,
                 height: 20,
-                background: '#7C3AED',
+                background: '#2563EB',
                 borderRadius: 2,
               }}
             />
-            <span style={{ color: '#7C3AED', fontSize: 14 }}>▼</span>
+            <span style={{ color: '#2563EB', fontSize: 14 }}>▼</span>
           </div>
         </div>
         <FlowBox
-          title="Equity Statement"
-          color={COLORS.EQ.color}
-          bgColor={COLORS.EQ.bg}
+          title="Balance Sheet"
+          color={COLORS.BS.color}
+          bgColor={COLORS.BS.bg}
           scale={scale}
           boxRef={{ current: null }}
           lines={[
-            { label: 'Beginning', value: equityStatement.totalBeginning },
-            { label: 'Net Income', value: incomeStatement.netIncome },
-            { label: 'Ending', value: equityStatement.totalEnding },
+            { label: 'Assets', value: balanceSheet.totalAssets },
+            { label: 'Liabilities', value: balanceSheet.totalLiabilities },
+            { label: 'Equity', value: balanceSheet.totalEquity },
           ]}
         />
       </div>
