@@ -17,13 +17,14 @@ function dirFromDelta(delta: number): Direction {
 }
 
 function badgeColor(dir: Direction): { bg: string; fg: string } {
-  if (dir === 'up') return { bg: '#DEF7EC', fg: 'var(--color-green)' }
-  if (dir === 'down') return { bg: '#FDE8E8', fg: '#B91C1C' }
-  return { bg: 'var(--color-base)', fg: 'var(--color-text-muted)' }
+  // Use saturated fills so selected predictions are unmistakable at a glance.
+  if (dir === 'up') return { bg: 'var(--color-green)', fg: '#fff' }
+  if (dir === 'down') return { bg: '#B91C1C', fg: '#fff' }
+  return { bg: '#334155', fg: '#fff' }
 }
 
 function labelForDir(dir: Direction): string {
-  return dir === 'up' ? 'Up' : dir === 'down' ? 'Down' : 'No change'
+  return dir === 'up' ? 'Up' : dir === 'down' ? 'Down' : 'Flat'
 }
 
 function findTemplate(templateId: string): TransactionTemplate | null {
@@ -79,28 +80,44 @@ function DirectionToggle({
       className="flex rounded-md overflow-hidden"
       style={{
         border: '1px solid var(--color-border)',
+        background: 'var(--color-surface)',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
         opacity: disabled ? 0.6 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
       }}
       aria-disabled={disabled}
     >
-      {(['up', 'flat', 'down'] as const).map((d) => {
+      {(['up', 'flat', 'down'] as const).map((d, idx) => {
         const active = value === d
         const { bg, fg } = badgeColor(d)
+        const icon = d === 'up' ? '↑' : d === 'down' ? '↓' : '→'
         return (
           <button
             key={d}
             type="button"
             onClick={() => onChange(d)}
-            className="px-2 py-1 text-xs cursor-pointer"
+            aria-pressed={active}
+            className="cursor-pointer flex-1"
             style={{
               background: active ? bg : 'transparent',
               color: active ? fg : 'var(--color-text-muted)',
               border: 'none',
+              borderRight:
+                idx < 2 ? '1px solid var(--color-border)' : 'none',
               fontFamily: 'var(--font-mono)',
+              fontWeight: active ? 800 : 600,
+              fontSize: '0.8rem',
+              padding: '8px 10px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 6,
+              transition: 'background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease',
+              boxShadow: active ? 'inset 0 0 0 2px rgba(255,255,255,0.22)' : 'none',
             }}
           >
-            {labelForDir(d)}
+            <span style={{ fontSize: '0.95rem', lineHeight: 1 }}>{icon}</span>
+            <span>{labelForDir(d)}</span>
           </button>
         )
       })}
@@ -128,24 +145,35 @@ function SectionToggle({
       className="flex rounded-md overflow-hidden"
       style={{
         border: '1px solid var(--color-border)',
+        background: 'var(--color-surface)',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
         opacity: disabled ? 0.6 : 1,
         pointerEvents: disabled ? 'none' : 'auto',
       }}
       aria-disabled={disabled}
     >
-      {options.map((opt) => {
+      {options.map((opt, idx) => {
         const active = value === opt.id
+        const activeBg = opt.id === 'none' ? '#334155' : '#0B3B59'
         return (
           <button
             key={opt.id}
             type="button"
             onClick={() => onChange(opt.id)}
-            className="px-2 py-1 text-xs cursor-pointer"
+            aria-pressed={active}
+            className="cursor-pointer flex-1"
             style={{
-              background: active ? '#FFFBF0' : 'transparent',
-              color: active ? 'var(--color-text)' : 'var(--color-text-muted)',
+              background: active ? activeBg : 'transparent',
+              color: active ? '#FAF0D4' : 'var(--color-text-muted)',
               border: 'none',
+              borderRight:
+                idx < options.length - 1 ? '1px solid var(--color-border)' : 'none',
               fontFamily: 'var(--font-mono)',
+              fontWeight: active ? 800 : 600,
+              fontSize: '0.8rem',
+              padding: '8px 10px',
+              transition: 'background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease',
+              boxShadow: active ? 'inset 0 0 0 2px rgba(250,240,212,0.18)' : 'none',
             }}
           >
             {opt.label}
