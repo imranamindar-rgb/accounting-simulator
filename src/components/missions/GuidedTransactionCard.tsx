@@ -421,7 +421,7 @@ export function GuidedTransactionCard({
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="font-semibold" style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem' }}>
-                Prediction (Commit First)
+                Step 1: Commit Your Prediction
               </div>
               <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
                 Before you post the entry, predict direction of the big-picture financial story.
@@ -431,15 +431,17 @@ export function GuidedTransactionCard({
               type="button"
               onClick={() => setPredictionLocked((v) => !v)}
               disabled={attemptScore !== null}
-              className="text-xs px-2.5 py-1 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm px-4 py-2.5 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
-                background: predictionLocked ? '#DEF7EC' : 'var(--color-base)',
-                border: '1px solid var(--color-border)',
-                color: predictionLocked ? 'var(--color-green)' : 'var(--color-text-muted)',
-                fontFamily: 'var(--font-mono)',
+                background: predictionLocked ? '#DEF7EC' : '#2D6A4F',
+                border: predictionLocked ? '1px solid rgba(45,106,79,0.25)' : '1px solid rgba(0,0,0,0.08)',
+                color: predictionLocked ? 'var(--color-green)' : '#fff',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+                boxShadow: predictionLocked ? 'none' : '0 8px 18px rgba(45,106,79,0.18)',
               }}
             >
-              {predictionLocked ? 'Unlock' : 'Lock Prediction'}
+              {predictionLocked ? '1) Prediction Committed (Edit)' : '1) Commit Prediction'}
             </button>
           </div>
 
@@ -545,38 +547,49 @@ export function GuidedTransactionCard({
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <button
             type="button"
             onClick={handleRecord}
             disabled={!isReadyToPost}
-            className="px-3 py-2 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-3 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex-1"
             style={{
               background: '#0B3B59',
               color: '#FAF0D4',
               border: '1px solid rgba(0,0,0,0.1)',
               fontFamily: 'var(--font-display)',
+              fontSize: '0.95rem',
+              fontWeight: 700,
+              boxShadow: isReadyToPost ? '0 10px 22px rgba(11,59,89,0.18)' : 'none',
             }}
           >
-            Post Entry
+            2) Post Entry & Score
           </button>
 
           {attemptScore !== null && (
             <button
               type="button"
               onClick={onContinue}
-              className="px-3 py-2 rounded cursor-pointer"
+              className="px-4 py-3 rounded cursor-pointer"
               style={{
                 background: 'var(--color-gold)',
                 color: '#4A0A12',
                 border: '1px solid rgba(0,0,0,0.1)',
                 fontFamily: 'var(--font-display)',
+                fontSize: '0.95rem',
+                fontWeight: 700,
               }}
             >
               Continue
             </button>
           )}
         </div>
+
+        {postBlockReason && attemptScore === null && (
+          <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+            To enable Step 2: {postBlockReason}
+          </div>
+        )}
 
         {/* Posting checklist */}
         <div

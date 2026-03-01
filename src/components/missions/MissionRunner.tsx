@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { MISSIONS } from '../../data/missions'
 import { useMissionStore } from '../../store/missionStore'
 import { useLedgerStore } from '../../store/ledgerStore'
@@ -17,6 +17,7 @@ export function MissionRunner({
 }) {
   const activeMissionId = useMissionStore((s) => s.activeMissionId)
   const activeStepIndex = useMissionStore((s) => s.activeStepIndex)
+  const selectMission = useMissionStore((s) => s.selectMission)
   const goToStep = useMissionStore((s) => s.goToStep)
   const completeCurrentStep = useMissionStore((s) => s.completeCurrentStep)
   const reflections = useMissionStore((s) => s.reflections)
@@ -33,6 +34,21 @@ export function MissionRunner({
   const mission = useMemo(() => missionById(activeMissionId), [activeMissionId])
   const completed = completedThroughStep[mission.id] ?? 0
   const step = mission.steps[activeStepIndex] ?? null
+
+  const actionAnchorRef = useRef<HTMLDivElement | null>(null)
+  const scrollToAction = useCallback(() => {
+    actionAnchorRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }, [])
+
+  // Reduce "where do I click?" scrolling by snapping the center pane to the current
+  // step's action region whenever the learner changes mission or advances steps.
+  useEffect(() => {
+    const id = requestAnimationFrame(() => scrollToAction())
+    return () => cancelAnimationFrame(id)
+  }, [activeMissionId, activeStepIndex, scrollToAction])
 
   const headerStyle: React.CSSProperties = {
     background: 'linear-gradient(135deg, rgba(11,59,89,0.08) 0%, rgba(218,165,32,0.08) 100%)',
@@ -73,23 +89,60 @@ export function MissionRunner({
   }
 
   return (
-    <div className="space-y-4">
-      {/* Mission header */}
-      <div className="rounded-lg p-4" style={headerStyle}>
-        <div className="flex items-start justify-between gap-3">
-          <div>
+      <div className="space-y-4">
+        {/* Mission header */}
+        <div className="rounded-lg p-4" style={headerStyle}>
+          <div className="flex items-start justify-between gap-3">
+            <div>
             <div className="text-xs" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
               Role: {mission.role} · Step {activeStepIndex + 1} / {mission.steps.length}
             </div>
             <div className="font-semibold" style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem' }}>
               {mission.title}
             </div>
-            <div style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', lineHeight: 1.5, marginTop: 6 }}>
-              <div><span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Context:</span> {mission.context}</div>
-              <div style={{ marginTop: 4 }}><span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Objective:</span> {mission.objective}</div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', lineHeight: 1.5, marginTop: 6 }}>
+                <div><span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Context:</span> {mission.context}</div>
+                <div style={{ marginTop: 4 }}><span style={{ fontWeight: 700, color: 'var(--color-text)' }}>Objective:</span> {mission.objective}</div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col items-end gap-2">
+            {/* Mobile: Mission picker (sidebar is hidden below md) */}
+            <select
+              className="md:hidden rounded px-2 py-1 border-none outline-none cursor-pointer"
+              value={mission.id}
+              onChange={(e) => selectMission(e.target.value)}
+              style={{
+                background: 'var(--color-base)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.78rem',
+                maxWidth: 220,
+              }}
+              aria-label="Select mission"
+            >
+              {MISSIONS.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.title}
+                </option>
+              ))}
+            </select>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={scrollToAction}
+                className="px-2.5 py-2 rounded cursor-pointer"
+                style={{
+                  background: '#2D6A4F',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  color: '#fff',
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '0.8rem',
+                }}
+                title="Scroll the center pane to the current step's action"
+              >
+                Jump to Action
+              </button>
             <button
               type="button"
               onClick={() => resetMission(mission.id)}
@@ -104,6 +157,7 @@ export function MissionRunner({
             >
               Reset Mission
             </button>
+            </div>
           </div>
         </div>
 
@@ -144,6 +198,8 @@ export function MissionRunner({
           </div>
         )}
       </div>
+
+      <div ref={actionAnchorRef} style={{ scrollMarginTop: 16 }} />
 
       {step.type === 'transaction' && (
         <GuidedTransactionCard
@@ -231,4 +287,3 @@ export function MissionRunner({
     </div>
   )
 }
-

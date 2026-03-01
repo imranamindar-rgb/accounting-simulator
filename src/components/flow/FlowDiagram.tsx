@@ -534,9 +534,19 @@ const FlowBox = ({
         if (items.length === 0) return null
         return (
           <div
-            className="mb-3 flex flex-wrap gap-2"
+            className="mb-3 flex flex-wrap items-center gap-2"
             style={{ marginTop: -8 }}
           >
+            <span
+              className="text-[0.65rem] font-semibold"
+              style={{
+                color: 'var(--color-text-muted)',
+                fontFamily: 'var(--font-mono)',
+                letterSpacing: '0.02em',
+              }}
+            >
+              Last tx:
+            </span>
             {items.map((it) => (
               <span
                 key={it.label}
