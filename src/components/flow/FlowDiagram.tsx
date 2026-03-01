@@ -33,6 +33,10 @@ const ACCOUNT_TYPE_MAP = new Map(
   CHART_OF_ACCOUNTS.map((a) => [a.name, a.type]),
 )
 
+const ACCOUNT_DEF_MAP = new Map(
+  CHART_OF_ACCOUNTS.map((a) => [a.name, a]),
+)
+
 // ── Connection definitions ────────────────────────────────────────
 
 type StatementKey = 'IS' | 'BS' | 'EQ' | 'CF'
@@ -143,6 +147,98 @@ const ANIM_SPEEDS = [
 // ── Transaction highlighting helpers ─────────────────────────────
 
 const HIGHLIGHT_DURATION_MS = 8000
+const DELTA_EPS = 0.000001
+
+type DeltaByLine = Record<string, number>
+
+function formatDelta(value: number, scale: 'ones' | 'millions'): string {
+  if (Math.abs(value) < DELTA_EPS) return '+0'
+  const sign = value > 0 ? '+' : '-'
+  return `${sign}${formatCurrency(Math.abs(value), scale)}`
+}
+
+function computeTransactionImpact(
+  changes: LedgerChange[],
+): {
+  IS: DeltaByLine
+  BS: DeltaByLine
+  EQ: DeltaByLine
+  CF: DeltaByLine
+} {
+  let revenueDelta = 0
+  let expenseDelta = 0
+  let assetDelta = 0
+  let liabilityDelta = 0
+  let equityAccountsDelta = 0
+
+  let operatingAdjustmentsDelta = 0
+  let investingDelta = 0
+  let financingDelta = 0
+
+  for (const change of changes) {
+    const def = ACCOUNT_DEF_MAP.get(change.account)
+    if (!def) continue
+    const delta = change.after - change.before
+
+    if (def.type === 'Revenue') revenueDelta += delta
+    if (def.type === 'Expense') expenseDelta += delta
+    if (def.type === 'Asset') assetDelta += delta
+    if (def.type === 'Liability') liabilityDelta += delta
+    if (def.type === 'Equity') equityAccountsDelta += delta
+
+    // Mirror StatementGenerator: cash flow sections are computed from balance sheet accounts.
+    if (def.type === 'Asset' || def.type === 'Liability' || def.type === 'Equity') {
+      const cat = def.cashFlow
+      if (!cat || cat === 'cash') continue
+
+      if (cat === 'operating' || cat === 'operating-adjustment') {
+        // Asset increases use cash (negative); liability increases provide cash (positive).
+        const impact = def.type === 'Asset' ? -delta : delta
+        operatingAdjustmentsDelta += impact
+      } else if (cat === 'investing') {
+        const impact = def.type === 'Asset' ? -delta : delta
+        investingDelta += impact
+      } else if (cat === 'financing') {
+        // Liability/equity increases are inflows; decreases are outflows.
+        const impact =
+          def.type === 'Liability' || def.type === 'Equity'
+            ? delta
+            : -delta
+        financingDelta += impact
+      }
+    }
+  }
+
+  const netIncomeDelta = revenueDelta - expenseDelta
+  const operatingDelta = netIncomeDelta + operatingAdjustmentsDelta
+  const netChangeDelta = operatingDelta + investingDelta + financingDelta
+
+  const totalEquityDelta = equityAccountsDelta + netIncomeDelta
+
+  return {
+    IS: {
+      Revenue: revenueDelta,
+      Expenses: expenseDelta,
+      'Net Income': netIncomeDelta,
+    },
+    BS: {
+      Assets: assetDelta,
+      Liabilities: liabilityDelta,
+      Equity: totalEquityDelta,
+    },
+    EQ: {
+      Beginning: 0,
+      'Net Income': netIncomeDelta,
+      Ending: totalEquityDelta,
+    },
+    CF: {
+      Operating: operatingDelta,
+      Investing: investingDelta,
+      Financing: financingDelta,
+      'Net Change': netChangeDelta,
+    },
+  }
+}
 
 function getAffectedStatements(
   changes: LedgerChange[],
@@ -397,6 +493,7 @@ const FlowBox = ({
   boxRef,
   highlightLines,
   isAffected,
+  deltaByLine,
 }: {
   title: string
   color: string
@@ -406,6 +503,7 @@ const FlowBox = ({
   boxRef: React.RefObject<HTMLDivElement | null>
   highlightLines?: Set<string>
   isAffected?: boolean
+  deltaByLine?: DeltaByLine | null
 }) => (
   <div
     ref={boxRef}
@@ -426,9 +524,43 @@ const FlowBox = ({
     >
       {title}
     </h3>
+
+    {/* Delta subheading (last transaction impact) */}
+    {deltaByLine &&
+      (() => {
+        const items = lines
+          .map((l) => ({ label: l.label, delta: deltaByLine[l.label] ?? 0 }))
+          .filter((x) => Math.abs(x.delta) >= DELTA_EPS)
+        if (items.length === 0) return null
+        return (
+          <div
+            className="mb-3 flex flex-wrap gap-2"
+            style={{ marginTop: -8 }}
+          >
+            {items.map((it) => (
+              <span
+                key={it.label}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[0.65rem] font-semibold"
+                style={{
+                  background: it.delta > 0 ? '#DEF7EC' : '#FDE8E8',
+                  color: it.delta > 0 ? 'var(--color-green)' : '#B91C1C',
+                  fontFamily: 'var(--font-mono)',
+                  border: `1px solid ${it.delta > 0 ? 'rgba(45,106,79,0.25)' : 'rgba(185,28,28,0.25)'}`,
+                }}
+              >
+                <span style={{ opacity: 0.85 }}>Δ</span> {it.label}{' '}
+                <span style={{ opacity: 0.9 }}>{formatDelta(it.delta, scale)}</span>
+              </span>
+            ))}
+          </div>
+        )
+      })()}
+
     <div className="space-y-1.5">
       {lines.map((line) => {
         const isHighlighted = highlightLines?.has(line.label)
+        const delta = deltaByLine ? (deltaByLine[line.label] ?? 0) : 0
+        const showDelta = deltaByLine && isHighlighted && Math.abs(delta) >= DELTA_EPS
         return (
           <div
             key={line.label}
@@ -443,35 +575,49 @@ const FlowBox = ({
                 : '1px solid transparent',
               transition: 'all 0.4s ease',
             }}
-          >
-            <span
-              style={{
-                color: isHighlighted ? color : 'var(--color-text)',
-                fontWeight: isHighlighted ? 600 : 400,
-                transition: 'all 0.3s',
-              }}
             >
-              {line.label}
-              {isHighlighted && (
+              <span
+                style={{
+                  color: isHighlighted ? color : 'var(--color-text)',
+                  fontWeight: isHighlighted ? 600 : 400,
+                  transition: 'all 0.3s',
+                }}
+              >
+                {line.label}
+                {isHighlighted && (
+                  <span
+                    style={{
+                      fontSize: '0.6rem',
+                      marginLeft: 4,
+                      opacity: 0.7,
+                    }}
+                  >
+                    ●
+                  </span>
+                )}
+              </span>
+              <span className="flex items-baseline gap-2">
                 <span
+                  className="font-semibold"
                   style={{
-                    fontSize: '0.6rem',
-                    marginLeft: 4,
-                    opacity: 0.7,
+                    color: line.value < 0 ? '#DC2626' : 'var(--color-text)',
                   }}
                 >
-                  ●
+                  {formatCurrency(line.value, scale)}
                 </span>
-              )}
-            </span>
-            <span
-              className="font-semibold ml-2"
-              style={{
-                color: line.value < 0 ? '#DC2626' : 'var(--color-text)',
-              }}
-            >
-              {formatCurrency(line.value, scale)}
-            </span>
+                {showDelta && (
+                  <span
+                    className="text-[0.65rem] font-semibold"
+                    style={{
+                      color: delta > 0 ? 'var(--color-green)' : '#B91C1C',
+                      fontFamily: 'var(--font-mono)',
+                    }}
+                    title="Change from last transaction"
+                  >
+                    {formatDelta(delta, scale)}
+                  </span>
+                )}
+              </span>
           </div>
         )
       })}
@@ -576,6 +722,11 @@ export default function FlowDiagram() {
   // ── Transaction highlight state ──
   const [highlightActive, setHighlightActive] = useState(false)
   const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const txImpact = useMemo(() => {
+    if (!lastTransaction || lastTransaction.changes.length === 0) return null
+    return computeTransactionImpact(lastTransaction.changes)
+  }, [lastTransaction?.timestamp]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // When a new transaction comes in, activate highlighting
   useEffect(() => {
@@ -1173,6 +1324,7 @@ export default function FlowDiagram() {
               boxRef={isRef}
               highlightLines={hlLines.IS}
               isAffected={highlightActive && affectedStatements.has('IS')}
+              deltaByLine={txImpact?.IS}
               lines={[
                 { label: 'Revenue', value: incomeStatement.totalRevenue },
                 {
@@ -1193,6 +1345,7 @@ export default function FlowDiagram() {
               boxRef={eqRef}
               highlightLines={hlLines.EQ}
               isAffected={highlightActive && affectedStatements.has('EQ')}
+              deltaByLine={txImpact?.EQ}
               lines={[
                 {
                   label: 'Beginning',
@@ -1214,6 +1367,7 @@ export default function FlowDiagram() {
               boxRef={cfRef}
               highlightLines={hlLines.CF}
               isAffected={highlightActive && affectedStatements.has('CF')}
+              deltaByLine={txImpact?.CF}
               lines={[
                 {
                   label: 'Operating',
@@ -1242,6 +1396,7 @@ export default function FlowDiagram() {
               boxRef={bsRef}
               highlightLines={hlLines.BS}
               isAffected={highlightActive && affectedStatements.has('BS')}
+              deltaByLine={txImpact?.BS}
               lines={[
                 { label: 'Assets', value: balanceSheet.totalAssets },
                 {
@@ -1263,6 +1418,7 @@ export default function FlowDiagram() {
           bgColor={COLORS.IS.bg}
           scale={scale}
           boxRef={{ current: null }}
+          deltaByLine={txImpact?.IS}
           lines={[
             { label: 'Revenue', value: incomeStatement.totalRevenue },
             {
@@ -1293,6 +1449,7 @@ export default function FlowDiagram() {
           bgColor={COLORS.EQ.bg}
           scale={scale}
           boxRef={{ current: null }}
+          deltaByLine={txImpact?.EQ}
           lines={[
             { label: 'Beginning', value: equityStatement.totalBeginning },
             { label: 'Net Income', value: incomeStatement.netIncome },
@@ -1318,6 +1475,7 @@ export default function FlowDiagram() {
           bgColor={COLORS.CF.bg}
           scale={scale}
           boxRef={{ current: null }}
+          deltaByLine={txImpact?.CF}
           lines={[
             { label: 'Operating', value: cashFlowStatement.totalOperating },
             { label: 'Investing', value: cashFlowStatement.totalInvesting },
@@ -1344,6 +1502,7 @@ export default function FlowDiagram() {
           bgColor={COLORS.BS.bg}
           scale={scale}
           boxRef={{ current: null }}
+          deltaByLine={txImpact?.BS}
           lines={[
             { label: 'Assets', value: balanceSheet.totalAssets },
             { label: 'Liabilities', value: balanceSheet.totalLiabilities },
