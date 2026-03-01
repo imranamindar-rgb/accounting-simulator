@@ -68,12 +68,22 @@ function computeAccountChanges(ledger: ReturnType<typeof useLedgerStore.getState
 function DirectionToggle({
   value,
   onChange,
+  disabled = false,
 }: {
   value: Direction
   onChange: (v: Direction) => void
+  disabled?: boolean
 }) {
   return (
-    <div className="flex rounded-md overflow-hidden" style={{ border: '1px solid var(--color-border)' }}>
+    <div
+      className="flex rounded-md overflow-hidden"
+      style={{
+        border: '1px solid var(--color-border)',
+        opacity: disabled ? 0.6 : 1,
+        pointerEvents: disabled ? 'none' : 'auto',
+      }}
+      aria-disabled={disabled}
+    >
       {(['up', 'flat', 'down'] as const).map((d) => {
         const active = value === d
         const { bg, fg } = badgeColor(d)
@@ -101,9 +111,11 @@ function DirectionToggle({
 function SectionToggle({
   value,
   onChange,
+  disabled = false,
 }: {
   value: CashFlowSection
   onChange: (v: CashFlowSection) => void
+  disabled?: boolean
 }) {
   const options: { id: CashFlowSection; label: string }[] = [
     { id: 'operating', label: 'CFO' },
@@ -112,7 +124,15 @@ function SectionToggle({
     { id: 'none', label: 'None' },
   ]
   return (
-    <div className="flex rounded-md overflow-hidden" style={{ border: '1px solid var(--color-border)' }}>
+    <div
+      className="flex rounded-md overflow-hidden"
+      style={{
+        border: '1px solid var(--color-border)',
+        opacity: disabled ? 0.6 : 1,
+        pointerEvents: disabled ? 'none' : 'auto',
+      }}
+      aria-disabled={disabled}
+    >
       {options.map((opt) => {
         const active = value === opt.id
         return (
@@ -227,10 +247,23 @@ export function GuidedTransactionCard({
     .filter((p) => p.type === 'number')
     .every((p) => (params[p.key] ?? 0) > 0)
 
+  const isReadyToPost =
+    !!selectedCompany && canRecord && isBalanced && predictionLocked && attemptScore === null
+
+  const postBlockReason =
+    attemptScore !== null
+      ? 'Posted. Click Continue.'
+      : !canRecord
+        ? 'Enter a positive amount.'
+        : !isBalanced
+          ? 'Debits must equal credits.'
+          : !predictionLocked
+            ? 'Lock your prediction first.'
+            : null
+
   function handleRecord() {
     if (!selectedCompany) return
-    if (!canRecord || !isBalanced) return
-    if (!predictionLocked) return
+    if (!isReadyToPost) return
 
     // Capture before state for scoring.
     const beforeStatements = getStatements()
@@ -396,8 +429,8 @@ export function GuidedTransactionCard({
             </div>
             <button
               type="button"
-              onClick={() => setPredictionLocked(true)}
-              disabled={predictionLocked || attemptScore !== null}
+              onClick={() => setPredictionLocked((v) => !v)}
+              disabled={attemptScore !== null}
               className="text-xs px-2.5 py-1 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 background: predictionLocked ? '#DEF7EC' : 'var(--color-base)',
@@ -406,7 +439,7 @@ export function GuidedTransactionCard({
                 fontFamily: 'var(--font-mono)',
               }}
             >
-              {predictionLocked ? 'Locked' : 'Lock Prediction'}
+              {predictionLocked ? 'Unlock' : 'Lock Prediction'}
             </button>
           </div>
 
@@ -416,6 +449,7 @@ export function GuidedTransactionCard({
               <DirectionToggle
                 value={prediction.cash}
                 onChange={(v) => setPrediction((p) => ({ ...p, cash: v }))}
+                disabled={predictionLocked}
               />
             </div>
             <div className="flex items-center justify-between gap-2">
@@ -423,6 +457,7 @@ export function GuidedTransactionCard({
               <DirectionToggle
                 value={prediction.netIncome}
                 onChange={(v) => setPrediction((p) => ({ ...p, netIncome: v }))}
+                disabled={predictionLocked}
               />
             </div>
             <div className="flex items-center justify-between gap-2">
@@ -430,6 +465,7 @@ export function GuidedTransactionCard({
               <DirectionToggle
                 value={prediction.totalAssets}
                 onChange={(v) => setPrediction((p) => ({ ...p, totalAssets: v }))}
+                disabled={predictionLocked}
               />
             </div>
             <div className="flex items-center justify-between gap-2">
@@ -437,6 +473,7 @@ export function GuidedTransactionCard({
               <DirectionToggle
                 value={prediction.totalLiabilities}
                 onChange={(v) => setPrediction((p) => ({ ...p, totalLiabilities: v }))}
+                disabled={predictionLocked}
               />
             </div>
             <div className="flex items-center justify-between gap-2">
@@ -444,6 +481,7 @@ export function GuidedTransactionCard({
               <DirectionToggle
                 value={prediction.totalEquity}
                 onChange={(v) => setPrediction((p) => ({ ...p, totalEquity: v }))}
+                disabled={predictionLocked}
               />
             </div>
             <div className="flex items-center justify-between gap-2">
@@ -451,9 +489,25 @@ export function GuidedTransactionCard({
               <SectionToggle
                 value={prediction.cashFlowSection}
                 onChange={(v) => setPrediction((p) => ({ ...p, cashFlowSection: v }))}
+                disabled={predictionLocked}
               />
             </div>
           </div>
+
+          {predictionLocked && attemptScore === null && (
+            <div
+              className="mt-3 rounded p-2"
+              style={{
+                background: 'rgba(11,59,89,0.06)',
+                border: '1px solid rgba(11,59,89,0.15)',
+                color: 'var(--color-text-muted)',
+                fontSize: '0.78rem',
+                lineHeight: 1.4,
+              }}
+            >
+              Prediction locked. Post the entry to reveal the outcome and score.
+            </div>
+          )}
 
           {attemptBreakdown && (
             <div className="mt-3 rounded p-3" style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}>
@@ -495,7 +549,7 @@ export function GuidedTransactionCard({
           <button
             type="button"
             onClick={handleRecord}
-            disabled={!canRecord || !isBalanced || !predictionLocked || attemptScore !== null}
+            disabled={!isReadyToPost}
             className="px-3 py-2 rounded cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               background: '#0B3B59',
@@ -521,6 +575,48 @@ export function GuidedTransactionCard({
             >
               Continue
             </button>
+          )}
+        </div>
+
+        {/* Posting checklist */}
+        <div
+          className="rounded-lg p-3"
+          style={{
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+          }}
+        >
+          <div className="font-semibold mb-2" style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem' }}>
+            Step Checklist
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2" style={{ fontSize: '0.78rem' }}>
+            {[
+              { label: 'Enter amounts', ok: canRecord },
+              { label: 'Balanced entry', ok: isBalanced },
+              { label: 'Lock prediction', ok: predictionLocked },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center justify-between rounded px-3 py-2"
+                style={{ background: 'var(--color-base)', border: '1px solid var(--color-border)' }}
+              >
+                <span style={{ color: 'var(--color-text-muted)' }}>{item.label}</span>
+                <span
+                  style={{
+                    color: item.ok ? 'var(--color-green)' : '#B91C1C',
+                    fontFamily: 'var(--font-mono)',
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.ok ? '✓' : '✕'}
+                </span>
+              </div>
+            ))}
+          </div>
+          {postBlockReason && (
+            <div className="mt-2" style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+              {postBlockReason}
+            </div>
           )}
         </div>
 
