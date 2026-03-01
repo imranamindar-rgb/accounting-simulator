@@ -140,9 +140,43 @@ function StatementsCenter() {
   )
 }
 
+function MBAExecutiveCenter() {
+  const viewMode = useUIStore((s) => s.viewMode)
+  return (
+    <div className="space-y-4">
+      <FlowDiagram />
+      <MissionRunner />
+      {viewMode === 'statements' ? (
+        <>
+          <StatementsGroup />
+          <RatioDashboard />
+        </>
+      ) : viewMode === 'trialBalance' ? (
+        <TrialBalance />
+      ) : viewMode === 'tAccounts' ? (
+        <TAccountView />
+      ) : viewMode === 'generalLedger' ? (
+        <GeneralLedger />
+      ) : (
+        <>
+          <StatementsGroup />
+          <RatioDashboard />
+        </>
+      )}
+    </div>
+  )
+}
+
 /** Routes the center column based on viewMode */
 function CenterContent() {
   const viewMode = useUIStore((s) => s.viewMode)
+  const learningMode = useUIStore((s) => s.learningMode)
+
+  // In MBA mode, missions should always stay visible even when the learner
+  // toggles to supporting views (Trial Balance, T-Accounts, GL).
+  if (learningMode === 'mba') {
+    return <MBAExecutiveCenter />
+  }
 
   switch (viewMode) {
     case 'statements':
