@@ -133,12 +133,15 @@ export function Toolbar() {
   const activeTab = useUIStore((s) => s.activeTab)
   const viewMode = useUIStore((s) => s.viewMode)
   const setViewMode = useUIStore((s) => s.setViewMode)
+  const learningMode = useUIStore((s) => s.learningMode)
+  const setLearningMode = useUIStore((s) => s.setLearningMode)
   const cashFlowMethod = useUIStore((s) => s.cashFlowMethod)
   const setCashFlowMethod = useUIStore((s) => s.setCashFlowMethod)
   const selectedTopic = useUIStore((s) => s.selectedTopic)
   const setSelectedTopic = useUIStore((s) => s.setSelectedTopic)
   const sensitivityOpen = useUIStore((s) => s.sensitivityOpen)
   const toggleSensitivity = useUIStore((s) => s.toggleSensitivity)
+  const openReviewPack = useUIStore((s) => s.openReviewPack)
 
 
   const [aiModalOpen, setAiModalOpen] = useState(false)
@@ -146,6 +149,7 @@ export function Toolbar() {
   const [policyOpen, setPolicyOpen] = useState(false)
 
   const currentPeriod = useLedgerStore((s) => s.currentPeriod)
+  const periods = useLedgerStore((s) => s.periods)
   const selectedCompany = useLedgerStore((s) => s.selectedCompany)
   const undoStack = useLedgerStore((s) => s.undoStack)
   const redoStack = useLedgerStore((s) => s.redoStack)
@@ -259,6 +263,21 @@ export function Toolbar() {
           </div>
         )}
 
+        {/* Learning mode toggle - only visible on statements tab */}
+        {activeTab === 'statements' && (
+          <div className="rounded-md overflow-hidden" style={controlGroupStyle}>
+            <SegmentedControl
+              options={[
+                { label: 'MBA Mode', value: 'mba' as const },
+                { label: 'Sandbox', value: 'sandbox' as const },
+              ]}
+              value={learningMode}
+              onChange={setLearningMode}
+              size="large"
+            />
+          </div>
+        )}
+
         <Separator />
 
         {/* Company selector */}
@@ -349,10 +368,22 @@ export function Toolbar() {
 
         {/* Close Period */}
         <ToolbarButton
-          onClick={() => closePeriod(`Period ${currentPeriod + 1}`)}
+          onClick={() => {
+            const periodIndexToOpen = periods.length
+            closePeriod(`Period ${currentPeriod + 1}`)
+            openReviewPack(periodIndexToOpen)
+          }}
           title="Close current period"
         >
           Close Period
+        </ToolbarButton>
+
+        {/* Review Pack */}
+        <ToolbarButton
+          onClick={() => openReviewPack(null)}
+          title="Open the CFO review pack"
+        >
+          Review Pack
         </ToolbarButton>
 
         {/* Policy Comparison */}

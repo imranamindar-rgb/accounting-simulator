@@ -2,7 +2,7 @@
  * Currency formatting utility — component and plain function.
  *
  * - 'ones' scale:    45000 → "45,000"
- * - 'millions' scale: 110000 → "110,000M"
+ * - 'millions' scale: 110000 → "110,000" (unit shown in statement headers)
  * - Negatives shown in parentheses: -1600 → "(1,600)"
  */
 
@@ -26,8 +26,10 @@ export function formatCurrency(value: number, scale: Scale = 'ones'): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   })
-  const suffix = scale === 'millions' ? 'M' : ''
-  return isNegative ? `(${formatted}${suffix})` : `${formatted}${suffix}`
+  // For MBA/executive readability, show the unit once (e.g., "$ in millions")
+  // rather than appending "M" to every cell.
+  void scale
+  return isNegative ? `(${formatted})` : `${formatted}`
 }
 
 export default function FormatCurrency({

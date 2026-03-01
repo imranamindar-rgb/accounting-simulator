@@ -16,6 +16,9 @@ import EquityStatement from '../components/statements/EquityStatement'
 import RatioDashboard from '../components/analysis/RatioDashboard'
 import FlowDiagram from '../components/flow/FlowDiagram'
 import SimulationPlayer from '../components/simulation/SimulationPlayer'
+import { MissionSidebar } from '../components/missions/MissionSidebar'
+import { MissionRunner } from '../components/missions/MissionRunner'
+import { CoachSidebar } from '../components/missions/CoachSidebar'
 import TrialBalance from '../components/views/TrialBalance'
 import TAccountView from '../components/views/TAccountView'
 import GeneralLedger from '../components/views/GeneralLedger'
@@ -126,10 +129,11 @@ function StatementsGroup() {
 
 /** Center content for the default "statements" view */
 function StatementsCenter() {
+  const learningMode = useUIStore((s) => s.learningMode)
   return (
     <div className="space-y-4">
       <FlowDiagram />
-      <SimulationPlayer />
+      {learningMode === 'sandbox' ? <SimulationPlayer /> : <MissionRunner />}
       <StatementsGroup />
       <RatioDashboard />
     </div>
@@ -156,6 +160,7 @@ function CenterContent() {
 
 export default function StatementsPage() {
   const selectedCompany = useLedgerStore((s) => s.selectedCompany)
+  const learningMode = useUIStore((s) => s.learningMode)
 
   const [lastRecorded, setLastRecorded] = useState<RecordedTransaction | null>(null)
 
@@ -175,7 +180,7 @@ export default function StatementsPage() {
       className="flex"
       style={{ minHeight: 'calc(100vh - 120px)' }}
     >
-      {/* ── LEFT: Transaction Sidebar ── */}
+      {/* ── LEFT: Sandbox Transactions or Missions ── */}
       <aside
         className="shrink-0 hidden md:block"
         style={{
@@ -184,7 +189,11 @@ export default function StatementsPage() {
           borderRight: '1px solid var(--color-border)',
         }}
       >
-        <TransactionSidebar onRecorded={setLastRecorded} />
+        {learningMode === 'sandbox' ? (
+          <TransactionSidebar onRecorded={setLastRecorded} />
+        ) : (
+          <MissionSidebar />
+        )}
       </aside>
 
       {/* ── CENTER: Main Content ── */}
@@ -192,7 +201,7 @@ export default function StatementsPage() {
         <CenterContent />
       </main>
 
-      {/* ── RIGHT: Insights Sidebar ── */}
+      {/* ── RIGHT: Insights or Coach ── */}
       <aside
         className="shrink-0 hidden md:block"
         style={{
@@ -201,7 +210,11 @@ export default function StatementsPage() {
           borderLeft: '1px solid var(--color-border)',
         }}
       >
-        <InsightSidebar lastRecorded={lastRecorded} />
+        {learningMode === 'sandbox' ? (
+          <InsightSidebar lastRecorded={lastRecorded} />
+        ) : (
+          <CoachSidebar />
+        )}
       </aside>
     </div>
   )

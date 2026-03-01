@@ -43,7 +43,7 @@ export default function CashFlowStatement() {
   return (
     <StatementPanel
       title="Cash Flow Statement"
-      subtitle="Statement of Cash Flows"
+      subtitle={`Statement of Cash Flows${scale === 'millions' ? ' · ($ in millions)' : ''}`}
       headerRight={<MethodBadge method={cashFlowMethod} />}
     >
       <table className="w-full">

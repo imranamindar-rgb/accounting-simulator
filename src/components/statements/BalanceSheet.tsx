@@ -64,7 +64,7 @@ export default function BalanceSheet() {
   return (
     <StatementPanel
       title="Balance Sheet"
-      subtitle="Classified"
+      subtitle={`Classified${scale === 'millions' ? ' · ($ in millions)' : ''}`}
       headerRight={<BalancedIndicator balanced={bs.isBalanced} />}
     >
       <table className="w-full">

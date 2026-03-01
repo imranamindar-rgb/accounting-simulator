@@ -22,7 +22,7 @@ export default function EquityStatement() {
   return (
     <StatementPanel
       title="Statement of Changes in Equity"
-      subtitle="For the Period"
+      subtitle={`For the Period${scale === 'millions' ? ' · ($ in millions)' : ''}`}
     >
       <table className="w-full">
         <tbody>

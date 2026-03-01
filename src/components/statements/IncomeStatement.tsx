@@ -16,7 +16,6 @@ import {
   SubtotalRow,
   TotalRow,
 } from './LineItem'
-import FormatCurrency from '../shared/FormatCurrency'
 import type { Scale } from './statementUtils'
 import type { AccountLine } from '../../engines/types'
 
@@ -55,7 +54,10 @@ export default function IncomeStatement() {
       : 0
 
   return (
-    <StatementPanel title="Income Statement" subtitle="Multi-Step">
+    <StatementPanel
+      title="Income Statement"
+      subtitle={`Multi-Step${scale === 'millions' ? ' · ($ in millions)' : ''}`}
+    >
       <table className="w-full">
         <tbody>
           {/* ── Revenue ───────────────────────── */}
@@ -141,11 +143,7 @@ export default function IncomeStatement() {
                 className="font-mono"
                 style={{ fontFamily: 'var(--font-mono)' }}
               >
-                {scale === 'millions' ? (
-                  <FormatCurrency value={eps} scale="ones" />
-                ) : (
-                  `$${eps.toFixed(2)}`
-                )}
+                ${eps.toFixed(2)}
               </span>
             </td>
           </tr>

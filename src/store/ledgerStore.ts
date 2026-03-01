@@ -32,7 +32,8 @@ interface TransactionRecord {
 
 interface PeriodSnapshot {
   label: string
-  snapshot: Map<string, number>
+  beginningSnapshot: Map<string, number>
+  endingSnapshot: Map<string, number>
   statements: {
     balanceSheet: BalanceSheet
     incomeStatement: IncomeStatement
@@ -209,11 +210,12 @@ export const useLedgerStore = create<LedgerState>()((set, get) => {
     },
 
     closePeriod: (label: string) => {
-      const { ledger, periods, currentPeriod, transactionHistory } = get()
+      const { ledger, periods, currentPeriod, transactionHistory, beginningBalances } = get()
 
       // Capture pre-closing statements
       const balanceSheet = generateBalanceSheet(ledger)
       const incomeStatement = generateIncomeStatement(ledger)
+      const beginningSnapshot = new Map(beginningBalances)
       const preClosingSnapshot = ledger.takeSnapshot()
 
       // Execute closing entries
@@ -235,7 +237,8 @@ export const useLedgerStore = create<LedgerState>()((set, get) => {
         ...periods,
         {
           label,
-          snapshot: preClosingSnapshot,
+          beginningSnapshot,
+          endingSnapshot: preClosingSnapshot,
           statements: { balanceSheet, incomeStatement },
         },
       ]
