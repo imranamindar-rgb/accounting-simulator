@@ -242,6 +242,10 @@ export default function StatementsPage() {
           width: 300,
           background: 'var(--color-surface)',
           borderLeft: '1px solid var(--color-border)',
+          position: 'sticky',
+          top: 12,
+          alignSelf: 'flex-start',
+          height: 'calc(100vh - 24px)',
         }}
       >
         {learningMode === 'sandbox' ? (

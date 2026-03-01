@@ -112,7 +112,7 @@ export function MissionSidebar() {
                       {m.title}
                     </div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                      Role: {m.role} · {m.concepts.length} concepts
+                      {m.steps.length} steps · {m.concepts.length} concepts
                     </div>
                   </div>
                   <div className="text-xs" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
@@ -138,4 +138,3 @@ export function MissionSidebar() {
     </div>
   )
 }
-

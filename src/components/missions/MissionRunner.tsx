@@ -95,7 +95,7 @@ export function MissionRunner({
           <div className="flex items-start justify-between gap-3">
             <div>
             <div className="text-xs" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
-              Role: {mission.role} · Step {activeStepIndex + 1} / {mission.steps.length}
+              Step {activeStepIndex + 1} / {mission.steps.length}
             </div>
             <div className="font-semibold" style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem' }}>
               {mission.title}
