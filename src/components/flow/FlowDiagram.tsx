@@ -401,7 +401,7 @@ const FlowBox = ({
   title: string
   color: string
   bgColor: string
-  lines: { label: string; value: number }[]
+  lines: FlowLine[]
   scale: 'ones' | 'millions'
   boxRef: React.RefObject<HTMLDivElement | null>
   highlightLines?: Set<string>
@@ -428,6 +428,26 @@ const FlowBox = ({
     </h3>
     <div className="space-y-1.5">
       {lines.map((line) => {
+        if (line.isSection) {
+          return (
+            <div
+              key={line.label}
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase' as const,
+                color,
+                opacity: 0.6,
+                paddingTop: '4px',
+                paddingBottom: '1px',
+              }}
+            >
+              {line.label}
+            </div>
+          )
+        }
         const isHighlighted = highlightLines?.has(line.label)
         return (
           <div
@@ -435,9 +455,10 @@ const FlowBox = ({
             className="flex items-center justify-between text-xs"
             style={{
               fontFamily: 'var(--font-mono)',
+              paddingLeft: line.indent ? '0.6rem' : undefined,
               background: isHighlighted ? `${color}18` : 'transparent',
               borderRadius: isHighlighted ? 4 : 0,
-              padding: isHighlighted ? '3px 8px' : '1px 0',
+              padding: isHighlighted ? '3px 8px' : line.indent ? '1px 0 1px 0.6rem' : '1px 0',
               border: isHighlighted
                 ? `1px solid ${color}30`
                 : '1px solid transparent',
@@ -446,6 +467,7 @@ const FlowBox = ({
           >
             <span
               style={{
+                fontSize: line.indent ? '0.68rem' : '0.75rem',
                 color: isHighlighted ? color : 'var(--color-text)',
                 fontWeight: isHighlighted ? 600 : 400,
                 transition: 'all 0.3s',
@@ -555,6 +577,123 @@ function Legend({
   )
 }
 
+// ── Hierarchical line helpers ─────────────────────────────────────
+
+type FlowLine = { label: string; value: number; isSection?: boolean; indent?: boolean }
+
+type ISData = {
+  revenue: { name: string; balance: number }[]
+  cogs: { name: string; balance: number }[]
+  operatingExpenses: { name: string; balance: number }[]
+  totalRevenue: number
+  totalCOGS: number
+  totalOperatingExpenses: number
+  netIncome: number
+}
+
+type BSData = {
+  currentAssets: { name: string; balance: number; contra: boolean }[]
+  noncurrentAssets: { name: string; balance: number; contra: boolean }[]
+  currentLiabilities: { name: string; balance: number; contra: boolean }[]
+  noncurrentLiabilities: { name: string; balance: number; contra: boolean }[]
+  equity: { name: string; balance: number; contra: boolean }[]
+  totalAssets: number
+  totalLiabilities: number
+  totalEquity: number
+}
+
+function buildFlowISLines(is: ISData): FlowLine[] {
+  const hasRev  = is.revenue.some(a => a.balance !== 0)
+  const hasCOGS = is.cogs.some(a => a.balance !== 0)
+  const hasOpEx = is.operatingExpenses.some(a => a.balance !== 0)
+
+  if (!hasRev && !hasCOGS && !hasOpEx) {
+    return [
+      { label: 'Revenue', value: is.totalRevenue },
+      { label: 'Expenses', value: is.totalOperatingExpenses + is.totalCOGS },
+      { label: 'Net Income', value: is.netIncome },
+    ]
+  }
+
+  const lines: FlowLine[] = []
+
+  if (hasRev) {
+    lines.push({ label: 'REVENUE', value: 0, isSection: true })
+    for (const a of is.revenue.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: a.balance, indent: true })
+    }
+  }
+  lines.push({ label: 'Revenue', value: is.totalRevenue })
+
+  if (hasCOGS || hasOpEx) {
+    lines.push({ label: 'EXPENSES', value: 0, isSection: true })
+    for (const a of is.cogs.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: -a.balance, indent: true })
+    }
+    for (const a of is.operatingExpenses.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: -a.balance, indent: true })
+    }
+  }
+  lines.push({ label: 'Expenses', value: is.totalOperatingExpenses + is.totalCOGS })
+  lines.push({ label: 'Net Income', value: is.netIncome })
+  return lines
+}
+
+function buildFlowBSLines(bs: BSData): FlowLine[] {
+  const hasCurrA  = bs.currentAssets.some(a => a.balance !== 0)
+  const hasNcurrA = bs.noncurrentAssets.some(a => a.balance !== 0)
+  const hasCurrL  = bs.currentLiabilities.some(a => a.balance !== 0)
+  const hasNcurrL = bs.noncurrentLiabilities.some(a => a.balance !== 0)
+  const hasEq     = bs.equity.some(a => a.balance !== 0)
+
+  if (!hasCurrA && !hasNcurrA && !hasCurrL && !hasNcurrL && !hasEq) {
+    return [
+      { label: 'Assets', value: bs.totalAssets },
+      { label: 'Liabilities', value: bs.totalLiabilities },
+      { label: 'Equity', value: bs.totalEquity },
+    ]
+  }
+
+  const lines: FlowLine[] = []
+
+  if (hasCurrA) {
+    lines.push({ label: 'CURRENT ASSETS', value: 0, isSection: true })
+    for (const a of bs.currentAssets.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: a.contra ? -a.balance : a.balance, indent: true })
+    }
+  }
+  if (hasNcurrA) {
+    lines.push({ label: 'LONG-TERM ASSETS', value: 0, isSection: true })
+    for (const a of bs.noncurrentAssets.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: a.contra ? -a.balance : a.balance, indent: true })
+    }
+  }
+  lines.push({ label: 'Assets', value: bs.totalAssets })
+
+  if (hasCurrL) {
+    lines.push({ label: 'CURRENT LIABILITIES', value: 0, isSection: true })
+    for (const a of bs.currentLiabilities.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: a.balance, indent: true })
+    }
+  }
+  if (hasNcurrL) {
+    lines.push({ label: 'LONG-TERM LIABILITIES', value: 0, isSection: true })
+    for (const a of bs.noncurrentLiabilities.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: a.balance, indent: true })
+    }
+  }
+  lines.push({ label: 'Liabilities', value: bs.totalLiabilities })
+
+  if (hasEq) {
+    lines.push({ label: 'EQUITY', value: 0, isSection: true })
+    for (const a of bs.equity.filter(a => a.balance !== 0)) {
+      lines.push({ label: a.name, value: a.balance, indent: true })
+    }
+  }
+  lines.push({ label: 'Equity', value: bs.totalEquity })
+  return lines
+}
+
 // ── Main component ────────────────────────────────────────────────
 
 export default function FlowDiagram() {
@@ -612,6 +751,10 @@ export default function FlowDiagram() {
     }
     return { affectedStatements: affected, highlightLines: hl, activeArrows: active }
   }, [highlightActive, lastTransaction])
+
+  // Hierarchical lines for IS and BS (shared by desktop + mobile)
+  const isLines = useMemo(() => buildFlowISLines(incomeStatement), [incomeStatement])
+  const bsLines = useMemo(() => buildFlowBSLines(balanceSheet), [balanceSheet])
 
   // ── Animation state ──
   const [visibleCount, setVisibleCount] = useState(CONNECTIONS.length)
@@ -1173,16 +1316,7 @@ export default function FlowDiagram() {
               boxRef={isRef}
               highlightLines={hlLines.IS}
               isAffected={highlightActive && affectedStatements.has('IS')}
-              lines={[
-                { label: 'Revenue', value: incomeStatement.totalRevenue },
-                {
-                  label: 'Expenses',
-                  value:
-                    incomeStatement.totalOperatingExpenses +
-                    incomeStatement.totalCOGS,
-                },
-                { label: 'Net Income', value: incomeStatement.netIncome },
-              ]}
+              lines={isLines}
             />
             {/* Top-right: Equity Statement */}
             <FlowBox
@@ -1242,14 +1376,7 @@ export default function FlowDiagram() {
               boxRef={bsRef}
               highlightLines={hlLines.BS}
               isAffected={highlightActive && affectedStatements.has('BS')}
-              lines={[
-                { label: 'Assets', value: balanceSheet.totalAssets },
-                {
-                  label: 'Liabilities',
-                  value: balanceSheet.totalLiabilities,
-                },
-                { label: 'Equity', value: balanceSheet.totalEquity },
-              ]}
+              lines={bsLines}
             />
           </div>
         </div>
@@ -1263,16 +1390,7 @@ export default function FlowDiagram() {
           bgColor={COLORS.IS.bg}
           scale={scale}
           boxRef={{ current: null }}
-          lines={[
-            { label: 'Revenue', value: incomeStatement.totalRevenue },
-            {
-              label: 'Expenses',
-              value:
-                incomeStatement.totalOperatingExpenses +
-                incomeStatement.totalCOGS,
-            },
-            { label: 'Net Income', value: incomeStatement.netIncome },
-          ]}
+          lines={isLines}
         />
         <div className="flex justify-center">
           <div className="flex flex-col items-center gap-0.5">
@@ -1344,11 +1462,7 @@ export default function FlowDiagram() {
           bgColor={COLORS.BS.bg}
           scale={scale}
           boxRef={{ current: null }}
-          lines={[
-            { label: 'Assets', value: balanceSheet.totalAssets },
-            { label: 'Liabilities', value: balanceSheet.totalLiabilities },
-            { label: 'Equity', value: balanceSheet.totalEquity },
-          ]}
+          lines={bsLines}
         />
       </div>
 
