@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export default function CovenantStressTester() {
   const [ebitda, setEbitda] = useState(280)
@@ -15,8 +15,58 @@ export default function CovenantStressTester() {
   const ebitdaForCoverageBreachAt = coverageThreshold * interest
   const ebitdaForLeverageBreachAt = debt / leverageThreshold
 
+  // Track breach keys to re-trigger the animation when breach state changes to true
+  const prevCoverageBreach = useRef(coverageBreach)
+  const prevLeverageBreach = useRef(leverageBreach)
+  const [coverageBreachKey, setCoverageBreachKey] = useState(0)
+  const [leverageBreachKey, setLeverageBreachKey] = useState(0)
+
+  useEffect(() => {
+    if (coverageBreach && !prevCoverageBreach.current) {
+      setCoverageBreachKey(k => k + 1)
+    }
+    prevCoverageBreach.current = coverageBreach
+  }, [coverageBreach])
+
+  useEffect(() => {
+    if (leverageBreach && !prevLeverageBreach.current) {
+      setLeverageBreachKey(k => k + 1)
+    }
+    prevLeverageBreach.current = leverageBreach
+  }, [leverageBreach])
+
+  const covenants = [
+    {
+      label: 'Interest Coverage', formula: 'EBITDA / Interest',
+      current: coverage.toFixed(2) + 'x', threshold: `Min ${coverageThreshold.toFixed(2)}x`,
+      breach: coverageBreach,
+      breachAt: `EBITDA < $${ebitdaForCoverageBreachAt.toFixed(0)}M triggers breach`,
+      animKey: coverageBreachKey,
+    },
+    {
+      label: 'Leverage Ratio', formula: 'Debt / EBITDA',
+      current: leverage.toFixed(2) + 'x', threshold: `Max ${leverageThreshold.toFixed(2)}x`,
+      breach: leverageBreach,
+      breachAt: `EBITDA < $${ebitdaForLeverageBreachAt.toFixed(0)}M triggers breach`,
+      animKey: leverageBreachKey,
+    },
+  ]
+
   return (
     <div>
+      <style>{`
+        @keyframes covenant-flash {
+          0%   { background-color: #fee2e2; }
+          25%  { background-color: #fca5a5; }
+          50%  { background-color: #fee2e2; }
+          75%  { background-color: #fca5a5; }
+          100% { background-color: #dc262608; }
+        }
+        .covenant-breach {
+          animation: covenant-flash 0.6s ease-in-out 3;
+        }
+      `}</style>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
         {[
           { label: 'Coverage Covenant (min)', val: coverageThreshold, set: setCoverageThreshold, min: 1.5, max: 5, step: 0.25, fmt: (v: number) => `${v.toFixed(2)}x` },
@@ -49,21 +99,17 @@ export default function CovenantStressTester() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-        {[
-          {
-            label: 'Interest Coverage', formula: 'EBITDA / Interest',
-            current: coverage.toFixed(2) + 'x', threshold: `Min ${coverageThreshold.toFixed(2)}x`,
-            breach: coverageBreach,
-            breachAt: `EBITDA < $${ebitdaForCoverageBreachAt.toFixed(0)}M triggers breach`,
-          },
-          {
-            label: 'Leverage Ratio', formula: 'Debt / EBITDA',
-            current: leverage.toFixed(2) + 'x', threshold: `Max ${leverageThreshold.toFixed(2)}x`,
-            breach: leverageBreach,
-            breachAt: `EBITDA < $${ebitdaForLeverageBreachAt.toFixed(0)}M triggers breach`,
-          },
-        ].map(({ label, formula, current, threshold, breach, breachAt }) => (
-          <div key={label} style={{ padding: '1rem', background: breach ? '#dc262608' : '#1b433208', border: `2px solid ${breach ? '#dc2626' : '#1b4332'}`, borderRadius: '0.625rem' }}>
+        {covenants.map(({ label, formula, current, threshold, breach, breachAt, animKey }) => (
+          <div
+            key={`${label}-${animKey}`}
+            className={breach ? 'covenant-breach' : undefined}
+            style={{
+              padding: '1rem',
+              background: breach ? '#dc262608' : '#1b433208',
+              border: `2px solid ${breach ? '#dc2626' : '#1b4332'}`,
+              borderRadius: '0.625rem',
+            }}
+          >
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>{label}</div>
             <div style={{ fontSize: '0.68rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>{formula}</div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '1.5rem', fontWeight: 700, color: breach ? '#dc2626' : '#1b4332', marginBottom: '0.25rem' }}>{current}</div>
