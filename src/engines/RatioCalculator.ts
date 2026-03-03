@@ -158,9 +158,9 @@ export function calculateRatios(
       ? dso + dio - dpo
       : null
 
-  // Free Cash Flow = totalOperating - |totalInvesting| (capex approximation)
+  // Free Cash Flow = totalOperating + totalInvesting (investing is negative for outflows)
   const freeCashFlow = cf
-    ? cf.totalOperating - Math.abs(cf.totalInvesting)
+    ? cf.totalOperating + cf.totalInvesting
     : null
 
   // DuPont decomposition: ROE = netMargin * assetTurnover * equityMultiplier

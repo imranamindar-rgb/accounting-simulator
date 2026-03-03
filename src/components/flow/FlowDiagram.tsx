@@ -592,11 +592,11 @@ type ISData = {
 }
 
 type BSData = {
-  currentAssets: { name: string; balance: number; contra: boolean }[]
-  noncurrentAssets: { name: string; balance: number; contra: boolean }[]
-  currentLiabilities: { name: string; balance: number; contra: boolean }[]
-  noncurrentLiabilities: { name: string; balance: number; contra: boolean }[]
-  equity: { name: string; balance: number; contra: boolean }[]
+  currentAssets: { name: string; balance: number; contra?: boolean }[]
+  noncurrentAssets: { name: string; balance: number; contra?: boolean }[]
+  currentLiabilities: { name: string; balance: number; contra?: boolean }[]
+  noncurrentLiabilities: { name: string; balance: number; contra?: boolean }[]
+  equity: { name: string; balance: number; contra?: boolean }[]
   totalAssets: number
   totalLiabilities: number
   totalEquity: number

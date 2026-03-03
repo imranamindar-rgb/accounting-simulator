@@ -44,7 +44,7 @@ function getState(scenario: ScenarioKey, period: number) {
   // Cash: 10% upfront + equal billing at each milestone hit
   const upfront = MILESTONE_TOTAL * 0.1
   const cash = Math.min(MILESTONE_TOTAL, upfront + milestonesHit.length * (MILESTONE_TOTAL / 3))
-  return { cash, revenue, deferred: 0 }
+  return { cash, revenue, deferred: cash - revenue }
 }
 
 function Bar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {

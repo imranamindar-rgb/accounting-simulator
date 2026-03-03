@@ -50,7 +50,7 @@ export default function AccountingEquationBalancer() {
     setEntries(es => [...es, { id: es.length + 1, debit: da, credit: ca, amount: amt }])
   }
 
-  const fmt = (n: number) => `$${Math.abs(n).toLocaleString()}`
+  const fmt = (n: number) => `${n < 0 ? '-' : ''}$${Math.abs(n).toLocaleString()}`
   const formatNum = (n: number) => `$${n.toLocaleString()}`
 
   return (

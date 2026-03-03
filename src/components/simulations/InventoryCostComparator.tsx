@@ -117,7 +117,7 @@ export default function InventoryCostComparator() {
 
       <div style={{ marginTop: '1rem', padding: '0.75rem 1rem', background: 'var(--color-base)', border: '1px solid var(--color-border)', borderRadius: '0.5rem', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
         <strong style={{ color: 'var(--color-text)' }}>Forensic note: </strong>
-        {fifo.cogs > lifo.cogs
+        {lifo.cogs > fifo.cogs
           ? `In rising price environments, LIFO produces higher COGS (${fmt(lifo.cogs)}) vs FIFO (${fmt(fifo.cogs)}), conserving cash via lower taxes but reporting lower profits. LIFO is banned under IFRS.`
           : `Cost flow assumptions produce identical inventory values when prices are flat.`}
       </div>
