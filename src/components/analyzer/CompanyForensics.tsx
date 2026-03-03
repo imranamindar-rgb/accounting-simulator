@@ -359,7 +359,7 @@ export default function CompanyForensics() {
                       width={38}
                     />
                     <Tooltip
-                      formatter={(value: number) => [`${value.toFixed(1)}%`]}
+                      formatter={(value: number | undefined) => [`${(value ?? 0).toFixed(1)}%`]}
                       contentStyle={{
                         fontSize: '0.75rem',
                         border: '1px solid var(--color-border)',
