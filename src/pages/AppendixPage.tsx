@@ -4,6 +4,7 @@ import { FRAUD_CASES } from '../data/fraudCases'
 import { CHAPTERS } from '../data/toc'
 import { SAMPLE_COMPANIES } from '../data/sampleCompanies'
 import { useLedgerStore } from '../store/ledgerStore'
+import SimulationPlayer from '../components/simulation/SimulationPlayer'
 
 // Simulation components
 import AccountingEquationBalancer from '../components/simulations/AccountingEquationBalancer'
@@ -49,6 +50,7 @@ function AppendixNav({ current }: { current: string }) {
         { id: '1', label: 'A1 · All Simulations' },
         { id: '2', label: 'A2 · Case Library' },
         { id: '3', label: 'A3 · Statements Simulator' },
+        { id: '4', label: 'A4 · Transaction Flow' },
       ].map(({ id, label }) => (
         <Link key={id} to={`/appendix/${id}`}
           style={{ padding: '0.4rem 0.875rem', borderRadius: '0.5rem', border: '1px solid var(--color-border)', background: current === id ? 'var(--color-accent)' : 'var(--color-surface)', color: current === id ? '#fff' : 'var(--color-text)', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', textDecoration: 'none', fontWeight: 600 }}>
@@ -166,6 +168,12 @@ export default function AppendixPage() {
             <SectionHeader label="Appendix 3" title="Financial Statements Simulator" subtitle="Enter transactions and watch them trace through the Income Statement, Balance Sheet, Cash Flow, and Equity Statement simultaneously." />
           </div>
           <A3Statements />
+        </div>
+      )}
+      {id === '4' && (
+        <div className="px-8 pb-12 max-w-5xl mx-auto">
+          <SectionHeader label="Appendix 4" title="Transaction Flow Simulation" subtitle="Choose a scenario to see step-by-step how a transaction flows through all four financial statements." />
+          <SimulationPlayer />
         </div>
       )}
     </div>

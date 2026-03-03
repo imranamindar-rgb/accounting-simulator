@@ -127,6 +127,7 @@ export default function NavDrawer() {
               { id: '1', label: 'All Simulations' },
               { id: '2', label: 'Case Library' },
               { id: '3', label: 'Statements Simulator' },
+              { id: '4', label: 'Transaction Flow' },
             ].map(({ id, label }) => (
               <NavLink
                 key={id}

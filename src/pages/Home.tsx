@@ -6,6 +6,7 @@ const APPENDIX_ITEMS = [
   { id: '1', label: 'A1', title: 'All Simulations', subtitle: 'Every chapter simulation on one page', emoji: '⚙️' },
   { id: '2', label: 'A2', title: 'Case Library', subtitle: 'All 30 fraud cases expanded', emoji: '📋' },
   { id: '3', label: 'A3', title: 'Statements Simulator', subtitle: 'Trace transactions through all statements', emoji: '📊' },
+  { id: '4', label: 'A4', title: 'Transaction Flow', subtitle: 'Step-by-step transaction walkthroughs', emoji: '🔀' },
 ]
 
 export default function Home() {
@@ -108,7 +109,7 @@ export default function Home() {
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
           Appendix
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {APPENDIX_ITEMS.map(item => (
             <Link
               key={item.id}

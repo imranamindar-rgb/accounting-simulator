@@ -15,7 +15,6 @@ import CashFlowStatement from '../components/statements/CashFlowStatement'
 import EquityStatement from '../components/statements/EquityStatement'
 import RatioDashboard from '../components/analysis/RatioDashboard'
 import FlowDiagram from '../components/flow/FlowDiagram'
-import SimulationPlayer from '../components/simulation/SimulationPlayer'
 import TrialBalance from '../components/views/TrialBalance'
 import TAccountView from '../components/views/TAccountView'
 import GeneralLedger from '../components/views/GeneralLedger'
@@ -129,7 +128,6 @@ function StatementsCenter() {
   return (
     <div className="space-y-4">
       <FlowDiagram />
-      <SimulationPlayer />
       <StatementsGroup />
       <RatioDashboard />
     </div>
