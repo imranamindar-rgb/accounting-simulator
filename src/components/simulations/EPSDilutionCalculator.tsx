@@ -1,5 +1,8 @@
 import { useState } from 'react'
 
+const CONVERT_COUPON = 0.04
+const TAX_RATE = 0.25
+
 export default function EPSDilutionCalculator() {
   const [netIncome, setNetIncome] = useState(500)
   const [basicShares, setBasicShares] = useState(200)
@@ -8,19 +11,22 @@ export default function EPSDilutionCalculator() {
   const [marketPrice, setMarketPrice] = useState(30)
   const [rsus, setRsus] = useState(3)
   const [convertFace, setConvertFace] = useState(0)
-  const [convertCoupon] = useState(0.04)
-  const [taxRate] = useState(0.25)
 
   const basicEPS = netIncome / basicShares
   const optionDilutiveShares = marketPrice > strikePrice
-    ? options - Math.floor((options * strikePrice) / marketPrice)
+    ? options - (options * strikePrice) / marketPrice
     : 0
   const rsuDilutiveShares = rsus
-  const convertInterestAddback = convertFace > 0 ? convertFace * convertCoupon * (1 - taxRate) : 0
-  const convertShares = convertFace > 0 ? Math.floor(convertFace / 1) * 50 / 1000 : 0
+  const convertInterestAddback = convertFace > 0 ? convertFace * CONVERT_COUPON * (1 - TAX_RATE) : 0
+  const convertShares = convertFace > 0 ? convertFace * 50 / 1000 : 0
 
-  const dilutedIncome = netIncome + convertInterestAddback
-  const dilutedShares = basicShares + optionDilutiveShares + rsuDilutiveShares + convertShares
+  // Anti-dilution test for converts (ASC 260-10-45-16)
+  const convertIsAntidilutive = convertFace > 0 && convertShares > 0 &&
+    (netIncome + convertInterestAddback) / (basicShares + convertShares) > basicEPS
+
+  const dilutedIncome = netIncome + (!convertIsAntidilutive && convertFace > 0 ? convertInterestAddback : 0)
+  const dilutedShares = basicShares + optionDilutiveShares + rsuDilutiveShares +
+    (!convertIsAntidilutive ? convertShares : 0)
   const dilutedEPS = dilutedShares > 0 ? dilutedIncome / dilutedShares : 0
   const dilutionPct = basicEPS > 0 ? ((basicEPS - dilutedEPS) / basicEPS * 100) : 0
 
@@ -68,7 +74,7 @@ export default function EPSDilutionCalculator() {
           { label: 'Basic EPS', eps: basicEPS, note: `${basicShares}M shares`, color: '#1e3a5f' },
           { label: `Options (TSM: +${optionDilutiveShares.toFixed(1)}M shares)`, eps: null, note: marketPrice <= strikePrice ? 'anti-dilutive (out of the money)' : `net new shares`, color: marketPrice > strikePrice ? '#dc2626' : '#1b4332' },
           { label: `RSUs (+${rsuDilutiveShares}M shares)`, eps: null, note: 'always dilutive', color: '#dc2626' },
-          { label: convertFace > 0 ? `Converts (+${convertShares.toFixed(1)}M shares, +$${convertInterestAddback.toFixed(1)}M NI)` : 'Converts (none)', eps: null, note: '', color: convertFace > 0 ? '#dc2626' : '#1b4332' },
+          { label: convertFace > 0 ? `Converts (+${convertShares.toFixed(1)}M shares, +$${convertInterestAddback.toFixed(1)}M NI)` : 'Converts (none)', eps: null, note: convertIsAntidilutive ? 'Anti-dilutive (excluded)' : '', color: convertFace > 0 && !convertIsAntidilutive ? '#dc2626' : '#1b4332' },
           { label: 'Diluted EPS', eps: dilutedEPS, note: `${dilutedShares.toFixed(1)}M shares`, color: 'var(--color-accent)' },
         ].map(({ label, eps, note, color }, i) => (
           <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.4rem 0', borderTop: i > 0 && eps !== null ? '2px solid var(--color-border)' : i > 0 ? '1px solid var(--color-border)' : 'none' }}>

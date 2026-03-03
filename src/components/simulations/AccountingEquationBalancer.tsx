@@ -32,7 +32,6 @@ export default function AccountingEquationBalancer() {
   const [debit, setDebit] = useState('Cash')
   const [credit, setCredit] = useState('Common Stock')
   const [amount, setAmount] = useState(100000)
-  const [nextId, setNextId] = useState(1)
 
   const balances: Record<string, number> = Object.fromEntries(ALL_ACCOUNTS.map(a => [a.name, 0]))
   entries.forEach(e => {
@@ -48,11 +47,11 @@ export default function AccountingEquationBalancer() {
 
   const post = (da = debit, ca = credit, amt = amount) => {
     if (da === ca || amt <= 0) return
-    setEntries(es => [...es, { id: nextId, debit: da, credit: ca, amount: amt }])
-    setNextId(n => n + 1)
+    setEntries(es => [...es, { id: es.length + 1, debit: da, credit: ca, amount: amt }])
   }
 
   const fmt = (n: number) => `$${Math.abs(n).toLocaleString()}`
+  const formatNum = (n: number) => `$${n.toLocaleString()}`
 
   return (
     <div>
@@ -108,7 +107,7 @@ export default function AccountingEquationBalancer() {
 
       <div style={{ padding: '0.875rem 1.25rem', background: balanced ? '#1b433212' : '#dc262612', border: `1px solid ${balanced ? '#1b433240' : '#dc262640'}`, borderRadius: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.88rem', fontWeight: 700, color: balanced ? '#1b4332' : '#dc2626' }}>
-          {fmt(assets)} Assets = {fmt(liabilities)} Liabilities + {fmt(equity)} Equity
+          {formatNum(assets)} Assets = {formatNum(liabilities + equity)} L + E
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', fontWeight: 700, color: balanced ? '#1b4332' : '#dc2626' }}>
           {entries.length === 0 ? 'Post entries to begin' : balanced ? '✓ BALANCED' : '✗ OUT OF BALANCE'}
