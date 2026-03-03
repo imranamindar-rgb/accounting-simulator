@@ -2,6 +2,12 @@ import { Link } from 'react-router-dom'
 import { CHAPTERS } from '../data/toc'
 import { useProgressStore } from '../store/progressStore'
 
+const APPENDIX_ITEMS = [
+  { id: '1', label: 'A1', title: 'All Simulations', subtitle: 'Every chapter simulation on one page', emoji: '⚙️' },
+  { id: '2', label: 'A2', title: 'Case Library', subtitle: 'All 30 fraud cases expanded', emoji: '📋' },
+  { id: '3', label: 'A3', title: 'Statements Simulator', subtitle: 'Trace transactions through all statements', emoji: '📊' },
+]
+
 export default function Home() {
   const getChapterStars = useProgressStore(s => s.getChapterStars)
   const getChapterPct = useProgressStore(s => s.getChapterPct)
@@ -94,6 +100,41 @@ export default function Home() {
               </Link>
             )
           })}
+        </div>
+      </div>
+
+      {/* Appendix section */}
+      <div className="px-8 pb-12 max-w-5xl mx-auto">
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+          Appendix
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {APPENDIX_ITEMS.map(item => (
+            <Link
+              key={item.id}
+              to={`/appendix/${item.id}`}
+              className="block rounded-xl overflow-hidden transition-shadow hover:shadow-lg"
+              style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
+            >
+              <div style={{ background: 'var(--color-accent)', height: '4px' }} />
+              <div className="p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                      {item.label}
+                    </div>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--color-text)', margin: '2px 0 2px' }}>
+                      {item.title}
+                    </h2>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', margin: 0 }}>
+                      {item.subtitle}
+                    </p>
+                  </div>
+                  <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{item.emoji}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
