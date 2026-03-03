@@ -117,6 +117,32 @@ export default function NavDrawer() {
               )
             })}
           </div>
+
+          {/* Appendix section */}
+          <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: '1px solid var(--color-border)' }}>
+            <div style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', color: 'var(--color-text-muted)', padding: '0 12px 6px', textTransform: 'uppercase' }}>
+              Appendix
+            </div>
+            {[
+              { id: '1', label: 'All Simulations' },
+              { id: '2', label: 'Case Library' },
+              { id: '3', label: 'Statements Simulator' },
+            ].map(({ id, label }) => (
+              <NavLink
+                key={id}
+                to={`/appendix/${id}`}
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors hover:bg-[var(--color-base)]"
+                style={({ isActive }) => ({
+                  background: isActive ? 'var(--color-base)' : 'transparent',
+                  borderLeft: isActive ? '3px solid var(--color-accent)' : '3px solid transparent',
+                })}
+              >
+                <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)', minWidth: '2rem' }}>A{id}</span>
+                <span style={{ fontSize: '0.82rem', color: 'var(--color-text)', fontWeight: 500 }}>{label}</span>
+              </NavLink>
+            ))}
+          </div>
         </div>
       </nav>
     </>

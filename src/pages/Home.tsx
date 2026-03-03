@@ -16,6 +16,9 @@ export default function Home() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color: 'var(--color-accent)', margin: '4px 0 8px' }}>
           Learn Accounting Through<br />Real Failures
         </h1>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--color-text-muted)', margin: '0 0 12px', letterSpacing: '0.04em' }}>
+          Designed by Imran Dar
+        </p>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '1rem', maxWidth: '520px' }}>
           10 chapters. 30 real fraud cases. Hands-on simulations. Built for executives who need more than mechanics — they need judgment.
         </p>

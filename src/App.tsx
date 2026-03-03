@@ -8,6 +8,7 @@ const ChapterPage = lazy(() => import('./pages/ChapterPage'))
 const Progress = lazy(() => import('./pages/Progress'))
 const StatementsPage = lazy(() => import('./pages/StatementsPage'))
 const MAWorkbenchPage = lazy(() => import('./pages/MAWorkbenchPage'))
+const AppendixPage = lazy(() => import('./pages/AppendixPage'))
 
 function Loading() {
   return <div className="p-8" style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Loading…</div>
@@ -32,10 +33,27 @@ export default function App() {
             <Route path="/simulator" element={<StatementsPage />} />
             <Route path="/ma" element={<MAWorkbenchPage />} />
 
+            <Route path="/appendix/:id" element={<AppendixPage />} />
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
+        <Footer />
       </div>
     </BrowserRouter>
+  )
+}
+
+function Footer() {
+  return (
+    <footer style={{
+      textAlign: 'center', padding: '1.25rem 1rem',
+      borderTop: '1px solid var(--color-border)',
+      fontFamily: 'var(--font-mono)', fontSize: '0.7rem',
+      color: 'var(--color-text-muted)', marginTop: '3rem',
+      letterSpacing: '0.04em',
+    }}>
+      Designed by Imran Dar · Financial Accounting EMBA Platform
+    </footer>
   )
 }
