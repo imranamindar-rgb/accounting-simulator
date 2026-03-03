@@ -59,6 +59,194 @@ const CATEGORIES = [
   { id: 'adjustments', label: '📐 Adjusting Entries', color: '#0891B2' },
 ] as const
 
+// ── Account classification map ──────────────────────────────────
+// Maps every account name used in scenarios to its statement, section, and normal balance.
+
+type AccountMeta = {
+  statement: 'balance' | 'income'
+  section: string
+  normalBalance: 'debit' | 'credit'
+}
+
+const ACCOUNT_MAP: Record<string, AccountMeta> = {
+  'Cash':                            { statement: 'balance', section: 'CURRENT ASSETS',       normalBalance: 'debit'  },
+  'Accounts Receivable':             { statement: 'balance', section: 'CURRENT ASSETS',       normalBalance: 'debit'  },
+  'Inventory':                       { statement: 'balance', section: 'CURRENT ASSETS',       normalBalance: 'debit'  },
+  'Prepaid Insurance':               { statement: 'balance', section: 'CURRENT ASSETS',       normalBalance: 'debit'  },
+  'Allowance for Doubtful Accounts': { statement: 'balance', section: 'CURRENT ASSETS',       normalBalance: 'credit' },
+  'Equipment':                       { statement: 'balance', section: 'LONG-TERM ASSETS',     normalBalance: 'debit'  },
+  'Accumulated Depreciation':        { statement: 'balance', section: 'LONG-TERM ASSETS',     normalBalance: 'credit' },
+  'Accounts Payable':                { statement: 'balance', section: 'CURRENT LIABILITIES',  normalBalance: 'credit' },
+  'Interest Payable':                { statement: 'balance', section: 'CURRENT LIABILITIES',  normalBalance: 'credit' },
+  'Unearned Revenue':                { statement: 'balance', section: 'CURRENT LIABILITIES',  normalBalance: 'credit' },
+  'Notes Payable':                   { statement: 'balance', section: 'CURRENT LIABILITIES',  normalBalance: 'credit' },
+  'Notes Payable - Long Term':       { statement: 'balance', section: 'LONG-TERM LIABILITIES',normalBalance: 'credit' },
+  'Common Stock':                    { statement: 'balance', section: 'EQUITY',               normalBalance: 'credit' },
+  'Dividends':                       { statement: 'balance', section: 'EQUITY',               normalBalance: 'debit'  },
+  'Sales Revenue':                   { statement: 'income',  section: 'REVENUE',              normalBalance: 'credit' },
+  'Service Revenue':                 { statement: 'income',  section: 'REVENUE',              normalBalance: 'credit' },
+  'Cost of Goods Sold':              { statement: 'income',  section: 'EXPENSES',             normalBalance: 'debit'  },
+  'Depreciation Expense':            { statement: 'income',  section: 'EXPENSES',             normalBalance: 'debit'  },
+  'Bad Debt Expense':                { statement: 'income',  section: 'EXPENSES',             normalBalance: 'debit'  },
+  'Interest Expense':                { statement: 'income',  section: 'EXPENSES',             normalBalance: 'debit'  },
+  'Rent Expense':                    { statement: 'income',  section: 'EXPENSES',             normalBalance: 'debit'  },
+  'Salaries Expense':                { statement: 'income',  section: 'EXPENSES',             normalBalance: 'debit'  },
+}
+
+// Accumulate net changes for every account from step 0 through upToStep.
+// Result sign: positive = account balance increased (using its natural normal-balance perspective).
+function getCumulativeAccountChanges(scenario: Scenario, upToStep: number): Record<string, number> {
+  const changes: Record<string, number> = {}
+  for (let i = 0; i <= upToStep; i++) {
+    for (const { name, change, side } of scenario.steps[i].accounts) {
+      const meta = ACCOUNT_MAP[name]
+      if (!meta) continue
+      // Debit increases debit-normal accounts; credit increases credit-normal accounts.
+      const delta = side === meta.normalBalance ? change : -change
+      changes[name] = (changes[name] ?? 0) + delta
+    }
+  }
+  return changes
+}
+
+type BoxLine = { label: string; value: number; isTotal?: boolean; isSection?: boolean; indent?: boolean }
+
+// Build hierarchical Income Statement lines from cumulative account changes.
+// Falls back to aggregate lines if no mapped accounts have changed.
+function buildDetailedIncomeLines(
+  changes: Record<string, number>,
+  fallback: { revenue?: number; expenses?: number; netIncome?: number },
+): BoxLine[] {
+  const sections: Array<{ key: string; sectionGroup: 'revenue' | 'expense' }> = [
+    { key: 'REVENUE', sectionGroup: 'revenue' },
+    { key: 'EXPENSES', sectionGroup: 'expense' },
+  ]
+
+  const result: BoxLine[] = []
+  let hasAccountData = false
+
+  for (const { key, sectionGroup } of sections) {
+    const active = Object.entries(changes).filter(
+      ([name, val]) => ACCOUNT_MAP[name]?.statement === 'income' && ACCOUNT_MAP[name]?.section === key && val !== 0,
+    )
+    if (active.length === 0) continue
+    hasAccountData = true
+    result.push({ label: key, value: 0, isSection: true })
+    for (const [name, val] of active) {
+      // Revenue: positive is good. Expenses: show as negative (cost reduces income).
+      const displayVal = sectionGroup === 'expense' ? -val : val
+      result.push({ label: name, value: displayVal, indent: true })
+    }
+  }
+
+  if (!hasAccountData) {
+    return [
+      { label: 'Revenue', value: fallback.revenue ?? 0 },
+      { label: 'Expenses', value: -(fallback.expenses ?? 0) },
+      { label: 'Net Income', value: fallback.netIncome ?? 0, isTotal: true },
+    ]
+  }
+
+  const totalRevenue = Object.entries(changes)
+    .filter(([n]) => ACCOUNT_MAP[n]?.statement === 'income' && ACCOUNT_MAP[n]?.section === 'REVENUE')
+    .reduce((s, [, v]) => s + v, 0)
+  const totalExpenses = Object.entries(changes)
+    .filter(([n]) => ACCOUNT_MAP[n]?.statement === 'income' && ACCOUNT_MAP[n]?.section === 'EXPENSES')
+    .reduce((s, [, v]) => s + v, 0)
+
+  result.push({ label: 'Net Income', value: totalRevenue - totalExpenses, isTotal: true })
+  return result
+}
+
+// Build hierarchical Balance Sheet lines from cumulative account changes.
+// Falls back to aggregate lines if no mapped accounts have changed.
+function buildDetailedBalanceLines(
+  changes: Record<string, number>,
+  fallback: { assets?: number; liabilities?: number; equity?: number },
+): BoxLine[] {
+  const ASSET_SECS = ['CURRENT ASSETS', 'LONG-TERM ASSETS']
+  const LIAB_SECS  = ['CURRENT LIABILITIES', 'LONG-TERM LIABILITIES']
+  const EQ_SECS    = ['EQUITY']
+
+  const result: BoxLine[] = []
+  let hasAccountData = false
+
+  // Helper: for balance sheet, the "display value" converts to economic impact
+  // on the main category (assets / liabilities / equity).
+  // Debit-normal asset: positive = asset increased. Credit-normal contra-asset: positive = asset decreased → negate.
+  // Credit-normal liability/equity: positive = increased. Debit-normal contra: negate.
+  function displayVal(name: string, val: number, sectionGroup: 'asset' | 'liab-eq'): number {
+    const nb = ACCOUNT_MAP[name]?.normalBalance
+    if (sectionGroup === 'asset') return nb === 'debit' ? val : -val
+    return nb === 'credit' ? val : -val
+  }
+
+  for (const sec of ASSET_SECS) {
+    const active = Object.entries(changes).filter(
+      ([name, val]) => ACCOUNT_MAP[name]?.statement === 'balance' && ACCOUNT_MAP[name]?.section === sec && val !== 0,
+    )
+    if (active.length === 0) continue
+    hasAccountData = true
+    result.push({ label: sec, value: 0, isSection: true })
+    for (const [name, val] of active) {
+      result.push({ label: name, value: displayVal(name, val, 'asset'), indent: true })
+    }
+  }
+
+  if (!hasAccountData) {
+    return [
+      { label: 'Assets', value: fallback.assets ?? 0 },
+      { label: 'Liabilities', value: fallback.liabilities ?? 0 },
+      { label: 'Equity', value: fallback.equity ?? 0, isTotal: true },
+    ]
+  }
+
+  const totalAssets = Object.entries(changes)
+    .filter(([n]) => ACCOUNT_MAP[n]?.statement === 'balance' && ASSET_SECS.includes(ACCOUNT_MAP[n].section))
+    .reduce((s, [name, v]) => s + displayVal(name, v, 'asset'), 0)
+  result.push({ label: 'Total Assets', value: totalAssets, isTotal: true })
+
+  let hasLiab = false
+  for (const sec of LIAB_SECS) {
+    const active = Object.entries(changes).filter(
+      ([name, val]) => ACCOUNT_MAP[name]?.statement === 'balance' && ACCOUNT_MAP[name]?.section === sec && val !== 0,
+    )
+    if (active.length === 0) continue
+    hasLiab = true
+    result.push({ label: sec, value: 0, isSection: true })
+    for (const [name, val] of active) {
+      result.push({ label: name, value: displayVal(name, val, 'liab-eq'), indent: true })
+    }
+  }
+  if (hasLiab) {
+    const totalLiab = Object.entries(changes)
+      .filter(([n]) => ACCOUNT_MAP[n]?.statement === 'balance' && LIAB_SECS.includes(ACCOUNT_MAP[n].section))
+      .reduce((s, [name, v]) => s + displayVal(name, v, 'liab-eq'), 0)
+    result.push({ label: 'Total Liabilities', value: totalLiab, isTotal: true })
+  }
+
+  let hasEq = false
+  for (const sec of EQ_SECS) {
+    const active = Object.entries(changes).filter(
+      ([name, val]) => ACCOUNT_MAP[name]?.statement === 'balance' && ACCOUNT_MAP[name]?.section === sec && val !== 0,
+    )
+    if (active.length === 0) continue
+    hasEq = true
+    result.push({ label: sec, value: 0, isSection: true })
+    for (const [name, val] of active) {
+      result.push({ label: name, value: displayVal(name, val, 'liab-eq'), indent: true })
+    }
+  }
+  if (hasEq) {
+    const totalEq = Object.entries(changes)
+      .filter(([n]) => ACCOUNT_MAP[n]?.statement === 'balance' && EQ_SECS.includes(ACCOUNT_MAP[n].section))
+      .reduce((s, [name, v]) => s + displayVal(name, v, 'liab-eq'), 0)
+    result.push({ label: 'Total Equity', value: totalEq, isTotal: true })
+  }
+
+  return result
+}
+
 // ── Pre-built Scenarios ─────────────────────────────────────────
 
 const SCENARIOS: Scenario[] = [
@@ -1466,7 +1654,7 @@ function StatementBox({
 }: {
   title: string
   color: string
-  lines: { label: string; value: number; isTotal?: boolean }[]
+  lines: BoxLine[]
   active: boolean
   highlighted: boolean
 }) {
@@ -1494,39 +1682,67 @@ function StatementBox({
       >
         {title}
       </div>
-      <div className="px-3 pb-2 space-y-1" style={{ background: 'var(--color-surface)' }}>
-        {lines.map((line) => (
-          <div
-            key={line.label}
-            className="flex justify-between text-xs transition-all duration-300"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              borderTop: line.isTotal ? '1px solid var(--color-border)' : undefined,
-              paddingTop: line.isTotal ? '4px' : undefined,
-              fontWeight: line.isTotal ? 700 : 400,
-            }}
-          >
-            <span style={{ color: 'var(--color-text)' }}>{line.label}</span>
-            <span
-              className="transition-all duration-500"
+      <div className="px-3 pb-2" style={{ background: 'var(--color-surface)' }}>
+        {lines.map((line) => {
+          if (line.isSection) {
+            return (
+              <div
+                key={line.label}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.6rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase' as const,
+                  color: active ? color : 'var(--color-text-muted)',
+                  marginTop: '6px',
+                  marginBottom: '2px',
+                  opacity: 0.75,
+                }}
+              >
+                {line.label}
+              </div>
+            )
+          }
+          return (
+            <div
+              key={line.label}
+              className="flex justify-between text-xs transition-all duration-300"
               style={{
-                color:
-                  !active
-                    ? 'var(--color-text-muted)'
-                    : line.value > 0
-                      ? '#2D6A4F'
-                      : line.value < 0
-                        ? '#DC2626'
-                        : 'var(--color-text-muted)',
-                fontWeight: 600,
+                fontFamily: 'var(--font-mono)',
+                paddingLeft: line.indent ? '0.6rem' : undefined,
+                borderTop: line.isTotal ? '1px solid var(--color-border)' : undefined,
+                paddingTop: line.isTotal ? '4px' : undefined,
+                marginTop: line.isTotal ? '2px' : undefined,
+                fontWeight: line.isTotal ? 700 : 400,
+                marginBottom: '2px',
               }}
             >
-              {line.value !== 0
-                ? `${line.value > 0 ? '+' : ''}$${Math.abs(line.value).toLocaleString()}`
-                : '$0'}
-            </span>
-          </div>
-        ))}
+              <span style={{ color: 'var(--color-text)', fontSize: line.indent ? '0.68rem' : '0.75rem' }}>
+                {line.label}
+              </span>
+              <span
+                className="transition-all duration-500"
+                style={{
+                  fontSize: line.indent ? '0.68rem' : '0.75rem',
+                  color:
+                    !active
+                      ? 'var(--color-text-muted)'
+                      : line.value > 0
+                        ? '#2D6A4F'
+                        : line.value < 0
+                          ? '#DC2626'
+                          : 'var(--color-text-muted)',
+                  fontWeight: 600,
+                }}
+              >
+                {line.value !== 0
+                  ? `${line.value > 0 ? '+' : ''}$${Math.abs(line.value).toLocaleString()}`
+                  : '$0'}
+              </span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
@@ -1735,6 +1951,9 @@ export default function SimulationPlayer() {
   }, [step])
 
   const vals = getStatementValues()
+  const cumulativeChanges = selectedScenario
+    ? getCumulativeAccountChanges(selectedScenario, currentStep)
+    : {}
   const isAtEnd = currentStep >= totalSteps - 1
 
   // Filter scenarios by category
@@ -2016,22 +2235,14 @@ export default function SimulationPlayer() {
             color="#2D6A4F"
             highlighted={step?.highlight === 'income'}
             active={!!step?.statements.incomeStatement}
-            lines={[
-              { label: 'Revenue', value: vals.income.revenue ?? 0 },
-              { label: 'Expenses', value: -(vals.income.expenses ?? 0) },
-              { label: 'Net Income', value: vals.income.netIncome ?? 0, isTotal: true },
-            ]}
+            lines={buildDetailedIncomeLines(cumulativeChanges, vals.income)}
           />
           <StatementBox
             title="Balance Sheet"
             color="#2563EB"
             highlighted={step?.highlight === 'balance'}
             active={!!step?.statements.balanceSheet}
-            lines={[
-              { label: 'Assets', value: vals.balance.assets ?? 0 },
-              { label: 'Liabilities', value: vals.balance.liabilities ?? 0 },
-              { label: 'Equity', value: vals.balance.equity ?? 0, isTotal: true },
-            ]}
+            lines={buildDetailedBalanceLines(cumulativeChanges, vals.balance)}
           />
           <StatementBox
             title="Cash Flow"
