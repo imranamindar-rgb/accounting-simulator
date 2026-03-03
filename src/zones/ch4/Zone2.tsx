@@ -1,3 +1,13 @@
-export default function Zone2_Ch4() {
-  return <div style={{ color: 'var(--color-text-muted)', padding: '1rem' }}>Chapter 4 · Zone 2 — coming soon.</div>
+import SimulationWrapper from '../../components/shared/SimulationWrapper'
+import SimulationPlayer from '../../components/simulation/SimulationPlayer'
+
+export default function Zone2() {
+  return (
+    <SimulationWrapper
+      title="Fixed Assets & Capitalization Simulation"
+      description="Work through the 'Assets & Investing' scenarios. Notice how capitalized costs appear in investing activities (not operating) and how depreciation flows as a non-cash operating charge."
+    >
+      <SimulationPlayer />
+    </SimulationWrapper>
+  )
 }

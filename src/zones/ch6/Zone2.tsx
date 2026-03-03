@@ -1,3 +1,13 @@
-export default function Zone2_Ch6() {
-  return <div style={{ color: 'var(--color-text-muted)', padding: '1rem' }}>Chapter 6 · Zone 2 — coming soon.</div>
+import SimulationWrapper from '../../components/shared/SimulationWrapper'
+import SimulationPlayer from '../../components/simulation/SimulationPlayer'
+
+export default function Zone2() {
+  return (
+    <SimulationWrapper
+      title="Equity & EPS Simulation"
+      description="Work through the 'Equity & Ownership' scenarios. Track how share issuances, buybacks, and dividends affect total equity — and how the share count changes drive EPS."
+    >
+      <SimulationPlayer />
+    </SimulationWrapper>
+  )
 }

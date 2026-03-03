@@ -1,3 +1,13 @@
-export default function Zone2_Ch3() {
-  return <div style={{ color: 'var(--color-text-muted)', padding: '1rem' }}>Chapter 3 · Zone 2 — coming soon.</div>
+import SimulationWrapper from '../../components/shared/SimulationWrapper'
+import SimulationPlayer from '../../components/simulation/SimulationPlayer'
+
+export default function Zone2() {
+  return (
+    <SimulationWrapper
+      title="Inventory & COGS Simulation"
+      description="Explore the 'Inventory & COGS' scenarios. Watch how FIFO vs LIFO choices affect both the income statement (COGS) and balance sheet (ending inventory value) simultaneously."
+    >
+      <SimulationPlayer />
+    </SimulationWrapper>
+  )
 }
