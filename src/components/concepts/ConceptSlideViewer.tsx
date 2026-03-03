@@ -2,6 +2,8 @@ import { useState } from 'react'
 import type { ConceptSlide, FraudCase } from '../../data/conceptTypes'
 import FraudSpotlight from './FraudSpotlight'
 import PredictionPrompt from './PredictionPrompt'
+import TransactionAnimator from './TransactionAnimator'
+import { CHAPTER_ANIMATIONS } from '../../data/chapterAnimations'
 
 interface ConceptSlideViewerProps {
   slides: ConceptSlide[]
@@ -258,24 +260,29 @@ function SlideContent({
         </div>
       )}
 
-      {/* Diagram placeholder */}
-      {slide.diagram && (
-        <div
-          style={{
-            background: 'var(--color-surface)',
-            border: '1px dashed var(--color-border)',
-            borderRadius: '0.375rem',
-            padding: '1.5rem',
-            marginBottom: '1rem',
-            textAlign: 'center',
-            fontSize: '0.82rem',
-            color: 'var(--color-text-muted)',
-            fontStyle: 'italic',
-          }}
-        >
-          {slide.diagram}
-        </div>
-      )}
+      {/* Animation or diagram placeholder */}
+      {(() => {
+        const anim = CHAPTER_ANIMATIONS[slide.id]
+        if (anim) return <TransactionAnimator sequence={anim} />
+        if (slide.diagram) return (
+          <div
+            style={{
+              background: 'var(--color-surface)',
+              border: '1px dashed var(--color-border)',
+              borderRadius: '0.375rem',
+              padding: '1.5rem',
+              marginBottom: '1rem',
+              textAlign: 'center',
+              fontSize: '0.82rem',
+              color: 'var(--color-text-muted)',
+              fontStyle: 'italic',
+            }}
+          >
+            {slide.diagram}
+          </div>
+        )
+        return null
+      })()}
 
       {/* Highlights */}
       {slide.highlights && slide.highlights.length > 0 && (
