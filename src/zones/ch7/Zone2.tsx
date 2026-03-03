@@ -1,13 +1,9 @@
 import SimulationWrapper from '../../components/shared/SimulationWrapper'
-import SimulationPlayer from '../../components/simulation/SimulationPlayer'
-
+import CFOBridgeBuilder from '../../components/simulations/CFOBridgeBuilder'
 export default function Zone2() {
   return (
-    <SimulationWrapper
-      title="Cash Flow Statement Simulation"
-      description="Run through the 'Adjusting Entries' scenarios and then revisit scenarios from other categories. Focus on which section of the cash flow statement each transaction affects — and why CFO can diverge from net income."
-    >
-      <SimulationPlayer />
+    <SimulationWrapper title="CFO Bridge Builder" description="Start from Net Income and toggle non-cash add-backs and working capital changes to build the indirect-method cash flow statement from scratch. Watch the CFO/NI ratio — the Beneish fraud signal — update in real time.">
+      <CFOBridgeBuilder />
     </SimulationWrapper>
   )
 }

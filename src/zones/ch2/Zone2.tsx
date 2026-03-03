@@ -1,13 +1,9 @@
 import SimulationWrapper from '../../components/shared/SimulationWrapper'
-import SimulationPlayer from '../../components/simulation/SimulationPlayer'
-
+import RevenueRecognitionTimer from '../../components/simulations/RevenueRecognitionTimer'
 export default function Zone2() {
   return (
-    <SimulationWrapper
-      title="Revenue Recognition Simulation"
-      description="Work through the 'Revenue & Sales' scenarios. Pay close attention to when cash is received vs when revenue is recognized — and how Deferred Revenue flows through the balance sheet."
-    >
-      <SimulationPlayer />
+    <SimulationWrapper title="Revenue Recognition Timer" description="Choose a contract type and advance through time. See exactly when revenue is recognized vs when cash arrives — and how Deferred Revenue acts as the bridge between the two.">
+      <RevenueRecognitionTimer />
     </SimulationWrapper>
   )
 }

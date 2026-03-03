@@ -1,13 +1,9 @@
 import SimulationWrapper from '../../components/shared/SimulationWrapper'
-import SimulationPlayer from '../../components/simulation/SimulationPlayer'
-
+import EPSDilutionCalculator from '../../components/simulations/EPSDilutionCalculator'
 export default function Zone2() {
   return (
-    <SimulationWrapper
-      title="Equity & EPS Simulation"
-      description="Work through the 'Equity & Ownership' scenarios. Track how share issuances, buybacks, and dividends affect total equity — and how the share count changes drive EPS."
-    >
-      <SimulationPlayer />
+    <SimulationWrapper title="EPS Dilution Calculator" description="Layer in options, RSUs, and convertible debt to see the treasury stock method in action. Watch basic EPS decay into diluted EPS — and understand why the gap matters for valuation.">
+      <EPSDilutionCalculator />
     </SimulationWrapper>
   )
 }
