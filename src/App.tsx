@@ -9,6 +9,7 @@ const Progress = lazy(() => import('./pages/Progress'))
 const StatementsPage = lazy(() => import('./pages/StatementsPage'))
 const MAWorkbenchPage = lazy(() => import('./pages/MAWorkbenchPage'))
 const AppendixPage = lazy(() => import('./pages/AppendixPage'))
+const CompanyAnalyzerPage = lazy(() => import('./pages/CompanyAnalyzerPage'))
 
 function Loading() {
   return <div className="p-8" style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Loading…</div>
@@ -32,6 +33,7 @@ export default function App() {
             {/* Legacy simulator routes */}
             <Route path="/simulator" element={<StatementsPage />} />
             <Route path="/ma" element={<MAWorkbenchPage />} />
+            <Route path="/analyze" element={<CompanyAnalyzerPage />} />
 
             <Route path="/appendix/:id" element={<AppendixPage />} />
 

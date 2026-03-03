@@ -72,6 +72,19 @@ export default function NavDrawer() {
             📊 My Progress
           </NavLink>
 
+          {/* Company Analyzer */}
+          <NavLink
+            to="/analyze"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg mb-3 text-sm font-medium transition-colors"
+            style={({ isActive }) => ({
+              background: isActive ? 'var(--color-accent)' : 'transparent',
+              color: isActive ? 'white' : 'var(--color-text)',
+            })}
+          >
+            🔍 Company Analyzer
+          </NavLink>
+
           {/* Chapter list */}
           <div style={{ fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', color: 'var(--color-text-muted)', padding: '0 12px 6px', textTransform: 'uppercase' }}>
             Chapters
