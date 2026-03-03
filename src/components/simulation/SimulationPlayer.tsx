@@ -2196,6 +2196,31 @@ export default function SimulationPlayer() {
         />
       </div>
 
+      {/* Persistent scenario context */}
+      <div
+        className="px-4 py-2.5 flex items-start gap-2"
+        style={{
+          background: 'var(--color-base)',
+          borderBottom: '1px solid var(--color-border)',
+        }}
+      >
+        <span style={{ fontSize: '0.7rem', marginTop: '1px', flexShrink: 0 }}>📌</span>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.75rem',
+            color: 'var(--color-text-muted)',
+            lineHeight: 1.55,
+          }}
+        >
+          <span style={{ fontWeight: 700, color: 'var(--color-text)', fontFamily: 'var(--font-display)' }}>
+            Scenario:{' '}
+          </span>
+          {selectedScenario.description}
+        </p>
+      </div>
+
       <div className="p-4">
         {/* Step description */}
         {step && (
