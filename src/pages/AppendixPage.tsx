@@ -1,7 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { FRAUD_CASES } from '../data/fraudCases'
 import { CHAPTERS } from '../data/toc'
+import { SAMPLE_COMPANIES } from '../data/sampleCompanies'
+import { useLedgerStore } from '../store/ledgerStore'
 
 // Simulation components
 import AccountingEquationBalancer from '../components/simulations/AccountingEquationBalancer'
@@ -122,13 +124,20 @@ function A2Cases() {
 }
 
 function A3Statements() {
+  const selectedCompany = useLedgerStore(s => s.selectedCompany)
+  const initFromCompany = useLedgerStore(s => s.initFromCompany)
+
+  // Auto-initialize with Blank Company so the full simulator shows immediately
+  useEffect(() => {
+    if (!selectedCompany) {
+      initFromCompany(SAMPLE_COMPANIES[0])
+    }
+  }, [selectedCompany, initFromCompany])
+
   return (
-    <div>
-      <SectionHeader label="Appendix 3" title="Financial Statements Simulator" subtitle="The full interconnected statements simulator — enter transactions and watch them trace through the Income Statement, Balance Sheet, Cash Flow, and Equity Statement simultaneously." />
-      <Suspense fallback={<div style={{ color: 'var(--color-text-muted)', padding: '2rem' }}>Loading simulator…</div>}>
-        <StatementsPage />
-      </Suspense>
-    </div>
+    <Suspense fallback={<div style={{ color: 'var(--color-text-muted)', padding: '2rem 2rem' }}>Loading simulator…</div>}>
+      <StatementsPage />
+    </Suspense>
   )
 }
 
@@ -137,6 +146,7 @@ export default function AppendixPage() {
 
   return (
     <div className="min-h-screen pl-0 pt-12" style={{ background: 'var(--color-base)' }}>
+      {/* Header + nav always constrained */}
       <div className="px-8 py-8 max-w-5xl mx-auto">
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.25rem' }}>
           EMBA · Financial Accounting
@@ -145,10 +155,19 @@ export default function AppendixPage() {
           Appendix
         </h1>
         <AppendixNav current={id} />
-        {id === '1' && <A1Simulations />}
-        {id === '2' && <A2Cases />}
-        {id === '3' && <A3Statements />}
       </div>
+
+      {/* A1 and A2 stay constrained; A3 gets full width for 3-column layout */}
+      {id === '1' && <div className="px-8 pb-12 max-w-5xl mx-auto"><A1Simulations /></div>}
+      {id === '2' && <div className="px-8 pb-12 max-w-5xl mx-auto"><A2Cases /></div>}
+      {id === '3' && (
+        <div className="pb-12">
+          <div className="px-8 max-w-5xl mx-auto mb-2">
+            <SectionHeader label="Appendix 3" title="Financial Statements Simulator" subtitle="Enter transactions and watch them trace through the Income Statement, Balance Sheet, Cash Flow, and Equity Statement simultaneously." />
+          </div>
+          <A3Statements />
+        </div>
+      )}
     </div>
   )
 }
