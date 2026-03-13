@@ -165,4 +165,49 @@ export const CHAPTER_TAKEAWAYS: Record<number, ChapterTakeawayData> = {
       'Has the external auditor been in place for more than 10 years without rotation of the engagement partner?',
     ],
   },
+  11: {
+    color: '#7B2D26',
+    takeaways: [
+      { concept: 'Financial Statements Are an Interconnected System, Not Isolated Reports', insight: 'Every manipulation of one financial statement must create a compensating distortion in at least one other statement. Premature revenue inflates both the income statement and accounts receivable on the balance sheet. Capitalized expenses inflate both operating income and total assets. The cash flow statement — because cash is objective — serves as the ultimate reality check on the other two statements.', connection: 'Connects to Ch7: cash flow analysis exploits these interconnections by comparing income statement claims to actual cash generation — the most reliable fraud detection technique available.' },
+      { concept: 'Classification Determines What Ratios Show — and Hide', insight: 'The same dollar amount classified differently changes gross margins, operating income, liquidity ratios, and cash flow metrics without changing net income or total cash flow. WorldCom\'s reclassification of $3.8B in operating costs as capital expenditure inflated operating income and CFO simultaneously while leaving free cash flow unchanged. Classification fraud is the subtlest form of manipulation because the bottom line is often unaffected.', connection: 'Connects to Ch4: the capitalize-vs-expense decision is the most consequential classification judgment in accounting, controlling whether a cost hits the P&L immediately or is spread over years.' },
+      { concept: 'Window Dressing Exploits the Snapshot Nature of the Balance Sheet', insight: 'The balance sheet reports a single point in time — December 31 or March 31. Companies can temporarily improve their financial position around this date and revert to normal operations days later. Comparing year-end snapshots to intra-period averages reveals when the balance sheet date does not represent normal operations.', connection: 'Connects to Ch5: Lehman Brothers\' Repo 105 is the most extreme example of balance sheet window dressing — removing $50B from the balance sheet at quarter-end through transactions that reversed within days.' },
+    ],
+    skepticsLens: [
+      'Are revenue growth and accounts receivable growth moving in proportion — or is AR growing much faster, suggesting premature recognition?',
+      'Has the company reclassified any items between operating and non-operating categories, or between cash flow statement sections, compared to prior periods?',
+      'Do year-end liquidity ratios (current ratio, quick ratio) differ significantly from intra-period averages — a sign of window dressing?',
+      'Are there large, unusual transactions executed in the final days of the reporting period that appear designed to improve financial metrics?',
+      'Does the company present non-GAAP metrics that exclude recurring costs — and are these exclusions growing over time?',
+    ],
+  },
+  12: {
+    color: '#5C4033',
+    takeaways: [
+      { concept: 'Adjusting Entries Are Where Accounting Judgment Becomes Earnings Management', insight: 'Every adjusting entry — accruals, deferrals, depreciation estimates, reserve levels — involves management judgment about timing and amount. This judgment is the mechanism through which legitimate accounting becomes manipulation. The difference between conservative accrual and cookie jar creation, or between genuine write-down and big bath, lies in management intent — which is invisible in the financial statements.', connection: 'Connects to Ch2: revenue recognition timing is the highest-stakes adjusting entry judgment, directly controlling how much revenue appears in each period.' },
+      { concept: 'Cookie Jars and Big Baths Are Complementary Strategies', insight: 'Cookie jar reserves are created by over-accruing in good periods and released to boost income in bad periods. Big baths front-load maximum charges in already-bad periods to depress the baseline and create reserves for future release. Both exploit the judgment inherent in period-end adjusting entries. Together, they create artificially smooth earnings that hide underlying business volatility.', connection: 'Connects to Ch10: the fraud triangle\'s "pressure" element is most acute when management faces earnings targets — the exact moment when cookie jar releases and adjusting entry manipulation are most likely.' },
+      { concept: 'The Accrual Quality Ratio Is the Master Detection Metric', insight: 'The ratio of cash from operations to net income (the accrual quality ratio) captures the aggregate effect of all adjusting entry choices. A ratio consistently below 1.0 means reported income exceeds cash generation — indicating that accrual judgments are systematically inflating income. This single metric, tracked over time, catches more earnings management than any other indicator.', connection: 'Connects to Ch8: the accrual quality ratio should be included alongside traditional DuPont analysis to assess whether ROE improvement is supported by cash generation or driven by accrual-based inflation.' },
+    ],
+    skepticsLens: [
+      'Are adjusting entries near period-end consistently directional (all income-increasing), or do they include both favorable and unfavorable adjustments?',
+      'Have reserve levels (bad debt allowance, warranty reserves, restructuring reserves) changed significantly without corresponding changes in business activity?',
+      'Does the company\'s earnings beat pattern correlate with identifiable reserve releases — precision matching between reserve changes and earnings surprises?',
+      'Has a new CEO taken unusually large write-offs in the first year — a potential big bath designed to depress the baseline for future comparisons?',
+      'Is the accrual quality ratio (CFO / Net Income) consistently below 1.0 and declining over time — the primary signal of deteriorating earnings quality?',
+    ],
+  },
+  13: {
+    color: '#3E2723',
+    takeaways: [
+      { concept: 'Complex Obligations Are Where Assumption-Driven Accounting Meets Material Risk', insight: 'Leases, deferred taxes, pensions, and contingent liabilities share a common feature: they are large, assumption-dependent, and difficult for non-specialists to analyze. This complexity creates an information asymmetry that management can exploit. Each of these areas involves multiple management choices (discount rates, expected returns, useful lives, probability assessments) that individually may be defensible but collectively can materially inflate reported results.', connection: 'Connects to Ch5: off-balance-sheet obligations (now partially addressed by ASC 842 for leases) remain significant through VIEs, guarantees, and purchase commitments — reading the footnotes is not optional.' },
+      { concept: 'Pension Assumptions Are the Largest Legal Earnings Management Lever', insight: 'A company with a $30 billion pension portfolio can shift reported pension expense by hundreds of millions of dollars simply by changing its expected return assumption by 1 percentage point. The discount rate assumption similarly controls the reported obligation by billions. These are choices, not calculations — and comparing them to industry peers reveals which companies are using assumptions to manage reported results.', connection: 'Connects to Ch8: pension assumption differences between peers can explain a significant portion of apparent earnings and leverage differences — normalize before comparing.' },
+      { concept: 'The Footnotes Often Contain More Risk Information Than the Face of the Financial Statements', insight: 'Contingent liabilities classified as "reasonably possible" are disclosed only in footnotes and can exceed recognized balance sheet liabilities. Purchase commitments, VIE guarantees, and pension sensitivities are all footnote disclosures. An analyst who reads only the face of the financial statements and ignores the footnotes is seeing half the picture — at best.', connection: 'Connects to Ch1: the accounting equation always balances on the face of the statements, but the footnotes reveal obligations and risks that the equation does not capture — making footnote analysis essential for complete assessment.' },
+    ],
+    skepticsLens: [
+      'Are the company\'s pension discount rate and expected return on plan assets at the aggressive end of the peer range — reducing reported expense through assumption choices rather than operational performance?',
+      'Has the company released a deferred tax valuation allowance, and if so, is the evidence of future profitability strong enough to justify the release — or is this a one-time income boost?',
+      'What is the total of all off-balance-sheet obligations disclosed in the commitment and contingencies footnote — and how does this compare to on-balance-sheet debt?',
+      'Are there contingent liabilities classified as "reasonably possible" that could become "probable" with deteriorating business conditions — and how material are they relative to equity?',
+      'Do the company\'s lease discount rates and term assumptions differ significantly from peers, potentially understating lease liabilities on the balance sheet?',
+    ],
+  },
 }

@@ -1,16 +1,9 @@
 import { Link } from 'react-router-dom'
-import { CHAPTERS } from '../data/toc'
+import { TEXTBOOK_CHAPTERS, TEXTBOOK_APPENDICES } from '../data/textbookToc'
 import { useProgressStore } from '../store/progressStore'
 import ModeSwitch from '../components/shell/ModeSwitch'
 
-const APPENDIX_ITEMS = [
-  { id: '1', label: 'A1', title: 'All Simulations', subtitle: 'Every chapter simulation on one page', emoji: '⚙️' },
-  { id: '2', label: 'A2', title: 'Case Library', subtitle: 'All 30 fraud cases expanded', emoji: '📋' },
-  { id: '3', label: 'A3', title: 'Statements Simulator', subtitle: 'Trace transactions through all statements', emoji: '📊' },
-  { id: '4', label: 'A4', title: 'Transaction Flow', subtitle: 'Step-by-step transaction walkthroughs', emoji: '🔀' },
-]
-
-export default function Home() {
+export default function TextbookHome() {
   const getChapterStars = useProgressStore(s => s.getChapterStars)
   const getChapterPct = useProgressStore(s => s.getChapterPct)
 
@@ -18,35 +11,33 @@ export default function Home() {
     <div className="min-h-screen pl-0 pt-12" style={{ background: 'var(--color-base)' }}>
       {/* Hero */}
       <div className="px-8 py-10 max-w-5xl mx-auto">
+        <ModeSwitch />
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--color-text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-          EMBA · Financial Accounting
+          EMBA &middot; Financial Accounting
         </p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 700, color: 'var(--color-accent)', margin: '4px 0 8px' }}>
-          Learn Accounting Through<br />Real Failures
+          Financial Accounting
         </h1>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--color-text-muted)', margin: '0 0 12px', letterSpacing: '0.04em' }}>
           Designed by Imran Dar
         </p>
         <p style={{ color: 'var(--color-text-muted)', fontSize: '1rem', maxWidth: '520px' }}>
-          10 chapters. 30 real fraud cases. Hands-on simulations. Built for executives who need more than mechanics — they need judgment.
+          12 chapters following Hanlon et al. textbook structure. Interactive simulations and concept deep-dives.
         </p>
-        <div className="mt-6">
-          <ModeSwitch />
-        </div>
       </div>
 
       {/* Chapter grid */}
       <div className="px-8 pb-12 max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {CHAPTERS.map(ch => {
-            const pct = getChapterPct(ch.id)
-            const stars = getChapterStars(ch.id)
+          {TEXTBOOK_CHAPTERS.map(ch => {
+            const pct = getChapterPct(ch.dataChapterId)
+            const stars = getChapterStars(ch.dataChapterId)
             const maxStars = 15
 
             return (
               <Link
-                key={ch.id}
-                to={`/chapter/${ch.id}/zone/1`}
+                key={ch.tbId}
+                to={`/textbook/${ch.tbId}/zone/1`}
                 className="block rounded-xl overflow-hidden transition-shadow hover:shadow-lg"
                 style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
               >
@@ -57,7 +48,7 @@ export default function Home() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                        Chapter {ch.id}
+                        TB Ch {ch.tbId}
                       </div>
                       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--color-text)', margin: '2px 0 2px' }}>
                         {ch.title}
@@ -83,7 +74,7 @@ export default function Home() {
                           className="inline-block px-2 py-0.5 rounded text-xs font-medium"
                           style={{ background: ch.color + '18', color: ch.color }}
                         >
-                          {ch.id === 10 ? 'Capstone' : 'Start'}
+                          Start
                         </span>
                       )}
                     </div>
@@ -113,29 +104,28 @@ export default function Home() {
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.1em', color: 'var(--color-text-muted)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
           Appendix
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {APPENDIX_ITEMS.map(item => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {TEXTBOOK_APPENDICES.map(app => (
             <Link
-              key={item.id}
-              to={`/appendix/${item.id}`}
+              key={app.id}
+              to={`/textbook/appendix/${app.id}`}
               className="block rounded-xl overflow-hidden transition-shadow hover:shadow-lg"
               style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
             >
-              <div style={{ background: 'var(--color-accent)', height: '4px' }} />
+              <div style={{ background: app.color, height: '4px' }} />
               <div className="p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                      {item.label}
+                      Appendix {app.id}
                     </div>
                     <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 700, color: 'var(--color-text)', margin: '2px 0 2px' }}>
-                      {item.title}
+                      {app.title}
                     </h2>
                     <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', margin: 0 }}>
-                      {item.subtitle}
+                      {app.subtitle}
                     </p>
                   </div>
-                  <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{item.emoji}</span>
                 </div>
               </div>
             </Link>

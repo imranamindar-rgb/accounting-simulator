@@ -1122,4 +1122,1127 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
       },
     },
   ],
+  11: [
+    {
+      id: 'ch11-s1',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Building the Balance Sheet',
+      explanation:
+        'The balance sheet is a snapshot of a company\'s financial position at a single point in time. Assets are listed in order of liquidity (most liquid first), and liabilities in order of maturity (soonest due first). The classification of items as current vs. non-current directly affects liquidity ratios and covenant compliance.',
+      formula: 'Assets = Liabilities + Stockholders\' Equity',
+      highlights: [
+        'Assets are classified as current (convertible to cash within one year) or non-current (longer-term).',
+        'Liabilities follow the same current/non-current distinction based on when they come due.',
+        'Stockholders\' equity includes contributed capital, retained earnings, and accumulated other comprehensive income.',
+        'The order and classification of items is not cosmetic — it drives every liquidity and solvency ratio analysts compute.',
+      ],
+      deepDive: {
+        body: [
+          'Balance sheet construction begins with the trial balance — a listing of all account balances from the general ledger. Accounts are then classified into the standard categories: current assets, non-current assets, current liabilities, non-current liabilities, and equity.',
+          'The classification decision is not always straightforward. A loan due in 13 months is non-current; the same loan due in 11 months is current. Companies near covenant violations have been caught reclassifying current liabilities as non-current to improve the current ratio.',
+          'The balance sheet date matters enormously. A company that draws down its credit line on December 30 and repays it on January 2 shows dramatically different liquidity than one that does not. This is "window dressing" — structuring transactions around the reporting date to present a more favorable snapshot.',
+        ],
+        keyInsights: [
+          'Current vs. non-current classification directly controls the current ratio. Reclassifying even a single large liability from current to non-current can swing the ratio from covenant violation to compliance.',
+          'Balance sheet order (liquidity for assets, maturity for liabilities) is standardized under GAAP but the exact presentation format allows management discretion in grouping and labeling.',
+          'Comparative balance sheets (showing two or more periods) are required — and the trend between periods is often more informative than any single snapshot.',
+        ],
+        realWorldExample:
+          'In the lead-up to the 2008 financial crisis, multiple financial institutions engaged in window dressing by temporarily reducing leverage at quarter-end. Lehman Brothers\' Repo 105 transactions (discussed in Chapter 5) are the most famous example, but the practice was widespread. The SEC later required enhanced disclosure of quarter-end vs. average balance sheet positions for financial institutions.',
+        commonMistakes: [
+          'Assuming that balance sheet classification is objective — management has meaningful discretion in what qualifies as "current" vs. "non-current."',
+          'Ignoring the footnotes that describe off-balance-sheet items, contingent liabilities, and variable interest entities that do not appear on the face of the balance sheet.',
+          'Treating the balance sheet date as representative of normal operations — quarter-end and year-end snapshots are the most likely to be window-dressed.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reclassifies $50 million of debt from current liabilities to non-current liabilities by extending the loan maturity from 10 months to 14 months on December 28. Its current ratio before the change was 0.95:1, and a debt covenant requires 1.0:1 minimum. What is the most likely motivation?',
+        options: [
+          { id: 'a', text: 'Legitimate refinancing to improve long-term capital structure', correct: false, explanation: 'The timing (3 days before year-end) and the minimal extension (10 to 14 months) suggest the primary motivation is ratio management, not genuine capital structure improvement.' },
+          { id: 'b', text: 'Window dressing to avoid a debt covenant violation at year-end', correct: true, explanation: 'Correct. The current ratio was 0.95:1 vs. a 1.0:1 covenant. Moving $50M from current to non-current at year-end is a textbook window-dressing transaction designed to avoid triggering the covenant.' },
+          { id: 'c', text: 'An accounting error that should be corrected', correct: false, explanation: 'This is not an error — it is a deliberate transaction. The question is whether it reflects economic substance or is primarily motivated by ratio manipulation.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s2',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Building the Income Statement',
+      explanation:
+        'The income statement reports financial performance over a period of time (quarter or year). It starts with revenue and subtracts costs and expenses to arrive at net income. The format — single-step vs. multi-step — determines how much detail investors see about where profitability is generated and where it erodes.',
+      formula: 'Net Income = Revenue − COGS − Operating Expenses − Interest − Taxes',
+      highlights: [
+        'A multi-step income statement separates gross profit, operating income, and net income — each subtotal tells a different story about profitability.',
+        'Gross margin (Revenue minus COGS) reveals product-level profitability before overhead.',
+        'Operating income excludes financing decisions and taxes, isolating the core business performance.',
+        'Non-recurring items and discontinued operations are reported separately to help users assess sustainable earnings.',
+      ],
+      deepDive: {
+        body: [
+          'The multi-step income statement is more informative because each subtotal isolates a different driver of profitability. Gross profit reveals pricing power and production efficiency. Operating income adds overhead efficiency. Net income includes financing and tax effects.',
+          'Classification within the income statement matters as much as the totals. A cost classified as COGS reduces gross margin; the same cost classified as SG&A reduces operating margin but leaves gross margin intact. Companies have reclassified costs between categories to inflate gross margins while reporting the same bottom line.',
+          'Non-recurring items are supposed to represent truly unusual events, but many companies report "non-recurring" charges year after year. If restructuring charges appear in 5 consecutive years, they are recurring by definition — regardless of how management labels them.',
+        ],
+        keyInsights: [
+          'The classification of expenses between COGS and operating expenses is a management decision that directly affects gross margin — the ratio most analysts use to assess competitive positioning.',
+          'Companies that consistently report large "non-recurring" or "special" charges may be using these classifications to keep recurring costs out of operating metrics.',
+          'The income statement does not distinguish between cash and non-cash items — depreciation, amortization, and stock-based compensation reduce net income but do not consume cash in the period.',
+        ],
+        realWorldExample:
+          'Groupon faced SEC scrutiny in 2011 for using a non-GAAP metric called "adjusted consolidated segment operating income" (ACSOI) that excluded stock-based compensation and acquisition costs — both of which were massive recurring expenses. The SEC required Groupon to revise its S-1 filing and present GAAP metrics prominently, highlighting how income statement presentation can mislead investors when non-standard metrics are emphasized.',
+        commonMistakes: [
+          'Treating gross margin as comparable across companies without verifying that COGS includes the same types of costs — some companies include shipping, warehousing, or labor in COGS while others classify these as operating expenses.',
+          'Accepting "adjusted" or "non-GAAP" earnings without checking what is excluded and whether the exclusions are truly non-recurring.',
+          'Ignoring the difference between single-step (one lump subtraction) and multi-step (multiple subtotals) formats when comparing companies\' profitability.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports "non-recurring restructuring charges" in 4 of the last 5 years. How should an analyst treat these charges?',
+        options: [
+          { id: 'a', text: 'Exclude them from analysis since they are labeled non-recurring', correct: false, explanation: 'If a charge appears in 4 of 5 years, it is recurring regardless of the label. Excluding it inflates the analyst\'s estimate of sustainable earnings.' },
+          { id: 'b', text: 'Include them as a normal operating cost in the earnings estimate', correct: true, explanation: 'Correct. Charges that recur with this frequency are part of the cost of doing business. A skeptical analyst should include them in the normalized earnings estimate and question why management continues to label them as non-recurring.' },
+          { id: 'c', text: 'Average them over the 5-year period to smooth the impact', correct: false, explanation: 'Averaging is better than excluding, but the core issue is that these are operating costs masquerading as special items. They should be treated as normal recurring expenses.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s3',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Statement of Stockholders\' Equity',
+      explanation:
+        'The statement of stockholders\' equity reconciles the beginning and ending equity balances by showing all changes during the period: net income, dividends, stock issuances, buybacks, and other comprehensive income items. It is the bridge between the income statement and the balance sheet.',
+      formula: 'Ending Equity = Beginning Equity + Net Income − Dividends + Stock Issued − Stock Repurchased ± Other Comprehensive Income',
+      highlights: [
+        'Net income flows from the income statement into retained earnings — connecting the two statements.',
+        'Dividends reduce retained earnings but are not an expense on the income statement.',
+        'Treasury stock (share buybacks) reduces total equity, mechanically increasing return on equity.',
+        'Other comprehensive income (OCI) captures gains and losses that bypass the income statement, such as unrealized gains on available-for-sale securities and foreign currency translation adjustments.',
+      ],
+      deepDive: {
+        body: [
+          'The equity statement is often overlooked by investors who focus on the income statement and balance sheet. But it contains critical information about capital allocation decisions: how much income is retained vs. distributed, whether the company is issuing or repurchasing shares, and what is happening to OCI.',
+          'OCI is particularly important because it includes items that management may prefer to keep out of net income. Unrealized losses on investments, pension liability adjustments, and foreign currency translation losses can be massive — but they appear only in OCI, not in the earnings per share that analysts focus on.',
+          'Share buybacks reduce the equity denominator, which mechanically increases ROE even if net income is flat. A company that borrows money to buy back shares is simultaneously increasing liabilities and decreasing equity — a double leverage effect that can make the financial position look much riskier than the headline ROE suggests.',
+        ],
+        keyInsights: [
+          'Other comprehensive income can hide enormous losses that never appear in earnings per share — an analyst who only reads the income statement misses these entirely.',
+          'The ratio of dividends to net income (payout ratio) reveals management\'s confidence in sustainable earnings. A payout ratio above 100% means the company is distributing more than it earns — drawing down retained earnings.',
+          'Accumulated OCI on the balance sheet can swing from positive to negative, wiping out a significant portion of total equity without any impact on reported earnings.',
+        ],
+        realWorldExample:
+          'During 2022, rising interest rates caused massive unrealized losses on banks\' held-to-maturity bond portfolios. Silicon Valley Bank (SVB) had $15 billion in unrealized losses in its HTM portfolio that reduced equity through OCI. When depositors noticed, the resulting bank run collapsed SVB in 48 hours. The losses were visible in the equity statement — but most depositors and analysts were focused on reported earnings, which excluded the unrealized losses.',
+        commonMistakes: [
+          'Ignoring other comprehensive income because it does not affect earnings per share — OCI items can be larger than net income and represent real economic losses.',
+          'Calculating return on equity without adjusting for share buyback effects that artificially reduce the denominator.',
+          'Treating retained earnings as available cash — retained earnings is an equity account, not a measure of available liquidity.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A bank reports $2 billion in net income but its accumulated other comprehensive income decreased by $8 billion due to unrealized bond losses. Total equity declined by $6 billion. An analyst focused only on net income would conclude:',
+        options: [
+          { id: 'a', text: 'The bank had a profitable year based on the $2 billion net income', correct: false, explanation: 'While the income statement shows profit, total equity declined by $6 billion. Looking only at net income misses the $8 billion in unrealized losses that reduced the bank\'s economic value.' },
+          { id: 'b', text: 'The equity statement reveals the full picture — total equity declined despite positive net income', correct: true, explanation: 'Correct. The equity statement shows that the $2B net income was overwhelmed by $8B in OCI losses. Total equity declined by $6B. This is exactly why the equity statement exists — to capture changes that bypass net income.' },
+          { id: 'c', text: 'OCI losses are unrealized and can be ignored for valuation purposes', correct: false, explanation: 'SVB\'s collapse demonstrated that unrealized losses on bond portfolios can trigger real economic consequences. "Unrealized" does not mean "irrelevant."' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s4',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Accrual vs. Cash Basis Accounting',
+      explanation:
+        'Accrual accounting records revenue when earned and expenses when incurred, regardless of when cash changes hands. Cash basis accounting records transactions only when cash is received or paid. GAAP requires accrual accounting because it better matches economic activity to the period — but this matching also creates the gap between earnings and cash flow that enables manipulation.',
+      formula: 'Accrual Income ≠ Cash Flow (the difference is the core manipulation risk)',
+      highlights: [
+        'Accrual accounting provides a more accurate picture of economic performance by matching revenue to the period in which it was earned.',
+        'Cash basis accounting is simpler but fails to capture obligations and earned-but-uncollected revenue.',
+        'The gap between accrual income and operating cash flow is the single most important fraud signal in financial analysis.',
+        'Every accrual-based manipulation (premature revenue, deferred expenses) eventually reverses — the cash flow statement reveals the truth.',
+      ],
+      deepDive: {
+        body: [
+          'Accrual accounting is the foundation of modern financial reporting because it matches economic activity to the correct period. A company that delivers products in December but collects cash in January should recognize December revenue — this reflects the economic reality that the work was done in December.',
+          'However, the discretion inherent in accrual accounting is also its greatest vulnerability. Management decides when revenue is "earned" and when expenses are "incurred." These judgments create the space for manipulation: accelerating revenue recognition, deferring expense recognition, or both.',
+          'The cash flow statement acts as a reality check on accrual accounting. Cash is binary — it either moved or it didn\'t. When accrual income consistently exceeds cash from operations, it means the company is recognizing revenue or deferring expenses faster than cash supports. This divergence is the primary signal in nearly every major financial fraud.',
+        ],
+        keyInsights: [
+          'Every major accounting fraud involves exploiting the gap between accrual recognition and cash reality — Enron, WorldCom, Tyco, HealthSouth, and Wirecard all showed persistent divergence between net income and operating cash flow.',
+          'The accrual-to-cash conversion ratio (CFO / Net Income) should be at or above 1.0 for a healthy company over time. A ratio consistently below 0.8 warrants investigation.',
+          'Cash basis accounting, while less informative for complex businesses, is fraud-proof by definition — you cannot fabricate cash.',
+        ],
+        realWorldExample:
+          'HealthSouth Corporation (2003) reported accrual-based net income that exceeded cash from operations by a widening margin for years. The company was fabricating revenue entries to meet Wall Street estimates, but the cash never materialized. An analysis of the CFO-to-net-income ratio would have shown a persistent and growing divergence starting in the late 1990s — years before the $2.7 billion fraud was discovered.',
+        commonMistakes: [
+          'Assuming that accrual accounting is inherently misleading — it is the best system for matching economic activity to periods, but it requires skeptical analysis of management\'s judgments.',
+          'Treating cash flow as identical to profit — a company can have positive cash flow while losing money (by collecting old receivables) or negative cash flow while being profitable (by investing heavily in growth).',
+          'Ignoring the direction of the accrual-cash divergence: growing divergence (accrual income outpacing cash) is a red flag; shrinking divergence is typically benign.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports net income of $100 million for 3 consecutive years. Cash from operations for the same years is $95M, $80M, and $60M. What does this pattern suggest?',
+        options: [
+          { id: 'a', text: 'Normal variation in working capital timing', correct: false, explanation: 'Normal working capital variation would fluctuate around net income, not consistently decline. A steady decrease from $95M to $60M while income stays flat at $100M is a deteriorating accrual quality signal.' },
+          { id: 'b', text: 'Deteriorating earnings quality — accrual income is increasingly disconnected from cash reality', correct: true, explanation: 'Correct. The widening gap (5%, 20%, 40%) between reported net income and cash from operations indicates that accrual accounting choices are progressively overstating economic performance. This is a classic pre-fraud or aggressive-accounting pattern.' },
+          { id: 'c', text: 'The company is investing heavily in growth, which depresses operating cash flow', correct: false, explanation: 'Growth investment appears in the investing section of the cash flow statement, not in operating cash flow. A decline in CFO relative to net income reflects deteriorating accrual quality, not investment spending.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s5',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Account Classification and Misclassification',
+      explanation:
+        'Every account in the general ledger must be classified into the correct financial statement category: current vs. non-current, operating vs. non-operating, revenue vs. gain. Misclassification — whether accidental or deliberate — distorts the ratios and subtotals that analysts use to assess performance and risk.',
+      formula: 'Classification Error → Ratio Distortion → Misinformed Decision',
+      highlights: [
+        'Classifying an operating expense as a non-operating item inflates operating income without changing net income.',
+        'Reclassifying revenue as a gain (or vice versa) changes the perceived sustainability of earnings.',
+        'Current vs. non-current misclassification directly affects liquidity ratios like the current ratio and quick ratio.',
+        'Misclassification between the three cash flow statement sections (operating, investing, financing) changes free cash flow calculations.',
+      ],
+      deepDive: {
+        body: [
+          'Account classification determines which subtotals and ratios are affected by each transaction. A $10 million cost classified as COGS reduces gross margin. The same cost classified as SG&A leaves gross margin intact but reduces operating income by the same amount. Net income is identical — but gross margin, which analysts use to assess competitive positioning and pricing power, tells a very different story.',
+          'Cash flow classification is even more consequential. WorldCom reclassified $3.8 billion of operating expenses (line costs) as capital expenditures. This moved the cash outflow from the operating section to the investing section, inflating cash from operations by $3.8 billion. Free cash flow (CFO minus capex) was unchanged — but most analysts focused on CFO, which looked healthy.',
+          'Revenue vs. gain classification affects the top line. Revenue implies recurring business activity; gains imply one-time events. A company that sells a building and classifies the proceeds as revenue inflates the top line and makes growth look organic. GAAP has rules about this, but the boundaries are sometimes judgment-based.',
+        ],
+        keyInsights: [
+          'Classification fraud is the subtlest form of manipulation because net income is often unaffected — only subtotals, margins, and ratios change. This makes it harder to detect with simple bottom-line analysis.',
+          'The most consequential misclassification in modern accounting history was WorldCom\'s reclassification of operating costs as capital expenditure — it changed no bottom line numbers but made the company appear operationally healthy.',
+          'Analysts should compare classification patterns across years and peers. If one company\'s gross margin is 20% above peers, the first question should be whether COGS includes the same cost categories.',
+        ],
+        realWorldExample:
+          'WorldCom (2002) reclassified $3.8 billion in line costs — the fees it paid to lease telephone network capacity from other carriers — from operating expenses to capital assets. These were ordinary, recurring costs of running the business. By capitalizing them, WorldCom inflated operating income by $3.8 billion and turned operating losses into apparent profits. The fraud was discovered by internal auditor Cynthia Cooper, who traced the journal entries and found no supporting documentation.',
+        commonMistakes: [
+          'Assuming that classification does not matter because net income is the same — analysts, credit agencies, and covenant calculations rely on subtotals (gross profit, operating income, EBITDA) that are directly affected by classification.',
+          'Failing to compare line-item composition across companies in the same industry — different classification practices make peer comparisons meaningless without normalization.',
+          'Overlooking cash flow statement reclassification, which can inflate operating cash flow (the metric most correlated with stock price) without changing total cash flow.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A telecommunications company capitalizes $500 million of annual network access fees (operating costs) as a long-lived asset. Compared to correct classification, what happens to its reported financial metrics?',
+        options: [
+          { id: 'a', text: 'Net income increases by $500 million', correct: false, explanation: 'Net income does increase in the current year (costs are deferred), but the question focuses on the primary metric distortion. The capitalized amount will be depreciated over future years, so total net income over the asset life is the same — it is the timing that changes.' },
+          { id: 'b', text: 'Operating income increases and operating cash flow increases, while net income increases in the current year but is offset by future depreciation', correct: true, explanation: 'Correct. In the current year, operating income increases by $500M (the expense disappears from the income statement), operating cash flow increases by $500M (the outflow moves to investing activities), and net income increases (though it will be partially offset by depreciation in future years). This is exactly the WorldCom pattern.' },
+          { id: 'c', text: 'Only the balance sheet is affected — total assets increase', correct: false, explanation: 'The balance sheet, income statement, and cash flow statement are all affected. Assets increase, operating income increases, operating cash flow increases, and investing cash flow decreases.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s6',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Classified vs. Unclassified Balance Sheets',
+      explanation:
+        'A classified balance sheet separates assets and liabilities into current and non-current categories, providing users with clear information about liquidity and financial flexibility. An unclassified balance sheet lists all items without separation. GAAP requires classified presentation for most entities — but the classification decisions themselves involve judgment.',
+      formula: 'Current Ratio = Current Assets / Current Liabilities',
+      highlights: [
+        'Classification drives the current ratio, quick ratio, and working capital — all key liquidity metrics.',
+        'Current assets include cash, receivables, inventory, and prepaid expenses expected to be realized within one year.',
+        'Current liabilities include accounts payable, accrued expenses, short-term debt, and the current portion of long-term debt.',
+        'Financial institutions often use an unclassified format because the current/non-current distinction is less meaningful for banks.',
+      ],
+      deepDive: {
+        body: [
+          'The classified balance sheet is the standard format required by GAAP for most non-financial companies. Its primary purpose is to enable users to assess liquidity — the ability to meet short-term obligations as they come due.',
+          'The classification decision is crucial because liquidity ratios are directly derived from it. A company with $100M in current assets and $100M in current liabilities has a current ratio of 1.0. If it reclassifies $20M of current liabilities as non-current (by extending a loan term), the current ratio jumps to 1.25 without any change in actual liquidity.',
+          'Working capital (current assets minus current liabilities) is the most commonly cited liquidity measure. Negative working capital is a warning sign for most companies — though some businesses (like grocery chains) operate with negative working capital by design because they collect cash before paying suppliers.',
+        ],
+        keyInsights: [
+          'A classified balance sheet makes ratio manipulation more visible — analysts can see exactly what management includes in each category and track reclassifications over time.',
+          'The current portion of long-term debt must be reclassified from non-current to current as it approaches maturity — failure to do so overstates liquidity.',
+          'Some companies have covenant-driven incentives to manage the current/non-current boundary — the current ratio is the most commonly covenanted liquidity metric.',
+        ],
+        realWorldExample:
+          'During the European sovereign debt crisis (2010-2012), several European banks were criticized for classifying questionable sovereign bonds as "held to maturity" (non-current) rather than "available for sale" (potentially current). This classification decision affected both the balance sheet presentation and whether unrealized losses flowed through OCI. The reclassification timing — during periods of maximum stress — raised legitimate questions about whether the motivation was economic or cosmetic.',
+        commonMistakes: [
+          'Assuming that all companies with current ratios above 2.0 are highly liquid — the quality of current assets matters more than the quantity. If 80% of current assets is slow-moving inventory, the ratio overstates true liquidity.',
+          'Failing to check whether the current/non-current split has changed meaningfully between periods — reclassification is a common form of ratio management.',
+          'Ignoring that some industries (airlines, telecoms, banks) have different classification norms — comparing current ratios across industries without adjustment is misleading.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reclassifies $30M of inventory from current assets to non-current assets (labeling it as "strategic reserves"). What is the effect on the current ratio if current assets were $120M and current liabilities were $100M?',
+        options: [
+          { id: 'a', text: 'Current ratio decreases from 1.2 to 0.9', correct: true, explanation: 'Correct. Before: $120M / $100M = 1.2. After removing $30M from current assets: $90M / $100M = 0.9. This reclassification reveals that the company is actually illiquid when "strategic reserves" are excluded from current assets — raising the question of why it would make this change.' },
+          { id: 'b', text: 'Current ratio is unchanged because total assets remain the same', correct: false, explanation: 'The current ratio uses only current assets, not total assets. Moving inventory to non-current reduces the numerator while the denominator stays the same.' },
+          { id: 'c', text: 'Current ratio increases because non-current assets are a sign of strength', correct: false, explanation: 'The current ratio = current assets / current liabilities. Reducing current assets decreases the ratio. Non-current asset growth does not affect the current ratio.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s7',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'How the Four Financial Statements Interconnect',
+      explanation:
+        'The four financial statements — balance sheet, income statement, statement of stockholders\' equity, and cash flow statement — form an interconnected system. Net income flows from the income statement to retained earnings in the equity statement, which flows to the balance sheet. The cash flow statement reconciles the income statement to cash changes on the balance sheet. Understanding these linkages is essential for detecting manipulation.',
+      formula: 'Income Statement → Equity Statement → Balance Sheet ← Cash Flow Statement',
+      highlights: [
+        'Net income from the income statement increases retained earnings on the equity statement, which is part of total equity on the balance sheet.',
+        'The cash flow statement starts with net income and adjusts for non-cash items and working capital changes to arrive at the cash change on the balance sheet.',
+        'Dividends reduce retained earnings (equity statement) and appear as financing outflows (cash flow statement).',
+        'Any manipulation of one statement must create a compensating distortion in at least one other statement — this is why cross-statement analysis detects fraud.',
+      ],
+      deepDive: {
+        body: [
+          'The financial statement system is closed: every transaction affects at least two accounts and flows through the statements in a predictable pattern. This interconnection is both the strength of the system (it creates redundant verification) and the key to detecting manipulation (a distortion in one statement must appear somewhere else).',
+          'When revenue is prematurely recognized on the income statement, the corresponding debit must go somewhere on the balance sheet — typically to accounts receivable. This is why growing AR relative to revenue is the most reliable revenue manipulation signal: the income statement manipulation creates a balance sheet fingerprint.',
+          'Similarly, when expenses are capitalized instead of expensed, operating income increases (income statement) but capital assets increase by the same amount (balance sheet), and operating cash flow increases while investing cash flow decreases (cash flow statement). The total cash flow is unchanged — but the classification creates a detectable pattern.',
+        ],
+        keyInsights: [
+          'Every income statement manipulation has a balance sheet counterpart: premature revenue creates inflated receivables, deferred expenses create inflated assets or understated liabilities, and hidden liabilities create understated obligations.',
+          'The cash flow statement is the most reliable statement because cash transactions are objective — either cash moved or it didn\'t. This is why CFO divergence from net income is the primary fraud signal.',
+          'Cross-statement ratio analysis (like comparing receivables growth to revenue growth, or capex patterns to depreciation) exploits the interconnection to detect manipulation that might not be visible in any single statement.',
+        ],
+        realWorldExample:
+          'Satyam Computer Services (India, 2009) fabricated $1.5 billion in cash that appeared on the balance sheet. The manipulation was eventually caught because the cash was supposed to generate interest income on the income statement — but interest income was far too low for the reported cash balance. The interconnection between the balance sheet (cash) and income statement (interest revenue) created a detectable inconsistency that had been visible for years.',
+        commonMistakes: [
+          'Analyzing financial statements in isolation — the income statement without the balance sheet, or either without the cash flow statement — misses the cross-statement signals that reveal manipulation.',
+          'Assuming that if net income and cash flow agree, no manipulation exists — sophisticated fraudsters manipulate both statements simultaneously (as Wirecard did with fabricated bank confirmations).',
+          'Ignoring the equity statement entirely — it reveals share dilution, OCI losses, and capital allocation decisions that do not appear prominently on other statements.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports a 20% increase in revenue on the income statement. Accounts receivable on the balance sheet increased by 60% over the same period. What does this cross-statement analysis suggest?',
+        options: [
+          { id: 'a', text: 'The company is offering more generous payment terms to drive growth', correct: false, explanation: 'While possible, a 60% AR increase against 20% revenue growth is a 3:1 ratio — far beyond what credit term changes would explain. This is a classic revenue quality red flag.' },
+          { id: 'b', text: 'Revenue may be recognized prematurely or fictitiously — the cash collection is not supporting the reported revenue growth', correct: true, explanation: 'Correct. When AR grows much faster than revenue, it means the income statement is recognizing revenue that the balance sheet has not yet collected. This cross-statement divergence is the most common signal of premature or fictitious revenue recognition.' },
+          { id: 'c', text: 'Normal lag between recognition and collection for a growing company', correct: false, explanation: 'For a growing company, AR should grow roughly in proportion to revenue. A 3:1 ratio (60% AR growth vs. 20% revenue growth) far exceeds what proportional growth would produce.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s8',
+      chapterId: 11,
+      sectionLabel: 'Statement Construction',
+      title: 'Limitations of Financial Statements',
+      explanation:
+        'Financial statements have inherent limitations that every analyst must understand. They are backward-looking, rely on estimates and judgments, exclude non-financial value drivers (brand, culture, talent), and present aggregated data that can obscure underlying trends. These limitations do not make financial statements useless — they make skeptical, multi-source analysis essential.',
+      formula: 'Financial Statements = Historical Cost Data + Management Estimates + Classification Judgments',
+      highlights: [
+        'Financial statements report historical transactions — they are not forward-looking predictions of future performance.',
+        'Significant amounts on the financial statements are based on management estimates: allowance for doubtful accounts, useful lives, fair values, and contingent liabilities.',
+        'Non-financial assets (brand value, customer loyalty, employee expertise, intellectual property) are generally not recognized on the balance sheet.',
+        'Aggregation can hide important trends — a segment growing 30% and a segment declining 20% might produce a company-wide 5% growth rate that looks unremarkable.',
+      ],
+      deepDive: {
+        body: [
+          'The historical cost basis of accounting means that assets are recorded at what was paid for them, not what they are currently worth. A building purchased for $1 million 30 years ago might be worth $10 million today — but it appears on the balance sheet at historical cost minus accumulated depreciation, potentially near zero. This makes book value a poor measure of economic value for asset-rich companies.',
+          'Management estimates are pervasive in financial statements. Bad debt allowances, warranty reserves, pension obligations, useful life assumptions, impairment assessments, and fair value measurements all require judgment. Each estimate creates an opportunity for management to tilt the financial picture in a preferred direction.',
+          'Segment aggregation is a particularly insidious limitation. Companies with declining core businesses can mask the decline by growing through acquisitions or lumping segments together. GAAP requires segment reporting (ASC 280), but management has discretion in defining segments. An analyst who only reads consolidated financials may miss that the core business is dying while a newly acquired segment is propping up the numbers.',
+        ],
+        keyInsights: [
+          'Historical cost accounting means that the balance sheet undervalues some assets (land, buildings purchased decades ago) and overvalues others (technology, goodwill from overpriced acquisitions).',
+          'The pervasiveness of management estimates means that financial statements are not "facts" — they are management\'s representation of facts, filtered through judgment. The auditor\'s role is to verify that these judgments fall within an acceptable range, not that they are correct.',
+          'Non-financial value drivers (brands, human capital, data assets) are increasingly important but largely absent from financial statements — making pure financial analysis insufficient for knowledge-economy companies.',
+        ],
+        realWorldExample:
+          'General Electric under CEO Jeff Immelt aggregated its financial services division (GE Capital) with its industrial operations in ways that obscured the risk profile of each. GE Capital was essentially a systemically important financial institution embedded within an industrial conglomerate. The aggregated financial statements made it difficult for analysts to assess the true risk concentration in the financial services division until the 2008 financial crisis forced more transparent disclosure.',
+        commonMistakes: [
+          'Treating financial statements as objective truth rather than as management\'s representation — every material number involves estimates and judgment.',
+          'Using book value as a proxy for economic value without adjusting for historical cost distortions, especially for companies with significant real estate or intangible assets.',
+          'Relying solely on consolidated financials without analyzing segment data — the fastest-growing and fastest-declining parts of a business are invisible in consolidated totals.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports consolidated revenue growth of 8% per year for 5 years. Segment disclosure reveals that the legacy business has declined 5% annually while an acquired segment has grown 25% annually. What should an analyst conclude about the sustainability of the growth?',
+        options: [
+          { id: 'a', text: 'Growth is sustainable because the acquired segment compensates for the decline', correct: false, explanation: 'This depends on the relative size of the segments and whether the acquired segment can sustain 25% growth indefinitely. More importantly, the core business is deteriorating — a fact completely hidden by consolidated reporting.' },
+          { id: 'b', text: 'The consolidated growth rate is misleading — the core business is declining and growth depends entirely on acquisitions', correct: true, explanation: 'Correct. An 8% consolidated growth rate masks two completely different stories. The core business is in decline, and the headline growth is entirely acquisition-driven. Acquisition-driven growth is less sustainable and comes with integration risk, goodwill impairment risk, and often requires continued deal-making to maintain the illusion of growth.' },
+          { id: 'c', text: 'Segment analysis is unnecessary if the company meets its consolidated growth targets', correct: false, explanation: 'Segment analysis is precisely how analysts assess the quality and sustainability of growth. A company meeting targets through acquisitions while its core declines is fundamentally different from one growing organically.' },
+        ],
+      },
+    },
+  ],
+  12: [
+    {
+      id: 'ch12-s1',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Why Adjusting Entries Exist',
+      explanation:
+        'Adjusting entries are made at the end of an accounting period to ensure that revenues and expenses are recorded in the correct period under accrual accounting. Without adjustments, the financial statements would not accurately reflect economic activity — but the judgment involved in adjusting entries also creates opportunities for manipulation.',
+      formula: 'Adjusted Trial Balance = Unadjusted Trial Balance + Adjusting Journal Entries',
+      highlights: [
+        'Adjusting entries match revenue and expenses to the period in which they are earned or incurred.',
+        'There are four main types: accrued revenues, accrued expenses, deferred revenues, and deferred expenses (prepaid assets).',
+        'Adjusting entries never involve the cash account — cash transactions are recorded when they occur.',
+        'The timing, magnitude, and direction of adjusting entries are subject to management judgment — this is where cookie jar reserves and big bath charges originate.',
+      ],
+      deepDive: {
+        body: [
+          'Adjusting entries exist because business transactions do not conveniently align with accounting periods. Rent paid in advance, services delivered but not yet billed, wages earned but not yet paid — all of these require adjustments to place revenue and expenses in the correct period.',
+          'The four types of adjusting entries follow a clear logic: accruals recognize items that have occurred but have not been recorded (accrued revenue, accrued expenses), while deferrals postpone recognition of items that have been recorded but have not yet occurred (deferred revenue, prepaid expenses).',
+          'The manipulation risk in adjusting entries is significant because they are made at period-end, are based on estimates, and are often the last entries before financial statements are prepared. A company that needs to meet an earnings target can adjust its bad debt allowance, warranty reserve, or depreciation estimate — each of which is an adjusting entry that changes reported income without any change in actual business activity.',
+        ],
+        keyInsights: [
+          'Adjusting entries are the mechanism through which management exercises its most consequential accounting judgment — the timing and amount of every accrual and deferral is ultimately a management decision.',
+          'The volume and direction of adjusting entries near period-end is itself a red flag indicator. An unusually large number of income-increasing adjustments in the final days of a quarter suggests earnings management.',
+          'Auditors pay special attention to adjusting entries because they are the primary vehicle for both legitimate accounting and deliberate manipulation — distinguishing between the two requires understanding the business context.',
+        ],
+        realWorldExample:
+          'Sunbeam Corporation under CEO "Chainsaw Al" Dunlap used aggressive adjusting entries to create cookie jar reserves in 1996 (a "big bath" year) and then selectively released those reserves into income in 1997 to inflate earnings. The company recorded excessive restructuring reserves, allowances for returns, and warranty accruals — then reversed them the following year to boost profits. The adjusting entries were technically within GAAP bounds individually, but the pattern of creation and release was clearly manipulative.',
+        commonMistakes: [
+          'Treating adjusting entries as mechanical or objective — every adjusting entry involves judgment about timing, amount, or both.',
+          'Assuming that adjusting entries are immaterial — in aggregate, adjusting entries often determine whether a company meets or misses its earnings target.',
+          'Failing to track the trend in adjusting entry patterns across periods — consistent income-increasing adjustments at year-end are a manipulation signal.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company increases its allowance for doubtful accounts by $20 million in Year 1 (a bad year) and then reverses $15 million of that allowance in Year 2 (beating earnings estimates by exactly $15 million). What pattern does this suggest?',
+        options: [
+          { id: 'a', text: 'Legitimate improvement in customer credit quality in Year 2', correct: false, explanation: 'The exact match between the reversal ($15M) and the earnings beat ($15M) is suspicious. If credit quality genuinely improved, the reversal would be incidental to earnings — not the precise amount needed to beat estimates.' },
+          { id: 'b', text: 'Cookie jar reserve accounting — excess reserves created in a bad year and released to manage earnings in a subsequent year', correct: true, explanation: 'Correct. This is the classic cookie jar pattern: over-reserve in a bad year (when the market is already disappointed) and selectively release reserves to meet targets in a better year. The precision of the reversal matching the earnings beat is a textbook red flag.' },
+          { id: 'c', text: 'Normal fluctuation in accounting estimates', correct: false, explanation: 'Normal estimate changes do not precisely match the amount needed to beat earnings targets. The correlation between the reversal and the earnings beat strongly suggests deliberate earnings management.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s2',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Accrued Revenues and Accrued Expenses',
+      explanation:
+        'Accrued revenues represent income earned but not yet billed or collected. Accrued expenses represent costs incurred but not yet paid. Both require adjusting entries to ensure revenues and expenses are recorded in the period they relate to, regardless of when cash changes hands.',
+      formula: 'Accrued Revenue: Debit Accounts Receivable, Credit Revenue | Accrued Expense: Debit Expense, Credit Accrued Liability',
+      highlights: [
+        'Accrued revenues increase both assets (receivable) and income in the current period.',
+        'Accrued expenses increase both liabilities and expenses in the current period.',
+        'The key question for accruals: has the economic event occurred, or is management recognizing it prematurely?',
+        'Under-accruing expenses is one of the most common forms of earnings management — it defers costs to future periods.',
+      ],
+      deepDive: {
+        body: [
+          'Revenue accruals recognize income when the performance obligation is satisfied, even if the invoice has not been sent or cash has not been received. A consulting firm that completes a $100,000 project in December but invoices in January should accrue the revenue in December. The adjusting entry debits accounts receivable and credits revenue.',
+          'Expense accruals recognize costs when they are incurred, even if the bill has not been received. A company whose employees work the last week of December but are not paid until January 5 must accrue the wage expense in December. The adjusting entry debits wage expense and credits wages payable.',
+          'The manipulation risk in accruals runs in both directions. Revenue accruals can be inflated by prematurely recognizing work that is not yet complete. Expense accruals can be understated by failing to recognize costs that have clearly been incurred. Both inflate current-period earnings.',
+        ],
+        keyInsights: [
+          'Under-accruing expenses is statistically the most common form of earnings management because it requires inaction (not recording a liability) rather than action (creating a fictitious entry) — making it psychologically easier for management and harder for auditors to detect.',
+          'The accrued liabilities line on the balance sheet should be monitored relative to operating costs — if operating costs grow but accrued liabilities remain flat or decline, expenses may be under-accrued.',
+          'Revenue accruals for percentage-of-completion contracts are particularly susceptible to manipulation because the percentage complete is a management estimate that directly controls how much revenue is recognized.',
+        ],
+        realWorldExample:
+          'Xerox (2002) was found to have prematurely accrued $3 billion in revenue over a 4-year period by accelerating the recognition of revenue from long-term equipment leases. The company recognized a disproportionate share of the total lease revenue upfront rather than spreading it over the lease term. The SEC charged Xerox with fraud, and the company restated earnings. The manipulation was detectable through the divergence between accrued revenue and actual cash collected from lease customers.',
+        commonMistakes: [
+          'Assuming that accrued revenue always reflects real economic activity — the entry is based on management\'s assertion that the performance obligation is satisfied, which may not be independently verifiable.',
+          'Overlooking under-accrued expenses because they are an absence of entries rather than the presence of suspicious ones — checking for what is missing requires active comparison to expected accrual levels.',
+          'Treating accrual estimates as precise — every accrual is an estimate, and the range of reasonable estimates can be wide enough to accommodate significant earnings management.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A construction company using percentage-of-completion accounting reports a project as 75% complete (recognizing 75% of revenue), but physical inspection suggests only 50% of the work is done. What has likely occurred?',
+        options: [
+          { id: 'a', text: 'Normal estimation differences between financial and physical metrics', correct: false, explanation: 'A 25 percentage point gap between reported completion and physical observation is well beyond normal estimation uncertainty. This suggests deliberate overstatement.' },
+          { id: 'b', text: 'Revenue has been prematurely accrued by overstating the percentage of completion', correct: true, explanation: 'Correct. The company has recognized 75% of total contract revenue when only 50% of the work is done. This is premature revenue accrual — a classic percentage-of-completion manipulation. The overstatement equals 25% of the total contract value.' },
+          { id: 'c', text: 'Physical completion measures are unreliable for construction projects', correct: false, explanation: 'While physical measures have limitations, a 25-point gap is not a measurement error — it is a systematic overstatement of completion that directly inflates revenue.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s3',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Deferred Revenues and Prepaid Expenses',
+      explanation:
+        'Deferred revenue (unearned revenue) represents cash received before the performance obligation is satisfied. Prepaid expenses represent cash paid before the expense is incurred. Both are initially recorded as balance sheet items and recognized on the income statement over time through adjusting entries.',
+      formula: 'Deferred Revenue: Initially Credit Liability, then Debit Liability / Credit Revenue as earned | Prepaid Expense: Initially Debit Asset, then Debit Expense / Credit Asset as consumed',
+      highlights: [
+        'Deferred revenue is a liability — the company owes the customer a product or service.',
+        'Prepaid expenses are assets — the company has already paid for a benefit it has not yet received.',
+        'The rate at which deferred revenue is recognized and prepaid expenses are amortized is a management judgment that directly affects timing of income recognition.',
+        'Declining deferred revenue can signal either healthy revenue recognition or slowing future sales — context determines the interpretation.',
+      ],
+      deepDive: {
+        body: [
+          'Deferred revenue is one of the most important balance sheet items for subscription-based businesses. A software company that sells $120 million in annual subscriptions collects the cash upfront but can only recognize $10 million per month as the service is delivered. The remaining balance sits as a liability (deferred revenue) until earned.',
+          'The manipulation risk with deferred revenue runs both ways. Management can accelerate recognition (converting liability to revenue too quickly) to inflate current earnings. Or management can delay recognition to build a reserve that can be released in a future period when earnings are weaker — the cookie jar technique.',
+          'Prepaid expenses involve the same dual risk. A prepaid insurance policy should be amortized evenly over the coverage period. But management might slow the amortization (keeping the prepaid asset on the balance sheet longer) to defer expense recognition and inflate current-period income.',
+        ],
+        keyInsights: [
+          'Deferred revenue is a forward-looking indicator: growing deferred revenue generally signals strong future demand, while declining deferred revenue may indicate weakening bookings. But the metric can be manipulated by changes in billing practices.',
+          'The ratio of deferred revenue to total revenue should be relatively stable for companies with consistent business models. A sudden change in this ratio warrants investigation of whether recognition policies have changed.',
+          'Prepaid expense amortization periods should match the service period. If a prepaid item is amortized over 36 months when the service contract is for 12 months, expense recognition is being artificially delayed.',
+        ],
+        realWorldExample:
+          'MicroStrategy (2000) was charged by the SEC with prematurely recognizing revenue from multi-element software arrangements. The company recognized the full contract value upfront rather than deferring portions related to future services and upgrades. This converted what should have been deferred revenue (a liability) into immediate revenue, inflating reported earnings. MicroStrategy restated 3 years of revenue, and the stock dropped 62% in a single day.',
+        commonMistakes: [
+          'Interpreting deferred revenue growth as universally positive without checking whether the growth is driven by genuine new bookings or by changes in billing practices (such as shifting from monthly to annual billing).',
+          'Failing to verify that prepaid expense amortization periods match the underlying service periods — extended amortization defers expenses and inflates current earnings.',
+          'Confusing deferred revenue with cash — deferred revenue is a liability on the balance sheet, not available cash. Companies have spent the cash while the obligation to deliver services remains.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A SaaS company\'s deferred revenue decreased by 15% while reported revenue grew by 10%. Assuming no change in billing practices, what is the most likely interpretation?',
+        options: [
+          { id: 'a', text: 'The company is efficiently converting bookings into recognized revenue', correct: false, explanation: 'Declining deferred revenue with growing revenue could suggest efficient conversion, but it also means the backlog of future revenue is shrinking. The company may be recognizing previously deferred revenue faster to boost current results.' },
+          { id: 'b', text: 'New bookings may be slowing — the company is drawing down its backlog to sustain revenue growth', correct: true, explanation: 'Correct. If deferred revenue is declining while recognized revenue is growing, the company may be recognizing previously deferred revenue to compensate for weaker new bookings. This is a classic leading indicator of future revenue deceleration.' },
+          { id: 'c', text: 'This is normal for a maturing SaaS business', correct: false, explanation: 'A maturing SaaS business typically shows deferred revenue growing in line with (or faster than) recognized revenue as the installed base grows and renews. Declining deferred revenue against growing revenue is a warning signal, not a sign of maturity.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s4',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Depreciation and Amortization Adjustments',
+      explanation:
+        'Depreciation allocates the cost of tangible long-lived assets over their useful lives. Amortization does the same for intangible assets with finite lives. Both are adjusting entries that reduce asset values and recognize expense over time — and both involve management estimates (useful life, salvage value, method) that directly control reported income.',
+      formula: 'Straight-Line Depreciation = (Cost − Salvage Value) / Useful Life',
+      highlights: [
+        'Straight-line, declining balance, and units-of-production are the most common depreciation methods — each produces different expense patterns.',
+        'Longer useful lives and higher salvage values reduce annual depreciation expense, inflating current income.',
+        'Changes in depreciation estimates are disclosed in footnotes but can have material income effects that investors overlook.',
+        'Goodwill (indefinite life) is not amortized but must be tested annually for impairment — creating a different manipulation vector.',
+      ],
+      deepDive: {
+        body: [
+          'Depreciation is a non-cash expense that allocates the cost of an asset over the periods that benefit from its use. The matching principle requires this allocation — but the specific choices (method, useful life, salvage value) are management decisions that directly affect reported income.',
+          'A company that extends the useful life of its equipment from 10 years to 15 years reduces annual depreciation by one-third. If the equipment fleet costs $1 billion, this change reduces annual depreciation expense by approximately $22 million — an amount that could be the difference between meeting and missing earnings estimates.',
+          'Amortization of intangible assets (patents, customer lists, software) follows similar logic. The useful life chosen for a patent or customer list acquired in a business combination directly affects how quickly the acquisition cost flows through the income statement. Acquirers have incentives to assign longer lives to reduce annual amortization and make post-acquisition earnings look better.',
+        ],
+        keyInsights: [
+          'Waste Management (1998) extended the estimated useful lives of its garbage trucks and containers, reducing depreciation by $1.7 billion over multiple years. This is the largest single depreciation manipulation in U.S. accounting history.',
+          'The depreciation-to-asset ratio (depreciation expense / gross PP&E) should be relatively stable over time. A declining ratio suggests that useful lives have been extended or new assets are being depreciated more slowly.',
+          'Comparing a company\'s depreciation assumptions to industry peers can reveal aggressive or conservative choices — a company depreciating identical equipment over 20 years when peers use 10 years is making an outlier assumption.',
+        ],
+        realWorldExample:
+          'Waste Management (1998) systematically extended the useful lives and inflated the salvage values of its garbage trucks, containers, and landfill equipment over a decade. The cumulative effect was $1.7 billion in understated depreciation expense. When the fraud was discovered, the company restated earnings for 5 years. Arthur Andersen, the auditor, had identified the issues but allowed management to correct them over future periods rather than requiring immediate restatement — a decision that later contributed to Andersen\'s reputational collapse.',
+        commonMistakes: [
+          'Treating depreciation as a precise, mechanical calculation — every input (cost, useful life, salvage value, method) involves judgment, and small changes in assumptions have material income effects.',
+          'Ignoring changes in depreciation estimates disclosed in footnotes — these changes are often described in bland, technical language that understates their earnings impact.',
+          'Assuming that non-cash expenses do not matter for valuation — while depreciation does not consume cash, it represents the economic consumption of long-lived assets that must eventually be replaced.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company changes the useful life of its manufacturing equipment from 10 years to 15 years. The gross book value of the equipment is $900 million with zero salvage value. What is the annual income effect of this change?',
+        options: [
+          { id: 'a', text: 'Annual depreciation decreases by $30 million, increasing pre-tax income by $30 million', correct: true, explanation: 'Correct. Old depreciation: $900M / 10 = $90M per year. New depreciation: $900M / 15 = $60M per year. The change reduces annual depreciation by $30M, which directly increases pre-tax income by $30M. This is a significant boost that comes entirely from changing an estimate, not from improved operations.' },
+          { id: 'b', text: 'No effect on income — depreciation is a non-cash expense', correct: false, explanation: 'Depreciation is a non-cash expense but it does reduce reported income. Lower depreciation means higher reported income, even though cash flow is unaffected.' },
+          { id: 'c', text: 'The income effect depends on the depreciation method used', correct: false, explanation: 'The question specifies the key inputs (cost, useful life, salvage value). For straight-line depreciation, the calculation is deterministic: $900M / 10 = $90M old, $900M / 15 = $60M new, difference = $30M.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s5',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'The Trial Balance and Closing Entries',
+      explanation:
+        'The trial balance lists all account balances to verify that total debits equal total credits. The adjusted trial balance incorporates all adjusting entries and is the direct source for preparing financial statements. Closing entries then zero out temporary accounts (revenue, expenses) by transferring their balances to retained earnings, preparing the accounts for the next period.',
+      formula: 'Total Debits = Total Credits (always, at every stage)',
+      highlights: [
+        'The unadjusted trial balance is the starting point — it captures all transactions recorded during the period.',
+        'Adjusting entries transform the unadjusted trial balance into the adjusted trial balance.',
+        'Financial statements are prepared directly from the adjusted trial balance.',
+        'Closing entries reset revenue and expense accounts to zero and transfer net income to retained earnings.',
+      ],
+      deepDive: {
+        body: [
+          'The trial balance is the bridge between the general ledger and the financial statements. At its core, it is a verification tool: if total debits do not equal total credits, an error has been made. But a balanced trial balance does not guarantee accuracy — errors of equal and offsetting amounts, misclassified entries, and omitted transactions can all exist within a balanced trial balance.',
+          'The adjusted trial balance is critical because it reflects all period-end judgments. Every adjusting entry — depreciation estimates, accruals, deferrals, reserves — is captured here. The adjusted trial balance is the last stop before financial statements are prepared, making it the most important document for understanding what management has decided to report.',
+          'Closing entries are mechanical but conceptually important. Revenue and expense accounts are temporary — they accumulate activity for a single period and then reset to zero. The closing process transfers net income into retained earnings, which is a permanent account on the balance sheet. This is the mechanical link between the income statement and the balance sheet.',
+        ],
+        keyInsights: [
+          'A balanced trial balance proves only that debits equal credits — not that accounts are classified correctly, estimates are reasonable, or all transactions have been recorded.',
+          'The timing and nature of adjusting entries between the unadjusted and adjusted trial balance is where most earnings management occurs. Comparing the two reveals exactly what management changed at period-end.',
+          'Post-closing trial balance should contain only permanent (balance sheet) accounts — any temporary accounts remaining indicate a closing error.',
+        ],
+        realWorldExample:
+          'During the HealthSouth fraud (2003), employees were instructed to make adjusting entries to inflate revenue and assets. The journal entries were made after the unadjusted trial balance was prepared, specifically to close the gap between actual results and Wall Street expectations. CEO Richard Scrushy allegedly set earnings targets, and controllers worked backward from those targets to determine the adjusting entries needed. The adjusted trial balance was manufactured to produce desired financial statements rather than to reflect economic reality.',
+        commonMistakes: [
+          'Assuming a balanced trial balance means the accounts are correct — balance only proves mathematical equality of debits and credits, not accuracy of amounts or classifications.',
+          'Overlooking the information contained in the difference between unadjusted and adjusted trial balances — this difference reveals the full scope of period-end management judgment.',
+          'Treating closing entries as merely administrative — the transfer of net income to retained earnings is the mechanism that connects single-period performance to the cumulative equity of the company.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'An auditor compares the unadjusted trial balance to the adjusted trial balance and finds $45 million in adjusting entries that all increase revenue or decrease expenses. All entries were made in the last 3 days of the quarter. What should the auditor conclude?',
+        options: [
+          { id: 'a', text: 'This is normal — adjusting entries are always made at period-end', correct: false, explanation: 'While adjusting entries are made at period-end by definition, $45 million in entries that are all income-increasing is a directional bias that warrants investigation. Normal adjustments would include both income-increasing and income-decreasing entries.' },
+          { id: 'b', text: 'The one-directional pattern is a significant red flag for earnings management that requires detailed investigation', correct: true, explanation: 'Correct. Normal adjusting entries should include both income-increasing and income-decreasing adjustments. When all adjustments move income in the same direction, it suggests that the entries were driven by a target rather than by objective application of accounting principles. This is the HealthSouth pattern.' },
+          { id: 'c', text: 'The auditor should accept the entries if they are individually within GAAP', correct: false, explanation: 'Individual GAAP compliance does not eliminate the concern. The pattern (all income-increasing, concentrated at period-end) is itself the red flag. An auditor must evaluate not just individual entries but the aggregate pattern and direction.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s6',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Cookie Jar Reserves',
+      explanation:
+        'Cookie jar reserves are created when management over-accrues expenses or creates excessive reserves in good periods, then reverses those excess accruals in bad periods to smooth earnings. The practice exploits the judgment inherent in adjusting entries to create a hidden pool of future income that can be tapped when needed.',
+      formula: 'Cookie Jar = Over-Accrued Reserve (Period 1) → Reserve Reversal into Income (Period 2)',
+      highlights: [
+        'Companies over-accrue restructuring charges, warranty reserves, bad debt allowances, or litigation reserves in strong quarters.',
+        'In subsequent weaker quarters, the excess reserves are reversed — reducing expenses and inflating income.',
+        'The practice creates artificially smooth earnings streams that hide underlying business volatility.',
+        'SEC enforcement actions specifically target cookie jar accounting as a form of earnings management.',
+      ],
+      deepDive: {
+        body: [
+          'Cookie jar accounting works because GAAP requires estimates for many accruals and reserves. When a company records a $50 million restructuring charge but only expects to spend $35 million, the excess $15 million becomes a cookie jar reserve. In a future period, the company reverses the $15 million — recording it as a reduction in expenses, which increases income by $15 million without any economic activity.',
+          'The SEC under Chairman Arthur Levitt specifically identified cookie jar reserves as one of the five most common earnings management techniques in his landmark 1998 speech "The Numbers Game." Despite increased scrutiny, the practice persists because the line between conservative accrual (a legitimate accounting choice) and deliberate over-accrual (manipulation) is inherently subjective.',
+          'Cookie jar reserves are most commonly created through: (1) restructuring charges that include excess provisions for costs that never materialize, (2) allowances for doubtful accounts that exceed actual bad debt experience, (3) warranty reserves that significantly overstate actual warranty claims, and (4) litigation reserves for lawsuits that settle for less than the reserved amount.',
+        ],
+        keyInsights: [
+          'Cookie jar accounting smooths earnings by borrowing from one period to inflate another. The total income over multiple periods is correct, but the period-by-period allocation is manipulated to create the illusion of consistency.',
+          'Reserve reversals that exactly match the amount needed to meet earnings targets are a telltale sign — legitimate reserve adjustments would not consistently produce precision matches.',
+          'Tracking reserve balances as a percentage of the underlying activity (e.g., bad debt reserve as % of receivables, warranty reserve as % of sales) reveals when reserves are excessive or deficient relative to actual experience.',
+        ],
+        realWorldExample:
+          'Bristol-Myers Squibb (2004) paid $150 million to settle SEC charges of cookie jar accounting. The company used excess reserves and other accounting maneuvers to meet Wall Street earnings estimates in every quarter from 2000 to 2001. Management directed controllers to find reserves that could be released when actual results fell short of targets. The SEC found that the company\'s cookie jar practices were systematic and directed from the top.',
+        commonMistakes: [
+          'Assuming that conservative accrual is always better than aggressive accrual — excessive conservatism in one period creates a reserve that enables aggressive reporting in future periods.',
+          'Evaluating reserve adequacy based on the reported amount alone without comparing it to actual historical experience (actual bad debts, actual warranty claims, actual restructuring costs).',
+          'Failing to track reserve movements across periods — the creation and release pattern is more informative than any single period\'s reserve balance.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company records a $40 million restructuring reserve in Q4 of Year 1. In Year 2, it reverses $25 million of the reserve, reporting that "actual restructuring costs were lower than estimated." The $25 million reversal exactly matches the amount needed to meet Q2 Year 2 earnings estimates. What is the most likely explanation?',
+        options: [
+          { id: 'a', text: 'Legitimate overestimation of restructuring costs that was corrected', correct: false, explanation: 'While overestimation is possible, the exact match between the reversal and the earnings shortfall is statistically unlikely to be coincidental. This precision suggests the reversal was driven by the earnings target, not by a genuine reassessment of costs.' },
+          { id: 'b', text: 'Cookie jar reserve management — the reserve was deliberately over-accrued to create a pool for future earnings management', correct: true, explanation: 'Correct. The pattern — large reserve creation in Q4 (when earnings exceeded targets), followed by precise release to meet a future target — is the textbook cookie jar technique. The precision of the match between the reversal and the earnings gap is the strongest signal of manipulation.' },
+          { id: 'c', text: 'Coincidence — sometimes estimates happen to match targets', correct: false, explanation: 'In isolation, one coincidence is possible. But cookie jar accounting is identified by the pattern: systematic over-accrual followed by precision releases that consistently match earnings gaps. The specificity of the match is the red flag.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s7',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Big Bath Charges',
+      explanation:
+        'A big bath is the opposite strategy from cookie jar smoothing: management takes massive write-offs and charges in a single period — typically when results are already going to be bad — to "clean the slate" and make future periods look better. The logic is: if the market is already disappointed, take all the pain at once and set up easy comparisons for next year.',
+      formula: 'Big Bath = Maximum Write-Offs in Bad Period → Reduced Future Expenses → Inflated Future Earnings',
+      highlights: [
+        'Big baths are most common during CEO transitions, restructurings, economic downturns, or when earnings will miss targets regardless.',
+        'By front-loading expenses, future periods show artificially strong improvement.',
+        'Large impairment charges, restructuring reserves, and inventory write-downs are the typical vehicles.',
+        'The practice exploits the market\'s tendency to "forgive" one bad quarter while rewarding the subsequent recovery narrative.',
+      ],
+      deepDive: {
+        body: [
+          'The big bath strategy is based on a simple insight: if a company is going to miss earnings by $50 million, the market reaction is similar whether the miss is $50 million or $200 million. But if management takes $200 million in charges (accelerating future expenses into the current period), the next several years will have $150 million less in expenses — creating the illusion of a dramatic turnaround.',
+          'New CEOs are particularly incentivized to take big baths. By writing off assets and creating reserves in their first year, they can blame the charges on the prior CEO\'s decisions while setting up flattering year-over-year comparisons that make their own tenure look successful. Research shows that CEO transitions are correlated with larger-than-expected write-offs.',
+          'The accounting vehicles for big baths include: asset impairments (writing down goodwill, long-lived assets, or inventory), restructuring charges (employee severance, facility closures), and changes in accounting estimates (increasing bad debt or warranty reserves). Each of these individually may be legitimate — the manipulation lies in the timing and magnitude.',
+        ],
+        keyInsights: [
+          'Big bath charges create asymmetric information: the charges depress the "low bar" year, making subsequent periods look better by comparison. Analysts who evaluate performance year-over-year without adjusting for big bath distortions will overestimate the improvement.',
+          'The correlation between CEO transitions and large write-offs is empirically well-documented — new executives have both the incentive (blame predecessor) and the opportunity (first-year discretion) to take big baths.',
+          'Big baths and cookie jars are complementary strategies: a big bath creates excess reserves (cookie jars) that can be released gradually into future earnings. The two techniques often operate together.',
+        ],
+        realWorldExample:
+          'When Carly Fiorina was replaced as CEO of Hewlett-Packard in 2005, her successor Mark Hurd took $5.5 billion in restructuring and impairment charges in his first year. These charges included goodwill write-downs related to Fiorina\'s $25 billion Compaq acquisition and restructuring costs for workforce reductions. The charges depressed Year 1 results but created favorable comparisons that made Hurd\'s subsequent years appear as a dramatic turnaround — even though much of the "improvement" came from the absence of the front-loaded charges.',
+        commonMistakes: [
+          'Celebrating a company\'s "turnaround" without adjusting for the big bath that depressed the comparison year — true improvement must be measured against normalized, not bath-depressed, baselines.',
+          'Treating all large write-offs as big baths — sometimes large charges are legitimate responses to genuine economic impairment. The distinction lies in timing (was the impairment sudden or had it been building?) and magnitude (are the charges proportionate to the actual loss?).',
+          'Ignoring the reserve creation aspect of big baths — large charges often include provisions that exceed actual costs, creating cookie jar reserves for future periods.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A new CEO takes a $3 billion impairment charge in her first quarter, citing "legacy issues from prior management." The company then reports 40% earnings growth in each of the next 3 years. How should an analyst evaluate the growth?',
+        options: [
+          { id: 'a', text: 'The new CEO has successfully turned the company around, producing 40% annual growth', correct: false, explanation: 'The 40% growth is measured against a base year depressed by a $3 billion charge. Without adjusting the base year for the big bath, the growth rate is meaningless as a measure of operational improvement.' },
+          { id: 'b', text: 'The growth must be evaluated against a normalized base year that excludes the big bath charges — true improvement may be significantly less than 40%', correct: true, explanation: 'Correct. The big bath depressed Year 1 results, creating an artificially low base for comparison. True operational improvement should be measured by comparing current results to a normalized baseline that excludes the one-time charges. The actual improvement could be much smaller — or nonexistent.' },
+          { id: 'c', text: 'The impairment charge is irrelevant to future growth since it was a one-time event', correct: false, explanation: 'The charge directly affects the growth calculation by depressing the denominator (the comparison year). A $3 billion charge can make modest improvements look like dramatic growth. The charge is not irrelevant — it is the mechanism that enables the inflated growth narrative.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s8',
+      chapterId: 12,
+      sectionLabel: 'Adjusting Entries',
+      title: 'Detecting Adjusting Entry Manipulation',
+      explanation:
+        'Detecting adjusting entry manipulation requires comparing reported adjustments to expectations based on business activity, historical patterns, and peer benchmarks. The key signals are directional bias (all adjustments increasing income), precision matching (adjustments exactly meeting targets), and ratio divergence (reserve levels deviating from historical norms).',
+      formula: 'Detection = Trend Analysis + Peer Comparison + Cross-Statement Verification',
+      highlights: [
+        'Track reserve-to-activity ratios (bad debt reserve / receivables, warranty reserve / sales) over time — deviations from historical levels indicate potential manipulation.',
+        'Compare the timing and direction of adjusting entries to earnings targets — precision matches are a red flag.',
+        'Cross-reference adjusting entries with cash flow — adjustments that increase income without corresponding cash impact are accrual-based manipulation.',
+        'Large, unusual adjusting entries near period-end deserve the most scrutiny — legitimate adjustments are typically routine and predictable.',
+      ],
+      deepDive: {
+        body: [
+          'The most reliable detection method for adjusting entry manipulation is trend analysis of reserve ratios. If a company historically maintains a bad debt allowance equal to 5% of receivables and suddenly drops it to 2%, the reduction flows directly into income. Unless there is a documented improvement in customer credit quality, this is likely earnings management.',
+          'The Beneish M-Score model (discussed in Chapter 10) incorporates several variables that detect adjusting entry manipulation: the Days Sales in Receivables Index (DSRI), the Gross Margin Index (GMI), and the Total Accruals to Total Assets (TATA). Each of these captures different aspects of accrual-based manipulation that originate in adjusting entries.',
+          'Cross-statement verification is the most powerful tool. When adjusting entries inflate income, the corresponding balance sheet impact must appear somewhere: inflated receivables (premature revenue accrual), deflated payables (under-accrued expenses), or understated reserves (cookie jar releases). The cash flow statement then reveals whether the income is supported by actual cash generation.',
+        ],
+        keyInsights: [
+          'The single most powerful detection metric is the accrual ratio: (Net Income - Cash from Operations) / Total Assets. A high or rising accrual ratio means that an increasing proportion of reported income comes from non-cash adjusting entries rather than actual cash generation.',
+          'Reserve releases should be compared to actual experience: if a company releases $20M from its warranty reserve, actual warranty claims should support that the reserve was excessive. If warranty claims are constant but the reserve is declining, the release is likely income management.',
+          'Peer comparison of reserve levels normalizes for industry effects — if a company\'s bad debt allowance is half the industry average with similar customer profiles, the difference is earnings management until proven otherwise.',
+        ],
+        realWorldExample:
+          'Diamond Foods (2012) was forced to restate two years of earnings after the SEC found that the company had manipulated the timing of payments to walnut growers. Diamond deferred recording $80 million in payments from one fiscal year to the next by delaying checks to growers — an adjusting entry manipulation that moved expenses between periods. The fraud was detectable through the unusually low cost of goods sold relative to revenue in the manipulated periods, which reversed sharply in the subsequent period.',
+        commonMistakes: [
+          'Looking for adjusting entry manipulation in individual entries rather than in aggregate patterns — individual entries may be defensible; the pattern of entries tells the real story.',
+          'Accepting management\'s explanations for reserve changes without verifying them against actual experience data — if the bad debt reserve is released because "credit quality improved," actual bad debt write-offs should confirm this.',
+          'Ignoring the cash flow confirmation: if adjusting entries increase income but cash from operations does not increase correspondingly, the entries are creating non-cash income — the primary fraud signal.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company\'s bad debt allowance has been 4-5% of receivables for 8 years. In the current year, management reduces it to 2% without any disclosed change in customer credit quality. The release adds $12 million to pre-tax income. The company beat earnings estimates by $13 million. What is the most likely explanation?',
+        options: [
+          { id: 'a', text: 'Improved credit quality justified the lower allowance', correct: false, explanation: 'The allowance was cut by more than half without any disclosed improvement in credit quality. The near-perfect match between the release ($12M) and the earnings beat ($13M) strongly suggests the reserve was reduced to meet the earnings target.' },
+          { id: 'b', text: 'The reserve reduction was used to manage earnings to meet the target — the precision match and lack of supporting evidence are red flags', correct: true, explanation: 'Correct. An 8-year history of 4-5% suddenly dropping to 2% without disclosed credit improvement, combined with the release almost exactly matching the earnings beat, is a textbook earnings management signal. The reserve was reduced to manufacture the earnings result, not to reflect genuine changes in credit risk.' },
+          { id: 'c', text: 'The company is simply being more accurate in its estimates', correct: false, explanation: 'If 4-5% was appropriate for 8 years, halving it without any documented change in the customer base or credit environment is not increased accuracy — it is a change in judgment that coincidentally matches the earnings target.' },
+        ],
+      },
+    },
+  ],
+  13: [
+    {
+      id: 'ch13-s1',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Lease Classification Under ASC 842',
+      explanation:
+        'ASC 842 (effective 2019) requires lessees to recognize virtually all leases on the balance sheet as right-of-use (ROU) assets and lease liabilities. Leases are classified as either finance leases (similar to purchased assets) or operating leases (similar to rentals). The classification determines the expense pattern and the presentation on the income statement and cash flow statement.',
+      formula: 'ROU Asset ≈ Present Value of Lease Payments | Lease Liability = Present Value of Remaining Payments',
+      highlights: [
+        'Under ASC 842, operating leases appear on the balance sheet for the first time — eliminating the most common off-balance-sheet obligation.',
+        'Finance leases recognize depreciation + interest expense (front-loaded expense pattern); operating leases recognize a single straight-line lease expense.',
+        'The classification as finance vs. operating still matters for expense timing, leverage ratios, and EBITDA calculations.',
+        'Companies can structure lease terms to achieve preferred classification — the judgment in classification has not been eliminated.',
+      ],
+      deepDive: {
+        body: [
+          'Before ASC 842, operating leases were off-balance-sheet — the lessee recorded only rent expense and disclosed future lease payments in the footnotes. This meant that a company with $10 billion in lease commitments could report zero debt on its balance sheet. Airlines, retailers, and restaurant chains were the most aggressive users of this loophole.',
+          'ASC 842 addressed this by requiring all leases longer than 12 months to be capitalized as ROU assets with corresponding lease liabilities. But the standard preserved the finance/operating classification distinction, which affects how the expense is presented. Finance leases front-load expenses (depreciation plus interest), while operating leases produce straight-line expense.',
+          'The classification criteria under ASC 842 are based on five tests: (1) transfer of ownership, (2) purchase option reasonably certain to be exercised, (3) lease term is major part of economic life, (4) present value is substantially all of fair value, and (5) specialized nature with no alternative use. If any test is met, the lease is a finance lease. The subjectivity in terms like "major part" and "substantially all" still allows management discretion.',
+        ],
+        keyInsights: [
+          'ASC 842 closed the largest off-balance-sheet loophole in GAAP — when it was implemented, an estimated $3 trillion in operating leases moved onto corporate balance sheets worldwide.',
+          'Despite bringing leases on-balance-sheet, the classification still matters: operating leases are excluded from many definitions of EBITDA and financial leverage, while finance leases are included. Companies that prefer lower reported leverage have incentives to structure leases as operating.',
+          'The discount rate used to calculate the ROU asset and lease liability is a key management judgment — a higher discount rate produces a smaller liability. Companies that use their incremental borrowing rate (rather than the rate implicit in the lease) have more discretion over this calculation.',
+        ],
+        realWorldExample:
+          'When ASC 842 was implemented, Delta Air Lines recognized approximately $8 billion in new lease liabilities on its balance sheet. The airline industry had been the most prominent user of off-balance-sheet operating leases — aircraft, gates, terminals, and ground equipment were all financed through leases that previously did not appear on the balance sheet. The immediate effect was a dramatic increase in reported leverage ratios, even though the company\'s actual obligations were unchanged.',
+        commonMistakes: [
+          'Assuming that ASC 842 eliminated all lease-related manipulation — the finance vs. operating classification, discount rate choice, and lease term assumptions still involve significant management judgment.',
+          'Comparing pre-2019 and post-2019 balance sheets without adjusting for the ASC 842 implementation — leverage ratios increased dramatically for lease-intensive companies, but this reflects a reporting change, not an increase in actual obligations.',
+          'Ignoring the embedded lease structures in service contracts — some companies restructured arrangements to avoid the definition of a lease, keeping obligations off the balance sheet under different labels.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A retailer with $5 billion in operating lease commitments transitions from the old standard (ASC 840) to ASC 842. What happens to its reported debt-to-equity ratio?',
+        options: [
+          { id: 'a', text: 'Debt-to-equity remains unchanged because operating leases are not debt', correct: false, explanation: 'Under ASC 842, operating lease liabilities are recognized on the balance sheet. Even though they may be classified separately from financial debt, they increase total liabilities and affect leverage ratios.' },
+          { id: 'b', text: 'Debt-to-equity increases significantly as lease liabilities are recognized on the balance sheet for the first time', correct: true, explanation: 'Correct. The $5 billion in previously off-balance-sheet lease commitments is now recognized as lease liabilities, dramatically increasing total liabilities while equity remains unchanged. This increases the debt-to-equity ratio — even though the company\'s actual economic obligations have not changed.' },
+          { id: 'c', text: 'Debt-to-equity decreases because the corresponding ROU assets offset the liabilities', correct: false, explanation: 'The ROU assets increase total assets but do not increase equity. The liability increase flows directly into the debt-to-equity ratio. While total assets increase (maintaining the accounting equation), the ratio of debt-to-equity is driven by the liability side, which increased.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s2',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Deferred Tax Assets and Liabilities',
+      explanation:
+        'Deferred taxes arise from temporary differences between the book value and tax basis of assets and liabilities. A deferred tax asset (DTA) means the company will pay less tax in the future (a future benefit); a deferred tax liability (DTL) means it will pay more (a future obligation). The valuation of DTAs and management of DTLs are significant judgment areas subject to manipulation.',
+      formula: 'DTA or DTL = Temporary Difference × Tax Rate',
+      highlights: [
+        'Temporary differences reverse over time — accelerated depreciation for tax purposes creates a DTL that reverses as the asset depreciates for book purposes.',
+        'DTAs require a valuation allowance if it is "more likely than not" that some or all of the benefit will not be realized.',
+        'The valuation allowance decision is one of the most consequential management judgments on the balance sheet.',
+        'Changes in the valuation allowance flow directly through income tax expense, affecting net income.',
+      ],
+      deepDive: {
+        body: [
+          'Deferred taxes exist because GAAP rules and tax rules often differ in timing. A company might depreciate an asset over 10 years for book purposes (straight-line) but over 5 years for tax purposes (accelerated). In the early years, tax depreciation exceeds book depreciation, creating a DTL — the company pays less tax now but will pay more later when the temporary difference reverses.',
+          'Deferred tax assets are particularly important because they represent future tax benefits — often from net operating loss carryforwards (NOLs). A company with $1 billion in NOLs at a 25% tax rate has a $250 million DTA. But this asset only has value if the company generates future taxable income to use the NOLs against. If future profitability is uncertain, a valuation allowance must reduce the DTA.',
+          'The valuation allowance decision is binary in its disclosure but continuous in its impact. Management must assess whether it is "more likely than not" (>50% probability) that the DTA will be realized. If the answer changes from yes to no, the valuation allowance is recorded, reducing the DTA and increasing tax expense — often by hundreds of millions of dollars. The reverse is also true: removing a valuation allowance creates a one-time tax benefit that can dramatically inflate net income.',
+        ],
+        keyInsights: [
+          'Valuation allowance releases are the most consequential deferred tax judgment: a company with a $500M DTA can release the allowance and record a $500M tax benefit in a single quarter. This is legal, but the timing and justification deserve intense scrutiny.',
+          'Many companies maintain large deferred tax liabilities that have been growing for decades through continuous capital investment. These DTLs are theoretically obligations, but they never reverse if the company continues to invest at the same or higher rates — creating a quasi-permanent deferral.',
+          'Tax rate changes enacted by legislation can create windfall gains or losses: if the tax rate drops, existing DTLs decrease (a gain) and DTAs decrease (a loss). The Tax Cuts and Jobs Act of 2017 produced billions in one-time deferred tax adjustments across corporate America.',
+        ],
+        realWorldExample:
+          'General Motors recorded a $34 billion deferred tax asset related to NOLs during its pre-bankruptcy period. After emerging from bankruptcy in 2010, GM released its valuation allowance in 2013, recording approximately $34 billion in income tax benefits — transforming a year of modest operating results into a reported net income of $6.2 billion. The release was technically appropriate (GM was now profitable and expected to remain so), but the magnitude dwarfed operating performance and made the income statement difficult to interpret.',
+        commonMistakes: [
+          'Treating valuation allowance releases as evidence of improved operations — they are an accounting adjustment based on a changed assessment of future profitability, not an indicator of current-period performance.',
+          'Assuming that deferred tax liabilities will require cash payment in the near term — for companies making continuous capital investments, DTLs related to accelerated depreciation may never actually reverse.',
+          'Ignoring the sensitivity of deferred tax balances to tax rate changes — a 5 percentage point change in the corporate tax rate can swing net income by billions for companies with large deferred tax positions.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company with a $200 million deferred tax asset (fully offset by a valuation allowance) has become profitable for the first time in 3 years. Management releases the entire valuation allowance in Q4, recording a $200 million tax benefit. Operating income for the year is $50 million. What is the impact on net income?',
+        options: [
+          { id: 'a', text: 'Net income is approximately $50 million based on operating performance', correct: false, explanation: 'The $200 million valuation allowance release reduces tax expense by $200 million, dramatically inflating net income beyond operating performance.' },
+          { id: 'b', text: 'Net income is approximately $250 million — $50M from operations plus $200M from the valuation allowance release', correct: true, explanation: 'Correct. The $200M valuation allowance release flows through income tax expense as a benefit, adding to the $50M operating income. Reported net income of $250M is 5x the operating performance — making the income statement misleading without understanding the one-time tax adjustment.' },
+          { id: 'c', text: 'Net income is unaffected because deferred taxes are non-cash', correct: false, explanation: 'While the valuation allowance release is a non-cash item, it reduces reported income tax expense and directly increases reported net income. The impact on the income statement is real even though no cash changes hands.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s3',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Temporary vs. Permanent Differences',
+      explanation:
+        'Temporary differences between book and tax income reverse over time and create deferred taxes. Permanent differences never reverse and affect the effective tax rate but do not create deferred tax assets or liabilities. Understanding this distinction is essential for analyzing the tax provision and predicting future tax cash flows.',
+      formula: 'Effective Tax Rate = Income Tax Expense / Pre-Tax Income | Statutory Rate ± Permanent Differences = Effective Rate',
+      highlights: [
+        'Temporary differences: accelerated vs. straight-line depreciation, warranty accruals (deductible when paid vs. when accrued), bad debt estimates.',
+        'Permanent differences: tax-exempt municipal bond interest, non-deductible fines and penalties, meals and entertainment limitations.',
+        'A company\'s effective tax rate should be relatively stable unless business mix or tax law changes — large unexplained rate changes warrant investigation.',
+        'The rate reconciliation in the tax footnote explains the bridge from statutory to effective rate.',
+      ],
+      deepDive: {
+        body: [
+          'Temporary differences create deferred taxes because the timing of income or expense recognition differs between book and tax. The most common example is depreciation: a company might use straight-line depreciation for book purposes (spreading the cost evenly) and accelerated depreciation for tax purposes (front-loading the deduction). In early years, tax depreciation exceeds book depreciation — the company pays less tax now but will pay more later. The difference creates a deferred tax liability.',
+          'Permanent differences affect the effective tax rate but never reverse. Tax-exempt interest income reduces the effective rate permanently. Non-deductible expenses (fines, penalties, 50% of meal expenses) increase the effective rate permanently. These items explain why no company\'s effective tax rate exactly equals the statutory rate.',
+          'The tax rate reconciliation in the financial statement footnotes is one of the most informative disclosures in the entire filing. It explains every significant item that causes the effective rate to differ from the statutory rate. Analysts can identify unusual or non-recurring items that affect the current period\'s rate and assess whether the reported rate is sustainable going forward.',
+        ],
+        keyInsights: [
+          'A suddenly declining effective tax rate without a change in tax law may indicate aggressive tax positions, increased use of tax shelters, or one-time benefits from valuation allowance releases.',
+          'Companies with large permanent differences (such as technology companies with significant R&D tax credits) will have sustainably lower effective tax rates — this is not manipulation but a structural advantage.',
+          'The cash tax rate (actual taxes paid / pre-tax income) can differ significantly from the GAAP effective rate. Companies that consistently pay far less in cash taxes than their GAAP rate suggests may be using aggressive tax strategies that create regulatory risk.',
+        ],
+        realWorldExample:
+          'Apple Inc. maintained an effective tax rate of approximately 25-26% for years while the U.S. statutory rate was 35% (pre-2017). The primary driver was permanent differences from the company\'s international tax structure, which routed intellectual property income through low-tax jurisdictions (primarily Ireland). The European Commission ruled in 2016 that Apple\'s arrangements with Ireland constituted illegal state aid and ordered repayment of $14.9 billion in taxes — demonstrating that permanently low effective rates can create significant regulatory and legal risk.',
+        commonMistakes: [
+          'Confusing temporary and permanent differences — temporary differences reverse (creating deferred taxes); permanent differences never reverse (affecting only the effective rate).',
+          'Assuming that a low effective tax rate is sustainable without examining the sources — one-time benefits, aggressive positions, and jurisdictional advantages can all be temporary.',
+          'Ignoring the cash vs. GAAP tax distinction: companies can report high GAAP tax expense while paying very little in actual cash taxes, or vice versa. Both numbers matter for different purposes.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company\'s effective tax rate drops from 28% to 12% in a single year. The statutory rate has not changed. The tax footnote shows the change is primarily due to a "release of uncertain tax position reserves." What should an analyst conclude?',
+        options: [
+          { id: 'a', text: 'The company has become more tax-efficient through better planning', correct: false, explanation: 'A 16-point drop in a single year from reserve releases is not "tax efficiency" — it is a one-time adjustment that will not recur. Forecasting next year\'s rate at 12% would significantly overstate after-tax earnings.' },
+          { id: 'b', text: 'The rate drop is driven by a non-recurring event — the sustainable rate is likely closer to the historical 28%', correct: true, explanation: 'Correct. Reserve releases for uncertain tax positions are non-recurring adjustments. They represent a reassessment of previously contested tax positions, not a structural change in the company\'s tax profile. An analyst should use the historical rate (approximately 28%) for forecasting, not the 12% reported in the anomalous year.' },
+          { id: 'c', text: 'Uncertain tax positions are complex — the analyst cannot form a conclusion', correct: false, explanation: 'The tax footnote provides sufficient information. When the rate change is attributable to a specific one-time item (reserve release), the analyst can and should conclude that the sustainable rate is the historical rate, not the reduced rate.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s4',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Pension Obligations and Assumptions',
+      explanation:
+        'Defined benefit pension plans promise employees specific retirement benefits based on salary and years of service. The obligation to pay these future benefits is massive — often tens of billions of dollars — and the accounting for these obligations relies heavily on management assumptions about discount rates, expected returns on plan assets, salary growth, and mortality. Each assumption directly affects reported expense and liability.',
+      formula: 'Funded Status = Fair Value of Plan Assets − Projected Benefit Obligation (PBO)',
+      highlights: [
+        'The projected benefit obligation (PBO) is the present value of all future pension payments owed to current and former employees.',
+        'The discount rate used to calculate the PBO is the most consequential assumption — a small change in the rate can swing the obligation by billions.',
+        'Expected return on plan assets determines how much pension investment income offsets pension expense — an overly optimistic assumption reduces reported expense.',
+        'Pension funded status (plan assets minus PBO) appears on the balance sheet; the components of pension expense appear in footnotes.',
+      ],
+      deepDive: {
+        body: [
+          'Defined benefit pension accounting is the single most assumption-dependent area of financial reporting. The PBO represents an estimate of the present value of all future payments to employees — a calculation that depends on assumptions about discount rates, salary escalation, employee turnover, and life expectancy. Each assumption is chosen by management and each has a material effect on the reported obligation.',
+          'The discount rate is the most powerful lever. Because pension obligations are long-duration (payments stretch over decades), small changes in the discount rate produce large changes in the present value. A 50-basis-point reduction in the discount rate can increase the PBO by 7-10% for a large pension plan. For a company with a $50 billion PBO, that is $3.5-5.0 billion in additional liability from a single assumption change.',
+          'The expected return on plan assets is equally consequential for the income statement. Companies assume a long-term rate of return on their pension investments (typically 6-8%). This assumed return reduces pension expense regardless of actual investment performance. A company that assumes 8% returns while earning 5% is understating pension expense by the difference — an effect that can persist for years before the gap accumulates enough to force a correction.',
+        ],
+        keyInsights: [
+          'GE maintained an expected return on plan assets of 8.0-8.5% for years while actual returns were significantly lower. The gap between assumed and actual returns accumulated as an unrecognized actuarial loss that eventually required massive corridor-method amortization charges.',
+          'Comparing a company\'s discount rate and expected return assumptions to peers reveals whether management is being conservative or aggressive — a company using a 7.5% expected return when peers use 6.5% is reporting lower pension expense by assumption rather than by performance.',
+          'The pension footnote is one of the longest and most important footnotes in the financial statements. It discloses every assumption, the sensitivity of the obligation to rate changes, and the actual vs. expected returns — all essential for detecting assumption manipulation.',
+        ],
+        realWorldExample:
+          'General Electric carried one of the largest corporate pension obligations in the world — approximately $90 billion in PBO at its peak. GE used aggressive assumptions (high expected return on plan assets, discount rates at the optimistic end of the range) that minimized reported pension expense for years. When actual investment returns lagged assumptions and interest rates fell (increasing the PBO), GE accumulated billions in unrecognized losses. The eventual recognition of these losses contributed to GE\'s earnings volatility and the decline in investor confidence. By 2018, GE had frozen its pension plan and committed to reducing the obligation through lump-sum buyouts and annuity purchases.',
+        commonMistakes: [
+          'Ignoring pension obligations because they appear in footnotes rather than prominently on the balance sheet — pension underfunding can represent a claim on future cash flow that rivals the company\'s financial debt.',
+          'Accepting the expected return on plan assets without comparing it to actual returns — if assumed returns exceed actual returns for multiple consecutive years, the company is understating pension expense.',
+          'Treating the discount rate as an objective market observation — while it is based on corporate bond yields, the selection of the specific rate within the acceptable range is a management judgment with billions of dollars of consequence.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company with a $40 billion projected benefit obligation increases its discount rate assumption by 50 basis points. The sensitivity disclosed in the pension footnote shows that a 50 bp increase reduces the PBO by approximately 8%. What is the effect?',
+        options: [
+          { id: 'a', text: 'The PBO decreases by approximately $3.2 billion, reducing the pension liability and pension expense', correct: true, explanation: 'Correct. 8% of $40 billion = $3.2 billion reduction in the PBO. This reduces the reported pension liability on the balance sheet and reduces the interest cost component of pension expense. The entire reduction comes from changing a single assumption — no actual change in the pension payments owed to employees has occurred.' },
+          { id: 'b', text: 'The PBO is unaffected because actual pension payments have not changed', correct: false, explanation: 'While actual payments have not changed, the accounting measurement of the obligation changes dramatically with the discount rate. The PBO is a present value calculation — a higher discount rate produces a lower present value, even though the future cash flows are identical.' },
+          { id: 'c', text: 'The effect is immaterial because 50 basis points is a small change', correct: false, explanation: '50 basis points is a large change in pension accounting. For a $40 billion obligation, the 8% sensitivity produces a $3.2 billion swing — a highly material amount by any standard.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s5',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Contingent Liabilities and Loss Contingencies',
+      explanation:
+        'Contingent liabilities are potential obligations that depend on the outcome of uncertain future events — typically lawsuits, regulatory actions, or warranty claims. Under GAAP (ASC 450), a contingent loss must be accrued if it is both "probable" and "reasonably estimable." If only "reasonably possible," it must be disclosed but not accrued. If "remote," no disclosure is required.',
+      formula: 'Probable + Reasonably Estimable → Accrue on Balance Sheet | Reasonably Possible → Disclose in Footnotes | Remote → No Action',
+      highlights: [
+        'The "probable" threshold is a management judgment — the same lawsuit might be classified differently by different companies.',
+        'Companies have incentives to classify losses as "reasonably possible" rather than "probable" to avoid balance sheet recognition.',
+        'Large contingent liabilities disclosed in footnotes can represent material risk that is invisible on the face of the balance sheet.',
+        'The resolution of contingencies can produce large unexpected charges when losses that were disclosed but not accrued are finally recognized.',
+      ],
+      deepDive: {
+        body: [
+          'Contingent liability accounting is inherently judgment-intensive because it requires predicting the outcome of uncertain events. A company facing a $500 million lawsuit must assess whether a loss is probable, reasonably possible, or remote. This assessment determines whether the company records a $500 million liability (probable and estimable), discloses the lawsuit in footnotes (reasonably possible), or ignores it entirely (remote).',
+          'The incentive to under-classify contingencies is powerful. Recording a probable loss reduces net income and increases liabilities in the current period. By classifying the same loss as "reasonably possible," management avoids the income and balance sheet impact — the loss appears only in the footnotes, where many investors do not look.',
+          'Environmental liabilities, asbestos claims, patent infringement suits, and product liability cases are the most common contingencies. For some companies (tobacco, chemicals, pharmaceutical), contingent liabilities dwarf the reported balance sheet liabilities. The footnote disclosures for these companies are essential reading — the balance sheet alone does not capture the true risk profile.',
+        ],
+        keyInsights: [
+          'Companies rarely disclose the estimated amount of "reasonably possible" losses — they disclose the existence of the contingency but not the potential magnitude. An analyst who reads only the balance sheet misses these exposures entirely.',
+          'When contingent liabilities are finally accrued (because the outcome becomes probable), the charges often appear as "special items" or "unusual charges" — obscuring the fact that the risk existed for years before recognition.',
+          'Tobacco companies carried hundreds of billions of dollars in potential litigation liability that was disclosed in footnotes as "reasonably possible" for decades before the Master Settlement Agreement (1998) required actual payments. The financial statements prior to settlement dramatically understated the companies\' true economic obligations.',
+        ],
+        realWorldExample:
+          'BP\'s Deepwater Horizon oil spill (2010) created one of the largest contingent liabilities in corporate history. BP initially estimated the spill liability at $3.5 billion. The estimate was revised upward repeatedly — to $7.7 billion, then $20 billion, then $42 billion, and ultimately over $65 billion when all cleanup costs, fines, and settlements were included. The initial classification of many costs as "reasonably possible" rather than "probable" meant that the balance sheet significantly understated the obligation for years after the spill.',
+        commonMistakes: [
+          'Relying on the balance sheet to capture all material obligations — contingent liabilities classified as "reasonably possible" are disclosed only in footnotes and can be larger than the recognized liabilities on the balance sheet.',
+          'Assuming that management\'s classification of contingencies as "reasonably possible" rather than "probable" is objective — the classification is a judgment that directly affects whether a loss is recorded on the balance sheet.',
+          'Ignoring the range of possible outcomes — when a company discloses that a loss is "reasonably possible" in the range of $0 to $500 million, the midpoint of the range may be more relevant than the accrued amount of $0.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A pharmaceutical company discloses a $2 billion product liability lawsuit as "reasonably possible" in its footnotes. The company accrues $0 on the balance sheet. An analyst evaluating the company\'s risk profile should:',
+        options: [
+          { id: 'a', text: 'Ignore the lawsuit because it is not on the balance sheet', correct: false, explanation: 'Contingent liabilities that are "reasonably possible" are real economic risks even though they do not appear on the balance sheet. Ignoring $2 billion in potential exposure dramatically understates risk.' },
+          { id: 'b', text: 'Include the potential $2 billion exposure in the risk assessment, recognizing that the balance sheet understates the company\'s true obligations', correct: true, explanation: 'Correct. An analyst should read the footnotes and incorporate disclosed contingent liabilities into the risk assessment. The balance sheet shows $0, but the footnotes reveal $2 billion in potential exposure. The true economic risk profile includes both recognized and disclosed-but-unrecognized obligations.' },
+          { id: 'c', text: 'Wait for the lawsuit to be resolved before forming an opinion', correct: false, explanation: 'The purpose of financial analysis is to assess risk before resolution, not after. A $2 billion potential liability is material and must be incorporated into the analysis regardless of its current accounting classification.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s6',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Off-Balance-Sheet Structures After ASC 842',
+      explanation:
+        'While ASC 842 brought operating leases onto the balance sheet, other off-balance-sheet structures remain. Variable interest entities (VIEs), synthetic leases, take-or-pay contracts, and special purpose entities (SPEs) can still be used to keep obligations out of the liability section. Understanding what remains off-balance-sheet after ASC 842 is critical for complete risk assessment.',
+      formula: 'True Leverage = On-Balance-Sheet Debt + Off-Balance-Sheet Obligations (leases now captured, but other structures remain)',
+      highlights: [
+        'VIEs must be consolidated if the company is the primary beneficiary — but the primary beneficiary assessment involves judgment.',
+        'Take-or-pay contracts commit the company to purchase minimum quantities regardless of need — these are economic obligations that may not appear as liabilities.',
+        'Synthetic leases were structured to be treated as operating leases for accounting purposes and as ownership for tax purposes — the accounting treatment changed under ASC 842, but similar structures continue to evolve.',
+        'The commitment and contingencies footnote is where most off-balance-sheet obligations are disclosed.',
+      ],
+      deepDive: {
+        body: [
+          'ASC 842 addressed the single largest category of off-balance-sheet obligations (operating leases), but the broader problem persists. Variable interest entities — the vehicle Enron used to hide $30 billion in debt — remain a consolidation judgment area. Companies must consolidate VIEs if they are the "primary beneficiary," but this assessment depends on who has the power to direct the VIE\'s activities and who absorbs the majority of risks/rewards.',
+          'Take-or-pay contracts are common in energy, mining, and manufacturing. A company that agrees to purchase 100,000 tons of raw material per year at $50/ton for 10 years has a $50 million annual commitment — but this obligation may not appear as a liability if the contract is classified as an executory contract rather than a lease or financial commitment.',
+          'The evolution of off-balance-sheet structures is a continuous cat-and-mouse game between regulators and financial engineers. When one loophole is closed (operating leases), new structures emerge. Supply chain financing, factoring arrangements, and sale-leaseback transactions are current areas where the boundary between on- and off-balance-sheet treatment involves significant judgment.',
+        ],
+        keyInsights: [
+          'The commitment and contingencies footnote is the single most important footnote for assessing off-balance-sheet risk. It discloses future minimum payments under leases, purchase commitments, and other contractual obligations — many of which do not appear on the balance sheet.',
+          'Supply chain financing programs allow companies to extend their payment terms to suppliers while a bank pays the supplier earlier. This keeps the payable off the "financial debt" section but increases the company\'s economic leverage. Several major companies (GE, Carillion, NMC Health) have used aggressive SCF programs that obscured their true debt levels.',
+          'An analyst who calculates leverage using only on-balance-sheet debt misses a significant portion of the economic obligation for many companies. "Adjusted leverage" that includes all disclosed commitments provides a more complete picture.',
+        ],
+        realWorldExample:
+          'Enron\'s use of special purpose entities (SPEs) is the definitive example of off-balance-sheet abuse. Enron created hundreds of SPEs with names like LJM1, LJM2, and Raptor to move assets and liabilities off its balance sheet. CFO Andrew Fastow personally managed several SPEs, creating conflicts of interest that auditor Arthur Andersen failed to challenge. The SPEs held approximately $30 billion in debt that did not appear on Enron\'s consolidated balance sheet. When the SPE structure collapsed, the hidden debt became Enron\'s responsibility, triggering the largest bankruptcy in U.S. history at that time.',
+        commonMistakes: [
+          'Assuming that ASC 842 resolved all off-balance-sheet concerns — leases are now on the balance sheet, but VIEs, take-or-pay contracts, factoring arrangements, and supply chain financing remain areas of significant off-balance-sheet exposure.',
+          'Calculating financial leverage using only the balance sheet without reading the commitment and contingencies footnote — the footnote can reveal obligations equal to or greater than on-balance-sheet debt.',
+          'Treating "unconsolidated" entities as unrelated to the parent company — unconsolidated VIEs and equity-method investees can have significant liabilities that the parent may ultimately bear.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports $10 billion in on-balance-sheet debt. The commitment and contingencies footnote discloses $6 billion in non-cancellable purchase commitments, $3 billion in guarantees of unconsolidated VIE debt, and $1 billion in pending litigation classified as "reasonably possible." What is a more complete view of the company\'s total obligations?',
+        options: [
+          { id: 'a', text: '$10 billion — only on-balance-sheet debt counts', correct: false, explanation: 'Limiting the analysis to on-balance-sheet debt ignores $10 billion in additional disclosed obligations. The footnotes reveal commitments and exposures that are real economic obligations, even if they are not classified as balance sheet liabilities.' },
+          { id: 'b', text: 'Up to $20 billion when off-balance-sheet commitments, guarantees, and contingencies are included', correct: true, explanation: 'Correct. The complete picture includes: $10B on-balance-sheet debt + $6B purchase commitments + $3B VIE guarantees + $1B litigation exposure = $20B in total potential obligations. An analyst who only reads the balance sheet sees half of the company\'s economic exposure.' },
+          { id: 'c', text: '$16 billion — exclude the contingent litigation because it is not "probable"', correct: false, explanation: 'While the litigation is not accrued on the balance sheet, it represents real risk that should be included in a comprehensive assessment. The analyst should consider the full range of obligations, not just those that meet the "probable" threshold for balance sheet recognition.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s7',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Pension Assumption Manipulation',
+      explanation:
+        'Because pension accounting is so assumption-dependent, companies can materially influence reported results by adjusting discount rates, expected returns on plan assets, and salary growth rates. These assumptions are disclosed but rarely scrutinized by non-specialist investors. The combination of complexity and materiality makes pension assumptions one of the most effective earnings management levers available.',
+      formula: 'Higher Discount Rate → Lower PBO → Lower Pension Expense | Higher Expected Return → Lower Pension Expense',
+      highlights: [
+        'Increasing the discount rate by 25 basis points can reduce pension expense by 3-5% for large plans.',
+        'Raising the expected return on plan assets reduces pension expense even if actual returns are lower.',
+        'Companies near debt covenant violations or earnings targets have incentives to adjust pension assumptions favorably.',
+        'Comparing a company\'s assumptions to industry peers reveals outlier assumptions that may indicate manipulation.',
+      ],
+      deepDive: {
+        body: [
+          'Pension assumption manipulation is particularly insidious because the assumptions are disclosed in the footnotes, are technically within the range of acceptable choices, and have material effects that flow through the income statement. A company that raises its expected return on plan assets from 7% to 8% on a $20 billion pension portfolio reports $200 million less in pension expense — a boost to operating income that requires no operational improvement.',
+          'The discount rate is equally powerful. Because pension obligations are long-duration, small changes in the discount rate produce large changes in the PBO. A company that selects a discount rate at the high end of the acceptable range (based on high-quality corporate bond yields) reports a lower obligation and lower expense than a peer using the low end of the same range.',
+          'Salary growth rate assumptions affect the PBO by changing the estimated future benefit payments. A company that assumes 2% salary growth reports a significantly lower PBO than one assuming 4% growth. Since salary growth is inherently uncertain, both assumptions may be "defensible" — but the income statement impact of the choice is material.',
+        ],
+        keyInsights: [
+          'The most reliable way to detect pension assumption manipulation is peer comparison: if a company\'s discount rate is 50+ basis points above peers, or its expected return assumption is 100+ basis points above peers, the assumptions are aggressive and are reducing reported expense.',
+          'Companies that consistently beat earnings estimates by small amounts should be checked for pension assumption aggressiveness — the pension is a reliable source of adjustable, non-cash income that can be calibrated to fill small earnings gaps.',
+          'The pension footnote should be read alongside the cash flow statement. Companies contribute actual cash to pension plans — this cash contribution (in operating or financing activities) is the economic reality, while the reported pension expense is assumption-driven accounting.',
+        ],
+        realWorldExample:
+          'General Electric maintained an expected return on plan assets of 8.0-8.5% for its pension and retiree benefit plans for years, even as actual returns and market expectations declined. The higher assumption reduced annual pension expense by hundreds of millions of dollars compared to what a more conservative assumption would have produced. When GE finally reduced its assumptions and the accumulated gap between assumed and actual returns was recognized, the resulting charges contributed to the earnings volatility that eroded investor confidence in the company\'s financial reporting.',
+        commonMistakes: [
+          'Treating pension assumptions as immutable inputs rather than management choices — every assumption is selected by management and each selection has a direct income effect.',
+          'Comparing pension assumptions across different plan types (defined benefit vs. cash balance) without adjusting for structural differences that legitimately affect the appropriate assumption level.',
+          'Ignoring the cumulative effect of assumption differences over time — a 100 bp difference in expected return, compounded over a decade on a $30 billion pension portfolio, represents billions in cumulative earnings management.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Company A and Company B are in the same industry with similar pension plans. Company A uses a 7.5% expected return on plan assets; Company B uses 6.0%. Both have $15 billion in plan assets. What is the approximate annual income effect of this assumption difference?',
+        options: [
+          { id: 'a', text: 'Company A reports approximately $225 million less in pension expense due to the higher assumed return', correct: true, explanation: 'Correct. The difference is 1.5% × $15 billion = $225 million per year. Company A reports $225 million less in pension expense — not because its pension investments perform better, but because it assumes a higher return. This $225 million flows directly to operating income, making Company A appear more profitable for no operational reason.' },
+          { id: 'b', text: 'The difference is immaterial because pension assumptions are standardized', correct: false, explanation: 'Pension assumptions are not standardized — they are management choices within an acceptable range. A 1.5% difference on a $15 billion portfolio is $225 million annually — material by any standard.' },
+          { id: 'c', text: 'Company A\'s higher assumption reflects better investment management', correct: false, explanation: 'The assumed return is an expectation, not a result. Company A has not demonstrated better investment performance — it has assumed higher future returns, which reduces reported expense regardless of actual investment outcomes.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s8',
+      chapterId: 13,
+      sectionLabel: 'Complex Obligations',
+      title: 'Integrating Complex Obligations Into Financial Analysis',
+      explanation:
+        'Leases, deferred taxes, pensions, and contingent liabilities each involve significant management judgment that can materially affect reported results. An analyst who can identify the key assumptions, compare them to peers, and track their changes over time has a significant edge in assessing true financial health versus managed appearances.',
+      formula: 'True Economic Position = Reported Results ± Assumption Adjustments ± Off-Balance-Sheet Obligations ± Contingent Exposures',
+      highlights: [
+        'Lease classification, discount rates, and term assumptions affect both the balance sheet and income statement.',
+        'Deferred tax valuation allowances can swing net income by hundreds of millions through non-operational judgments.',
+        'Pension assumption differences between peers can account for hundreds of millions in reported earnings differences.',
+        'Contingent liabilities disclosed in footnotes can exceed recognized balance sheet liabilities.',
+      ],
+      deepDive: {
+        body: [
+          'Complex obligations share a common characteristic: they are large, assumption-dependent, and difficult for non-specialist investors to analyze. This complexity is itself a risk factor — management can exercise judgment in ways that materially affect reported results while remaining technically within GAAP.',
+          'The integrated analysis approach requires reading four sections of the financial statements together: (1) the balance sheet for recognized obligations, (2) the income statement for expense effects, (3) the cash flow statement for actual cash paid, and (4) the footnotes for assumptions, sensitivities, and off-balance-sheet disclosures. An analyst who reads any subset of these will miss material information.',
+          'The cross-verification approach is particularly powerful for complex obligations. Pension expense should be compared to pension cash contributions (cash flow vs. P&L). Lease expense should be compared to lease liability reduction and cash payments. Deferred tax expense should be compared to cash taxes paid. In each case, a persistent divergence between the accounting measure and the cash measure reveals the effect of assumptions on reported results.',
+        ],
+        keyInsights: [
+          'The single most important skill for analyzing complex obligations is reading footnotes and comparing assumptions to peers. An analyst who compares a company\'s pension discount rate, lease discount rate, and tax assumptions to the industry median can identify aggressive reporting in minutes.',
+          'Cash flow cross-verification works across all complex obligations: if pension expense is $100M but pension contributions are $300M, the income statement understates the economic cost. If tax expense is $200M but cash taxes are $50M, the income statement may overstate the effective rate.',
+          'Complex obligations often interact. A company with aggressive pension assumptions, favorable lease classification, and unrecognized contingent liabilities may individually justify each position — but the aggregate effect of all favorable assumptions simultaneously should raise concern about management\'s overall reporting philosophy.',
+        ],
+        realWorldExample:
+          'Carillion, the UK construction company that collapsed in January 2018 with $7 billion in liabilities, demonstrated the catastrophic consequences of ignored complex obligations. Carillion had a $1.3 billion pension deficit, aggressive revenue recognition on long-term contracts, undisclosed subcontractor liabilities, and off-balance-sheet financing through supply chain finance programs. Each of these was disclosed somewhere in the financial statements, but the aggregate picture — a company with massive hidden obligations — was obscured by the complexity and dispersion of the disclosures across multiple footnotes.',
+        commonMistakes: [
+          'Analyzing each complex obligation in isolation rather than assessing the aggregate effect of all assumption choices simultaneously — a company with favorable assumptions across leases, taxes, pensions, and contingencies is more likely to be managing appearances than one with a mix of conservative and aggressive positions.',
+          'Treating the face of the financial statements as complete — the footnotes often contain obligations that equal or exceed the recognized amounts on the balance sheet.',
+          'Assuming that GAAP compliance guarantees fair presentation — GAAP provides a range of acceptable choices for each complex obligation, and consistently selecting the most favorable option within each range can produce financial statements that are technically compliant but economically misleading.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company has the following characteristics: pension expected return 150 bp above industry median, lease discount rate 75 bp above peers, deferred tax valuation allowance recently released, and $3 billion in contingent liabilities disclosed as "reasonably possible" but not accrued. What should an analyst conclude?',
+        options: [
+          { id: 'a', text: 'Each position is individually defensible, so no concern is warranted', correct: false, explanation: 'While each position may be individually within GAAP, the aggregate pattern — every major assumption favoring higher income — suggests a systematic bias toward favorable reporting. The probability of all assumptions independently landing at the aggressive end is very low.' },
+          { id: 'b', text: 'The consistent pattern of favorable assumptions across multiple complex areas suggests systematic earnings management — each dollar of reported income should be discounted for assumption aggressiveness', correct: true, explanation: 'Correct. When a company\'s pension, lease, tax, and contingency assumptions are all at the favorable end of the acceptable range, the aggregate effect is material earnings inflation. An analyst should normalize each assumption to industry median levels and recalculate earnings to assess the true economic performance.' },
+          { id: 'c', text: 'The company may simply have a different risk profile that justifies different assumptions', correct: false, explanation: 'Risk profile differences could justify one or two different assumptions — but not a consistent pattern where every major judgment favors higher income. A different risk profile would produce some conservative and some aggressive positions, not uniformly favorable ones.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s9',
+      chapterId: 13,
+      sectionLabel: 'Leases',
+      title: 'Right-of-Use Assets and Lease Liability Measurement',
+      explanation:
+        'Under ASC 842, both operating and finance leases produce a right-of-use (ROU) asset and a lease liability on the balance sheet. The ROU asset represents the lessee\'s right to use the underlying asset over the lease term, and the lease liability represents the obligation to make future payments. Both are initially measured at the present value of future lease payments, discounted at the rate implicit in the lease or the lessee\'s incremental borrowing rate.',
+      formula: '\\text{Lease Liability at Inception} = \\sum_{t=1}^{n} \\frac{\\text{Payment}_t}{(1 + r)^t}',
+      highlights: [
+        'ROU asset at inception = Lease liability + Prepaid rent + Initial direct costs - Lease incentives received.',
+        'Lease liability is reduced over time as payments are made — each payment splits into interest and principal, like a loan.',
+        'Finance leases: ROU asset amortized separately (front-loaded total expense). Operating leases: single straight-line expense.',
+        'The discount rate is the primary lever for managing reported lease liabilities — a higher rate produces a lower PV.',
+      ],
+      deepDive: {
+        body: [
+          'The measurement of lease liabilities under ASC 842 is fundamentally a present value calculation. A company that signs a 10-year lease at $1M per year does not record a $10M liability — it records the present value of those payments at an appropriate discount rate. At 5%, the liability is approximately $7.72M; at 8%, it drops to approximately $6.71M. The difference ($1M) is entirely driven by rate selection, not by any change in economic obligation.',
+          'Companies must determine whether to include renewal options in the lease term calculation. If a renewal is "reasonably certain" to be exercised, the renewal payments must be included in the liability measurement. Management controls this assessment, creating an opportunity to exclude renewals (shortening the lease term and reducing the liability) even when the company routinely exercises renewals on comparable leases.',
+          'The amortization pattern differs between the two lease types. For operating leases, ASC 842 requires that total lease expense (the sum of ROU asset amortization and interest on the lease liability) be a constant amount each period — creating a straight-line expense pattern. For finance leases, the ROU asset is typically amortized on a straight-line basis, while interest is computed on the declining liability balance — producing higher total expense in early years and lower expense in later years.',
+        ],
+        keyInsights: [
+          'Comparing a company\'s weighted-average lease discount rate to its actual incremental borrowing rate reveals whether rate selection is aggressive — a discount rate significantly above the borrowing rate understates reported lease liabilities.',
+          'Companies that routinely exercise lease renewals but exclude renewal options from liability measurements are systematically understating their obligations.',
+          'When ASC 842 took effect in 2019, airlines, retailers, and restaurant chains added billions in liabilities to their balance sheets — Delta Air Lines alone added approximately $7B in operating lease liabilities.',
+        ],
+        realWorldExample:
+          'Walgreens Boots Alliance reported $22B in operating lease liabilities under ASC 842 — nearly doubling its reported leverage overnight. The company\'s weighted-average discount rate of approximately 5.5% was scrutinized by analysts because Walgreens\' actual borrowing rate was closer to 4.5%. The higher discount rate reduced the reported lease liability by approximately $1.5B compared to what the economic borrowing rate would have produced.',
+        commonMistakes: [
+          'Treating the ROU asset as equivalent to owning the underlying asset — the lessee has a right to use, not ownership. The lessor retains the asset.',
+          'Ignoring the discount rate\'s material impact — small rate changes (even 0.5-1%) produce billions of dollars in differences for lease-intensive companies.',
+          'Comparing pre-ASC 842 leverage ratios directly to post-ASC 842 ratios without adjusting — the standard change alone increased liabilities significantly for most companies.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A retailer signs a 10-year lease with annual payments of $2M. Its incremental borrowing rate is 4%, but it uses 6% as the discount rate. How does the higher rate affect the balance sheet?',
+        options: [
+          { id: 'a', text: 'No effect — the cash payments are the same regardless of discount rate', correct: false, explanation: 'While cash payments are indeed the same, the discount rate determines the present value recorded as the lease liability and ROU asset on the balance sheet. A higher rate reduces both, making the company appear less leveraged.' },
+          { id: 'b', text: 'Both the ROU asset and lease liability are lower, making the company appear less leveraged than it economically is', correct: true, explanation: 'Correct. At 4%, the liability is approximately $16.2M. At 6%, it drops to approximately $14.7M — a $1.5M reduction in reported liabilities from rate selection alone. The company\'s actual economic obligation ($2M/year for 10 years) has not changed, but the balance sheet understates it by using an aggressive discount rate.' },
+          { id: 'c', text: 'The lease liability increases because a higher rate means more interest expense', correct: false, explanation: 'A higher discount rate reduces the present value of future payments (the initial liability measurement), even though it does increase the proportion of each payment allocated to interest. The net effect on the initial balance sheet is a lower liability.' },
+        ],
+      },
+    },
+    {
+      id: 'ch13-s10',
+      chapterId: 13,
+      sectionLabel: 'Contingencies',
+      title: 'Loss Contingencies per ASC 450: Recognition and Disclosure',
+      explanation:
+        'ASC 450 (formerly SFAS 5) provides the framework for recognizing and disclosing loss contingencies — potential losses from litigation, environmental cleanup, product warranties, and regulatory actions. A loss is recorded when it is both probable and reasonably estimable. If probable but not estimable, or only reasonably possible, it is disclosed in footnotes. If remote, no disclosure is required. This framework places enormous power in management\'s hands to determine which category a contingency falls into.',
+      highlights: [
+        'Probable + Estimable: Accrue as a liability and recognize the expense on the income statement.',
+        'Probable + Not Estimable: Disclose in footnotes with the nature of the contingency — no accrual.',
+        'Reasonably Possible: Disclose in footnotes with an estimate of the range of loss (or state it cannot be estimated).',
+        'Remote: No disclosure required — management determines that the likelihood is too low to warrant attention.',
+      ],
+      deepDive: {
+        body: [
+          'The boundary between "probable" and "reasonably possible" is the most consequential judgment in contingent liability accounting. A litigation loss classified as "reasonably possible" appears only in footnotes, while "probable" triggers a balance sheet liability and income statement charge. Management and legal counsel routinely classify litigation as "reasonably possible" when settlement negotiations are underway — maintaining clean financial statements while the obligation grows.',
+          'The asymmetric treatment of gains and losses reflects GAAP\'s conservatism principle: losses must be recognized when probable and estimable, but gains (favorable contingencies) can only be disclosed, never recorded, until realized. A company expecting a $100M litigation recovery cannot record any asset — but a company facing a $100M liability must record it when the outcome becomes probable. This asymmetry means contingent liabilities hit the financial statements earlier and harder than contingent gains.',
+          'The forensic approach to contingent liabilities tracks three signals: (1) changes in footnote language between consecutive filings — a shift from "management believes the outcome will not have a material adverse effect" to "management cannot predict the outcome" signals escalating risk; (2) the gap between accrued contingent liabilities and the disclosed range of possible losses — companies that accrue at the bottom of the range are aggressive; (3) the timing of recognition relative to earnings performance — "big bath" timing suggests earnings management.',
+        ],
+        keyInsights: [
+          'Tracking footnote language changes on contingent liabilities is one of the highest-value forensic analysis techniques — the language escalation from "not material" to "cannot predict" often precedes large charges by 1-2 quarters.',
+          'Companies that consistently accrue at the low end of disclosed loss ranges and then report "favorable settlements" are using contingencies as cookie jars.',
+          'The total of all disclosed "reasonably possible" contingencies in the footnotes can exceed the total recognized liabilities on the balance sheet — making footnote reading essential, not optional.',
+        ],
+        realWorldExample:
+          'BP initially disclosed the Deepwater Horizon oil spill costs as a contingent liability with partial accruals, estimating total costs at $7.7B. The actual total cost ultimately exceeded $65B — nearly 10x the initial estimate. The progression from footnote disclosure to recorded liability to massive restatement of the estimated obligation illustrates how loss contingency judgment can understate true economic exposure by orders of magnitude.',
+        commonMistakes: [
+          'Treating footnote-disclosed contingencies as immaterial — many "reasonably possible" contingencies become "probable" with deteriorating conditions, producing sudden material charges.',
+          'Accepting boilerplate litigation language ("the company will vigorously defend...") as meaningful disclosure — this language is standard legal counsel language that conveys no actual information about risk.',
+          'Assuming gain contingencies offset loss contingencies — gains cannot be recognized until realized, so the balance sheet is inherently conservative on the net contingency exposure.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A pharmaceutical company faces a class action lawsuit. In Q1, the 10-Q describes the outcome as "reasonably possible" with a range of $200M-$500M. In Q2, the language changes to "the company cannot predict the outcome but acknowledges the potential for a material adverse effect." In Q3, the company accrues $250M. What pattern does this illustrate?',
+        options: [
+          { id: 'a', text: 'Normal litigation progression — contingencies naturally become more certain over time', correct: false, explanation: 'While the progression is realistic, the key forensic insight is that the language changes were detectable in Q1 and Q2, before the Q3 charge. An analyst reading the footnotes sequentially could have anticipated the charge.' },
+          { id: 'b', text: 'The footnote language escalation from "reasonably possible" to "cannot predict" to accrual was a detectable signal that preceded the formal charge — analysts who track footnote language changes had 6 months of warning', correct: true, explanation: 'Correct. The Q1 disclosure established the range ($200M-$500M). The Q2 language escalation ("cannot predict... material adverse effect") signaled increasing probability. The Q3 accrual at $250M (bottom of the disclosed range) confirmed the transition from reasonably possible to probable. Forensic analysts who tracked the language progression had two full quarters of advance notice.' },
+          { id: 'c', text: 'The $250M accrual is suspiciously low — it should be at the midpoint of the disclosed range', correct: false, explanation: 'Companies are allowed to accrue at any point within the disclosed range. Accruing at the bottom ($250M vs. $200M-$500M range) is conservative relative to the high end but is within GAAP. However, the choice to accrue near the low end is itself informative about management\'s posture.' },
+        ],
+      },
+    },
+  ],
 }

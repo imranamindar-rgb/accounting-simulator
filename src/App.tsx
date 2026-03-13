@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import NavDrawer from './components/shell/NavDrawer'
 import ChapterLayout from './components/shell/ChapterLayout'
+import TextbookChapterLayout from './components/shell/TextbookChapterLayout'
 
 const Home = lazy(() => import('./pages/Home'))
 const ChapterPage = lazy(() => import('./pages/ChapterPage'))
@@ -10,6 +11,9 @@ const StatementsPage = lazy(() => import('./pages/StatementsPage'))
 const MAWorkbenchPage = lazy(() => import('./pages/MAWorkbenchPage'))
 const AppendixPage = lazy(() => import('./pages/AppendixPage'))
 const CompanyAnalyzerPage = lazy(() => import('./pages/CompanyAnalyzerPage'))
+const TextbookHome = lazy(() => import('./pages/TextbookHome'))
+const TextbookChapterPage = lazy(() => import('./pages/TextbookChapterPage'))
+const TextbookAppendixPage = lazy(() => import('./pages/TextbookAppendixPage'))
 
 function Loading() {
   return <div className="p-8" style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Loading…</div>
@@ -36,6 +40,14 @@ export default function App() {
             <Route path="/analyze" element={<CompanyAnalyzerPage />} />
 
             <Route path="/appendix/:id" element={<AppendixPage />} />
+
+            {/* Textbook mode routes */}
+            <Route path="/textbook" element={<TextbookHome />} />
+            <Route path="/textbook/:tbId" element={<TextbookChapterLayout />}>
+              <Route index element={<Navigate to="zone/1" replace />} />
+              <Route path="zone/:zone" element={<TextbookChapterPage />} />
+            </Route>
+            <Route path="/textbook/appendix/:id" element={<TextbookAppendixPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
