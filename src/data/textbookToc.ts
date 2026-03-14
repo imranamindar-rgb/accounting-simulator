@@ -108,8 +108,8 @@ export const TEXTBOOK_APPENDICES: TextbookAppendix[] = [
   },
   {
     id: 'B',
-    title: 'Data Analytics for Accounting',
-    subtitle: 'Using Data to Detect Anomalies & Improve Analysis',
+    title: 'Data Analytics and Blockchain Technology',
+    subtitle: 'Using Data Analytics & Distributed Ledgers in Accounting',
     color: '#37474F',
   },
 ]
