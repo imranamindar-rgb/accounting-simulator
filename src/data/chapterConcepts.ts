@@ -111,6 +111,137 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+
+    {
+      id: 'ch1-s4',
+      chapterId: 1,
+      sectionLabel: 'Overview',
+      title: 'Financial Statements: The Four Core Reports',
+      explanation:
+        'Every public company produces four interconnected financial statements: the balance sheet (financial position at a point in time), income statement (performance over a period), statement of stockholders\' equity (changes in equity over a period), and statement of cash flows (cash inflows and outflows over a period). Together they provide a complete picture of a company\'s financial health.',
+      highlights: [
+        'The balance sheet reports assets, liabilities, and equity at a specific date — it is a snapshot.',
+        'The income statement reports revenues minus expenses over a period — it measures performance.',
+        'The statement of stockholders\' equity reconciles beginning to ending equity, showing net income, dividends, stock transactions, and OCI.',
+        'The statement of cash flows classifies cash movements into operating, investing, and financing activities.',
+        'Net income from the income statement flows into retained earnings on the equity statement, which flows to the balance sheet.',
+      ],
+      deepDive: {
+        body: [
+          'The four statements are linked by a set of articulation relationships. Net income from the income statement increases retained earnings. The change in retained earnings (plus other equity changes) is shown on the statement of stockholders\' equity. The ending equity balance flows to the balance sheet. The statement of cash flows reconciles beginning cash to ending cash, which also appears on the balance sheet.',
+          'Beyond the four statements, companies provide footnotes (detailed disclosures about accounting policies, estimates, and contingencies), Management\'s Discussion and Analysis (MD&A), and the independent auditor\'s report. These supplementary materials often contain more useful information than the statements themselves.',
+          'The SEC requires public companies to file annual reports (10-K) and quarterly reports (10-Q). The 10-K includes all four financial statements, footnotes, MD&A, and the auditor\'s report.',
+        ],
+        keyInsights: [
+          'Financial statements are interconnected — a change in one statement ripples through the others.',
+          'Footnotes and MD&A often contain more actionable information than the financial statements themselves.',
+          'The articulation between statements means that manipulation in one statement creates detectable distortions in others.',
+        ],
+        realWorldExample:
+          'When Enron hid $30 billion in debt off its balance sheet, the liabilities section looked clean. But the cash flow statement showed enormous financing activities from the hidden SPEs, and careful readers could see the discrepancy between reported leverage and actual cash flows.',
+        commonMistakes: [
+          'Confusing the balance sheet (point in time) with the income statement (period of time).',
+          'Thinking net income equals cash — it does not. The SCF reconciles this difference.',
+          'Ignoring footnotes — many significant risks and obligations are only disclosed in the notes.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports net income of $50M and pays $10M in dividends. If no other equity transactions occurred, what happens to retained earnings?',
+        options: [
+          { id: 'a', text: 'Retained earnings increases by $50M', correct: false, explanation: 'Net income increases retained earnings, but dividends decrease it. You must account for both.' },
+          { id: 'b', text: 'Retained earnings increases by $40M', correct: true, explanation: 'Correct. Retained earnings increases by net income ($50M) and decreases by dividends ($10M), for a net increase of $40M.' },
+          { id: 'c', text: 'Retained earnings increases by $60M', correct: false, explanation: 'Dividends reduce retained earnings, they do not increase it. The answer is $50M - $10M = $40M.' },
+        ],
+      },
+    },
+    {
+      id: 'ch1-s5',
+      chapterId: 1,
+      sectionLabel: 'Regulatory',
+      title: 'GAAP, the FASB, and the Regulatory Environment',
+      explanation:
+        'Financial reporting in the United States is governed by Generally Accepted Accounting Principles (GAAP), set primarily by the Financial Accounting Standards Board (FASB). The SEC provides oversight and enforcement. The Sarbanes-Oxley Act of 2002 created the PCAOB to oversee auditors and required CEO/CFO certification of financial statements.',
+      highlights: [
+        'GAAP is the set of rules and standards that govern how financial statements are prepared in the U.S.',
+        'The FASB (Financial Accounting Standards Board) is the primary standard-setter, issuing Accounting Standards Codification (ASC) topics.',
+        'The SEC requires public companies to file audited financial statements and has enforcement authority over violations.',
+        'SOX (2002) created the PCAOB, required internal control assessments (Section 404), and imposed criminal penalties for fraudulent financial reporting.',
+        'Auditors provide independent verification — their opinion can be unqualified (clean), qualified, adverse, or a disclaimer.',
+      ],
+      deepDive: {
+        body: [
+          'The FASB operates independently but under SEC oversight. When the FASB issues a new standard (like ASC 606 for revenue recognition or ASC 842 for leases), public companies must adopt it by the effective date. The SEC can reject or modify FASB standards but rarely does.',
+          'The Sarbanes-Oxley Act was passed in response to Enron, WorldCom, and other accounting scandals. Section 302 requires the CEO and CFO to personally certify the accuracy of financial statements. Section 404 requires management and auditors to assess internal controls over financial reporting.',
+          'Internationally, most countries use IFRS (International Financial Reporting Standards) set by the IASB. IFRS is principles-based while US GAAP is more rules-based. Convergence efforts have brought the two frameworks closer (e.g., ASC 606 and IFRS 15 are nearly identical), but significant differences remain in areas like inventory (LIFO allowed under GAAP, prohibited under IFRS).',
+        ],
+        keyInsights: [
+          'GAAP is not a single document — it is the entire Accounting Standards Codification, containing hundreds of topics.',
+          'SOX Section 404 compliance costs billions annually but has significantly improved internal controls at public companies.',
+          'The auditor works for the shareholders, not management — independence is the cornerstone of audit credibility.',
+        ],
+        realWorldExample:
+          'Arthur Andersen, one of the Big Five accounting firms, collapsed in 2002 after its role in the Enron scandal. Andersen had signed off on Enron\'s financial statements while also providing lucrative consulting services — a conflict of interest that SOX subsequently banned. The PCAOB was created specifically to prevent such failures.',
+        commonMistakes: [
+          'Thinking GAAP is set by the SEC — the FASB sets GAAP; the SEC enforces it.',
+          'Assuming an unqualified audit opinion means the statements are fraud-free — auditors provide reasonable, not absolute, assurance.',
+          'Confusing IFRS and GAAP — they are separate frameworks with different rules on key topics like inventory and leases.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Which organization is primarily responsible for setting accounting standards (GAAP) in the United States?',
+        options: [
+          { id: 'a', text: 'The SEC (Securities and Exchange Commission)', correct: false, explanation: 'The SEC has the legal authority to set standards but has delegated this responsibility to the FASB. The SEC oversees and enforces, but does not typically write the standards.' },
+          { id: 'b', text: 'The FASB (Financial Accounting Standards Board)', correct: true, explanation: 'Correct. The FASB is the designated standard-setter for U.S. GAAP. It issues the Accounting Standards Codification (ASC) that all public companies must follow.' },
+          { id: 'c', text: 'The PCAOB (Public Company Accounting Oversight Board)', correct: false, explanation: 'The PCAOB oversees auditors of public companies. It sets auditing standards, not accounting standards.' },
+        ],
+      },
+    },
+    {
+      id: 'ch1-s6',
+      chapterId: 1,
+      sectionLabel: 'Conceptual Framework',
+      title: 'The Conceptual Framework for Financial Reporting',
+      explanation:
+        'The FASB\'s Conceptual Framework (SFAC No. 8) establishes the objective, qualitative characteristics, and foundational assumptions underlying financial reporting. It serves as a constitution for accounting standards — when no specific standard addresses a transaction, the framework provides guidance.',
+      formula: 'Useful Information = Relevance + Faithful Representation',
+      highlights: [
+        'The objective of financial reporting is to provide information useful to investors, creditors, and other users in making resource allocation decisions.',
+        'Relevance means information has predictive value, confirmatory value, or both. Materiality is a component of relevance.',
+        'Faithful representation means information is complete, neutral, and free from error.',
+        'Enhancing characteristics: comparability, verifiability, timeliness, and understandability.',
+        'The cost constraint: benefits of disclosure must justify the costs of providing it.',
+      ],
+      deepDive: {
+        body: [
+          'The two fundamental qualitative characteristics are relevance and faithful representation. Information is relevant if it makes a difference in a decision — either by helping predict future outcomes (predictive value) or by confirming or correcting prior expectations (confirmatory value). Materiality is an entity-specific aspect of relevance.',
+          'Faithful representation requires three properties: completeness (all necessary information is included), neutrality (no bias toward a predetermined result), and freedom from error (no errors in the process used to produce the information, though estimates are inherently uncertain).',
+          'The framework also identifies four underlying assumptions: the economic entity assumption (the business is separate from its owners), the going concern assumption (the business will continue operating), the monetary unit assumption (transactions are measured in a stable currency), and the periodicity assumption (economic activity can be divided into time periods).',
+        ],
+        keyInsights: [
+          'When relevance and faithful representation conflict, standard-setters must make trade-offs — fair value is more relevant but historical cost may be more reliably measured.',
+          'The conceptual framework is not a standard itself — it does not override specific ASC guidance.',
+          'Understanding the framework helps predict how the FASB will rule on new issues.',
+        ],
+        realWorldExample:
+          'The move from historical cost to fair value accounting for financial instruments (ASC 820) was driven by a relevance argument: investors need to know what assets are worth today, not what was paid for them years ago. Critics argued this sacrificed faithful representation because Level 3 fair values rely on unobservable management estimates.',
+        commonMistakes: [
+          'Thinking reliability is still a fundamental characteristic — SFAC No. 8 replaced it with faithful representation.',
+          'Confusing materiality (entity-specific threshold) with a fixed dollar amount — what is material depends on the company.',
+          'Assuming the cost constraint means companies can avoid expensive disclosures — the FASB determines the cost-benefit balance, not the reporting company.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company discovers a $500 accounting error. For a $10 billion company this is clearly immaterial, but for a $50,000 startup it could be significant. What concept explains this difference?',
+        options: [
+          { id: 'a', text: 'The cost constraint', correct: false, explanation: 'The cost constraint relates to whether the cost of providing information is justified by its benefits, not about the size of an error relative to the entity.' },
+          { id: 'b', text: 'Materiality', correct: true, explanation: 'Correct. Materiality is entity-specific — information is material if omitting or misstating it could influence decisions made by users of that specific entity\'s financial statements. $500 is immaterial for a $10B company but potentially material for a $50K startup.' },
+          { id: 'c', text: 'Faithful representation', correct: false, explanation: 'Faithful representation is about completeness, neutrality, and freedom from error. Materiality determines whether the error matters enough to require correction.' },
+        ],
+      },
+    },
   ],
 
   2: [
@@ -221,6 +352,138 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Assuming only small companies commit revenue fraud — Enron, Xerox, Lucent, and WorldCom were all large-cap companies.',
           'Ignoring non-cash revenue — barter transactions and round-trips can inflate revenue without any cash changing hands.',
           'Overlooking adjustments to "estimates" — revenue reversals are often buried in footnotes as "changes in accounting estimates."',
+        ],
+      },
+    },
+
+    {
+      id: 'ch2-s4',
+      chapterId: 2,
+      sectionLabel: 'Receivables',
+      title: 'Accounts Receivable and the Allowance for Uncollectible Accounts',
+      explanation:
+        'When a company sells on credit, it records accounts receivable (A/R). But not all customers will pay. GAAP requires companies to estimate uncollectible amounts and report A/R at net realizable value using a contra-asset account called the Allowance for Doubtful Accounts.',
+      formula: 'Net A/R = Gross A/R - Allowance for Doubtful Accounts',
+      highlights: [
+        'Accounts receivable is a current asset representing amounts owed by customers.',
+        'The allowance for doubtful accounts is a contra-asset that reduces gross A/R to net realizable value.',
+        'Two estimation methods: percentage-of-sales (income statement approach) and aging of receivables (balance sheet approach).',
+        'Journal entry to record bad debt expense: Dr Bad Debt Expense, Cr Allowance for Doubtful Accounts.',
+        'The allowance-to-receivables ratio is a key quality indicator — a declining ratio may signal under-reserving.',
+      ],
+      deepDive: {
+        body: [
+          'The percentage-of-sales method estimates bad debt expense as a percentage of credit sales for the period. This focuses on matching expense to revenue (income statement approach). For example, if historical experience shows 2% of credit sales are uncollectible and credit sales are $1M, bad debt expense is $20,000.',
+          'The aging method categorizes receivables by how long they have been outstanding (0-30 days, 31-60 days, 61-90 days, over 90 days) and applies increasing loss percentages to older buckets. This focuses on getting the balance sheet right (balance sheet approach). The result is the required ending balance of the allowance.',
+          'Under ASU 2016-13 (CECL — Current Expected Credit Losses), companies must now estimate lifetime expected credit losses at the time of origination, rather than waiting for a loss to become probable. This front-loads loss recognition.',
+        ],
+        keyInsights: [
+          'The allowance is a management estimate — it requires judgment about future customer defaults.',
+          'A shrinking allowance-to-A/R ratio during revenue growth is a classic earnings manipulation signal.',
+          'CECL (ASU 2016-13) significantly changed how banks and financial institutions estimate credit losses.',
+        ],
+        realWorldExample:
+          'Lucent Technologies was caught in 2000 underestimating its allowance for doubtful accounts while aggressively extending credit to financially weak customers. Revenue looked strong, but the receivables were largely uncollectible — the allowance was insufficient to absorb the losses.',
+        commonMistakes: [
+          'Recording bad debt expense only when a specific customer defaults — GAAP requires estimation in advance.',
+          'Confusing the two methods: percentage-of-sales gives you the expense; aging gives you the required allowance balance.',
+          'Thinking the allowance reduces cash — it is an estimate that reduces the reported value of A/R, not a cash outflow.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company has $500,000 in gross A/R and estimates 4% will be uncollectible using the aging method. The allowance currently has a $5,000 credit balance. What is the bad debt expense for the period?',
+        options: [
+          { id: 'a', text: '$20,000', correct: false, explanation: 'The aging method targets the ending allowance balance, not the expense directly. The target is $20,000, but the allowance already has $5,000 in it.' },
+          { id: 'b', text: '$15,000', correct: true, explanation: 'Correct. The target allowance is $500,000 × 4% = $20,000. Since the allowance already has a $5,000 credit balance, the adjustment needed is $20,000 - $5,000 = $15,000.' },
+          { id: 'c', text: '$25,000', correct: false, explanation: 'This would add $20,000 to the existing $5,000 balance, resulting in a $25,000 allowance — overshooting the $20,000 target.' },
+        ],
+      },
+    },
+    {
+      id: 'ch2-s5',
+      chapterId: 2,
+      sectionLabel: 'Receivables',
+      title: 'Write-offs, Recoveries, and Receivables Footnote Disclosures',
+      explanation:
+        'When a specific account is determined to be uncollectible, it is written off against the allowance. This write-off has NO effect on net A/R or on the income statement — the expense was already recognized when the allowance was established.',
+      highlights: [
+        'Write-off entry: Dr Allowance for Doubtful Accounts, Cr Accounts Receivable — no income statement impact.',
+        'Both gross A/R and the allowance decrease by the same amount, so net A/R is unchanged.',
+        'Recovery of a previously written-off account: first reverse the write-off, then record the cash collection.',
+        'Footnote disclosures include the allowance rollforward: beginning balance + provisions - write-offs ± recoveries = ending balance.',
+        'A high write-off-to-provision ratio suggests the company is accurately estimating losses.',
+      ],
+      deepDive: {
+        body: [
+          'The write-off mechanics are counterintuitive: writing off a bad account does NOT reduce net income or net A/R. Why? Because the expense was already recognized when the allowance was created. The write-off simply removes both the receivable and the corresponding allowance.',
+          'For recoveries, the two-step process ensures proper documentation: (1) Reverse the write-off: Dr A/R, Cr Allowance; (2) Record the collection: Dr Cash, Cr A/R. This restores the customer\'s account history.',
+          'The allowance rollforward in the footnotes is a critical analytical tool. If write-offs consistently exceed provisions, the company may be systematically under-reserving to boost earnings. If provisions greatly exceed write-offs, the company may be building cookie jar reserves.',
+        ],
+        keyInsights: [
+          'A write-off does NOT affect net income — the expense was already recognized via the allowance.',
+          'The allowance rollforward in footnotes reveals whether management\'s estimates are accurate over time.',
+          'Days Sales Outstanding (DSO) = (A/R / Revenue) × 365 — rising DSO is a warning signal for credit quality.',
+        ],
+        realWorldExample:
+          'In 2001, Xerox was found to have manipulated its allowance for doubtful accounts along with other reserves to smooth earnings. The SEC enforcement action revealed that management routinely adjusted reserves not based on credit analysis, but to meet earnings targets.',
+        commonMistakes: [
+          'Thinking a write-off reduces net income — it does not; the expense was already in bad debt expense.',
+          'Forgetting the two-step recovery process — you must reverse the write-off before recording the cash receipt.',
+          'Ignoring the allowance rollforward in footnotes — it is one of the most revealing disclosures for earnings quality.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company writes off a $10,000 receivable as uncollectible. What is the effect on net accounts receivable?',
+        options: [
+          { id: 'a', text: 'Net A/R decreases by $10,000', correct: false, explanation: 'The write-off reduces both gross A/R and the allowance by $10,000. Since net A/R = gross A/R - allowance, both components decrease equally, leaving net A/R unchanged.' },
+          { id: 'b', text: 'No effect on net A/R', correct: true, explanation: 'Correct. Gross A/R decreases by $10,000 AND the allowance decreases by $10,000. Net A/R (gross minus allowance) stays the same.' },
+          { id: 'c', text: 'Net A/R increases by $10,000', correct: false, explanation: 'The write-off reduces gross A/R, it does not increase it. However, the offsetting reduction in the allowance means the net effect is zero.' },
+        ],
+      },
+    },
+    {
+      id: 'ch2-s6',
+      chapterId: 2,
+      sectionLabel: 'Analysis',
+      title: 'Net Operating Profit After Tax (NOPAT) and Nonrecurring Items',
+      explanation:
+        'NOPAT measures operating profitability independently of capital structure by removing the tax benefit of debt. It answers: how much profit does the business generate from operations alone? Nonrecurring items (discontinued operations, restructuring charges) are reported separately to help analysts assess sustainable earnings.',
+      formula: 'NOPAT = Operating Income × (1 - Tax Rate)',
+      highlights: [
+        'NOPAT removes the effect of financing decisions, making it comparable across companies with different leverage.',
+        'It is the numerator in Return on Net Operating Assets (RNOA = NOPAT / Net Operating Assets).',
+        'Discontinued operations are reported below the line under ASC 205-20.',
+        'Restructuring charges and exit costs are operating items but are often one-time in nature.',
+        'Analysts adjust reported income for nonrecurring items to estimate core, sustainable earnings.',
+      ],
+      deepDive: {
+        body: [
+          'NOPAT is crucial because net income mixes operating performance with financing decisions. Two identical businesses with different debt levels will have different net incomes (because interest is tax-deductible), but the same NOPAT. This makes NOPAT the right measure for comparing operating efficiency.',
+          'Discontinued operations must meet specific criteria under ASC 205-20: the component must be disposed of or classified as held for sale, and it must represent a strategic shift that has (or will have) a major effect on the entity\'s operations and financial results. Results are reported net of tax, below income from continuing operations.',
+          'Restructuring charges present an analytical challenge: companies sometimes take recurring restructuring charges that are labeled nonrecurring. If a company takes restructuring charges every year for five years, they are effectively a recurring operating cost disguised as one-time items.',
+        ],
+        keyInsights: [
+          'NOPAT is the true measure of operating profitability — use it when comparing companies with different capital structures.',
+          'If a company reports restructuring charges in most years, they are not truly nonrecurring — include them in core earnings.',
+          'Discontinued operations provide a natural experiment: the continuing business can be analyzed without the noise of divested segments.',
+        ],
+        realWorldExample:
+          'General Electric took restructuring charges almost every year for over a decade, each time calling them one-time items. Analysts who excluded these charges from core earnings consistently overestimated GE\'s sustainable profitability, contributing to the stock\'s overvaluation before its decline.',
+        commonMistakes: [
+          'Using net income instead of NOPAT when comparing companies with different leverage — this conflates operating and financing performance.',
+          'Automatically excluding all restructuring charges as nonrecurring without checking whether they recur annually.',
+          'Confusing NOPAT with EBIT — NOPAT is after-tax while EBIT is pre-tax.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Company A and Company B have identical operations generating $100M in operating income. Company A has no debt; Company B has debt with $20M in annual interest expense. Tax rate is 25%. Which has higher NOPAT?',
+        options: [
+          { id: 'a', text: 'Company A has higher NOPAT', correct: false, explanation: 'NOPAT removes the effect of financing by computing Operating Income × (1 - Tax Rate). Since both have the same operating income, they have the same NOPAT.' },
+          { id: 'b', text: 'Company B has higher NOPAT because of the tax shield', correct: false, explanation: 'The tax shield from interest benefits net income, not NOPAT. NOPAT is calculated before considering interest, so the debt has no effect.' },
+          { id: 'c', text: 'They have the same NOPAT: $75M each', correct: true, explanation: 'Correct. NOPAT = $100M × (1 - 0.25) = $75M for both companies. NOPAT deliberately removes the effect of financing decisions.' },
         ],
       },
     },
@@ -449,6 +712,181 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+
+    {
+      id: 'ch4-s4',
+      chapterId: 4,
+      sectionLabel: 'Disposals',
+      title: 'Asset Sales and Disposals: Gains and Losses',
+      explanation:
+        'When a company sells a long-term asset, the difference between the sale proceeds and the asset\'s book value (cost minus accumulated depreciation) determines whether there is a gain or loss. The gain or loss is reported on the income statement, and the asset is removed from the balance sheet.',
+      formula: 'Gain (Loss) = Sale Proceeds - (Cost - Accumulated Depreciation)',
+      highlights: [
+        'Book value at disposal = Original Cost - Accumulated Depreciation to date of sale.',
+        'If proceeds > book value → gain on disposal (credit to income).',
+        'If proceeds < book value → loss on disposal (debit to income).',
+        'Partial-year depreciation must be recorded up to the date of disposal before computing the gain/loss.',
+        'Journal entry: Dr Cash (proceeds), Dr Accumulated Depreciation (total), Cr Asset (original cost), Cr/Dr Gain or Loss.',
+      ],
+      deepDive: {
+        body: [
+          'The disposal of long-term assets involves removing both the asset and its accumulated depreciation from the books. The journal entry always debits Cash (or the receivable) for the proceeds and debits Accumulated Depreciation for the total depreciation taken over the asset\'s life. The original cost of the asset is credited. The plug (balancing amount) is either a gain (credit) or loss (debit).',
+          'Companies must record depreciation up to the date of disposal. If an asset is sold on March 31 and the company has a December 31 year-end, three months of depreciation must be recorded before computing the gain or loss.',
+          'On the statement of cash flows, the full sale proceeds appear in investing activities. However, the gain is subtracted from operating activities (indirect method) because it was included in net income but is not an operating cash flow — it belongs in investing.',
+        ],
+        keyInsights: [
+          'Gains on asset sales improve net income but are non-recurring — strip them out when analyzing core profitability.',
+          'Companies sometimes time asset sales to manage quarterly earnings, selling appreciated assets when they need an income boost.',
+          'The SCF treatment is counterintuitive: gains are subtracted from operating activities because the full proceeds go to investing.',
+        ],
+        realWorldExample:
+          'In 2015, Yahoo sold a portion of its Alibaba stake for approximately $6.3 billion, recording a massive gain. The gain temporarily boosted net income but was clearly non-recurring. Analysts who failed to exclude this gain dramatically overestimated Yahoo\'s operating performance.',
+        commonMistakes: [
+          'Forgetting to record depreciation up to the disposal date before computing the gain/loss.',
+          'Including the gain/loss in operating income when it should be identified as a non-operating item.',
+          'Confusing sale proceeds with the gain — proceeds are the cash received; the gain is proceeds minus book value.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Equipment costing $100,000 with $70,000 accumulated depreciation is sold for $40,000. What is the gain or loss?',
+        options: [
+          { id: 'a', text: '$10,000 gain', correct: true, explanation: 'Correct. Book value = $100,000 - $70,000 = $30,000. Proceeds of $40,000 minus book value of $30,000 = $10,000 gain.' },
+          { id: 'b', text: '$60,000 loss', correct: false, explanation: 'This subtracts proceeds from cost ($100,000 - $40,000), ignoring accumulated depreciation. The book value is only $30,000.' },
+          { id: 'c', text: '$30,000 gain', correct: false, explanation: 'This uses the book value as the gain rather than comparing proceeds to book value. The gain is $40,000 - $30,000 = $10,000.' },
+        ],
+      },
+    },
+    {
+      id: 'ch4-s5',
+      chapterId: 4,
+      sectionLabel: 'Intangibles',
+      title: 'Intangible Assets: R&D, Patents, Copyrights, and Trademarks',
+      explanation:
+        'Intangible assets are identifiable, non-monetary assets without physical substance. They include patents, copyrights, trademarks, franchise rights, and customer relationships. The accounting treatment depends on how the intangible was acquired and whether it has a finite or indefinite useful life.',
+      highlights: [
+        'R&D costs: generally expensed as incurred under ASC 730 (major exception: software development costs under ASC 350-40).',
+        'Patents: capitalize purchase price or legal costs; amortize over shorter of legal life (20 years) or useful life.',
+        'Copyrights: similar treatment to patents; legal life is author\'s life + 70 years but useful life is usually much shorter.',
+        'Trademarks: indefinite useful life — no amortization, but test for impairment annually.',
+        'Franchise rights: capitalize and amortize over the franchise agreement period.',
+      ],
+      deepDive: {
+        body: [
+          'The R&D expense rule (ASC 730) is one of the most consequential in GAAP. Because R&D is expensed immediately, companies like Pfizer, which spends billions on drug development, show lower assets and lower income than they would if R&D were capitalized. This creates a systematic understatement of assets for R&D-intensive firms.',
+          'The exception for software development costs (ASC 350-40) allows capitalization once technological feasibility is established. In practice, many software companies expense almost all development costs because they define technological feasibility very late in the process.',
+          'Intangible assets acquired in a business combination are measured at fair value under ASC 805, even if they were internally developed by the target (and therefore never on the target\'s books). This creates an asymmetry: an internally developed trademark has zero book value, but the identical trademark acquired in an acquisition is recorded at fair value.',
+        ],
+        keyInsights: [
+          'The R&D expense rule means R&D-intensive companies have understated assets — adjust for this when comparing R&D-heavy vs. R&D-light firms.',
+          'Acquired intangibles get capitalized; internally developed intangibles get expensed — creating a systematic difference between acquirers and organic growers.',
+          'The useful life determination (finite vs. indefinite) has major financial statement effects: amortization vs. impairment-only.',
+        ],
+        realWorldExample:
+          'When Microsoft acquired LinkedIn in 2016 for $26.2 billion, approximately $16 billion was allocated to identifiable intangible assets (customer relationships, technology, trade names). These intangibles had been internally developed by LinkedIn and had zero book value on LinkedIn\'s pre-acquisition balance sheet.',
+        commonMistakes: [
+          'Thinking all intangibles are amortized — indefinite-life intangibles (trademarks, goodwill) are not amortized.',
+          'Capitalizing R&D costs — under US GAAP (ASC 730), R&D is expensed as incurred (with narrow exceptions).',
+          'Confusing legal life with useful life — patents have a 20-year legal life but may be commercially useful for much less.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A pharmaceutical company spends $500 million on drug research this year. Under US GAAP, how is this treated?',
+        options: [
+          { id: 'a', text: 'Capitalized as an intangible asset and amortized over the drug\'s patent life', correct: false, explanation: 'Under ASC 730, R&D costs are expensed as incurred, not capitalized. This is different from IFRS, which allows capitalization of development costs once certain criteria are met.' },
+          { id: 'b', text: 'Expensed immediately on the income statement', correct: true, explanation: 'Correct. ASC 730 requires R&D costs to be expensed as incurred. The $500M appears as R&D expense on the income statement, reducing net income in the current period.' },
+          { id: 'c', text: 'Recorded as a contingent asset until FDA approval', correct: false, explanation: 'There is no contingent asset treatment for R&D. GAAP requires immediate expensing regardless of the probability of success.' },
+        ],
+      },
+    },
+    {
+      id: 'ch4-s6',
+      chapterId: 4,
+      sectionLabel: 'Intangibles',
+      title: 'Goodwill: Recognition, Measurement, and Impairment',
+      explanation:
+        'Goodwill is the excess of the purchase price over the fair value of identifiable net assets acquired in a business combination. It represents the value of synergies, brand reputation, workforce, and other factors that cannot be separately identified. Goodwill is NOT amortized — instead, it is tested for impairment at least annually.',
+      formula: 'Goodwill = Purchase Price - Fair Value of Net Identifiable Assets',
+      highlights: [
+        'Goodwill arises ONLY from business combinations — it cannot be internally generated or self-created.',
+        'Under ASC 350, goodwill has an indefinite life and is not amortized.',
+        'Annual impairment test: compare the fair value of the reporting unit to its carrying amount (including goodwill).',
+        'If carrying amount > fair value, record impairment loss equal to the excess (capped at goodwill balance).',
+        'Goodwill impairment is a non-cash charge but signals that an acquisition has destroyed value.',
+      ],
+      deepDive: {
+        body: [
+          'Goodwill impairment testing was simplified by ASU 2017-04, which eliminated the previous two-step process. Now there is a single step: if the carrying amount of the reporting unit exceeds its fair value, recognize an impairment loss equal to the excess, limited to the total amount of goodwill allocated to that reporting unit.',
+          'Companies may perform a qualitative assessment first (Step 0): evaluate whether it is more likely than not (>50% probability) that the reporting unit\'s fair value is less than its carrying amount. If not, no quantitative test is needed.',
+          'Goodwill impairment is a significant event that tells the market management overpaid for an acquisition. Large impairments often trigger stock price declines, credit rating downgrades, and management turnover. However, the impairment is backward-looking — the value was destroyed at the time of the acquisition, not when the impairment is recognized.',
+        ],
+        keyInsights: [
+          'Goodwill impairment is a lagging indicator — it confirms value destruction that already happened, often years earlier.',
+          'Companies with large goodwill balances relative to total assets are more vulnerable to impairment charges.',
+          'Management has significant discretion in fair value estimates for reporting units, creating potential for delayed impairment recognition.',
+        ],
+        realWorldExample:
+          'In 2000, AOL acquired Time Warner for $165 billion. By 2002, AOL Time Warner wrote off $99 billion in goodwill — the largest impairment in U.S. history at the time — acknowledging that the merger had destroyed massive shareholder value.',
+        commonMistakes: [
+          'Thinking goodwill is amortized like other intangibles — it is not; it is only impaired.',
+          'Believing internally developed goodwill can be recorded — only acquisition goodwill appears on the balance sheet.',
+          'Assuming goodwill impairment means the business is failing — it means the acquisition price was too high relative to subsequent performance.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Company X acquires Company Y for $800M. The fair value of Y\'s identifiable net assets is $600M. How much goodwill is recorded?',
+        options: [
+          { id: 'a', text: '$800M — the full purchase price', correct: false, explanation: 'The full purchase price is allocated first to identifiable assets and liabilities at fair value. Only the excess becomes goodwill.' },
+          { id: 'b', text: '$200M — the excess over fair value of net assets', correct: true, explanation: 'Correct. Goodwill = $800M purchase price - $600M fair value of net identifiable assets = $200M.' },
+          { id: 'c', text: '$600M — the fair value of net assets', correct: false, explanation: 'The $600M is the value of identifiable assets, not goodwill. Goodwill is the residual: purchase price minus identifiable net assets.' },
+        ],
+      },
+    },
+    {
+      id: 'ch4-s7',
+      chapterId: 4,
+      sectionLabel: 'Intangibles',
+      title: 'Amortization of Finite-Life Intangibles and Footnote Disclosures',
+      explanation:
+        'Finite-life intangible assets are amortized over their useful life, typically using the straight-line method. Indefinite-life intangibles are not amortized but are tested for impairment annually. Footnote disclosures provide critical details about intangible asset composition, amortization schedules, and impairment.',
+      highlights: [
+        'Finite-life intangibles (patents, customer relationships, technology): amortize over useful life; test for impairment when triggering events occur.',
+        'Indefinite-life intangibles (trademarks, goodwill): no amortization; annual impairment test required.',
+        'Impairment of finite-life intangibles follows ASC 360 (same as PP&E): recoverability test then fair value measurement.',
+        'Footnotes disclose: gross carrying amounts, accumulated amortization, amortization expense, and expected amortization for the next five years.',
+        'Analysis: intangible-heavy companies may have lower asset turnover but higher margins.',
+      ],
+      deepDive: {
+        body: [
+          'The distinction between finite and indefinite life has significant financial statement effects. A patent with a 10-year useful life generates amortization expense of 10% of its cost annually, reducing both assets and income. A trademark with an indefinite life sits on the balance sheet at its original value (less any impairment), generating no ongoing expense unless impaired.',
+          'When analyzing asset-light companies (tech, pharma, services), much of the economic value lies in intangibles — many of which never appear on the balance sheet because they were internally developed. This means traditional asset-based ratios (ROA, asset turnover) can be misleading.',
+          'PP&E and intangible footnotes reveal useful analytical details: depreciation/amortization methods, useful life estimates, recent impairments, and future amortization expectations. Changes in useful life estimates or methods can signal earnings management.',
+        ],
+        keyInsights: [
+          'Internally developed intangibles (brands, workforce, proprietary technology) never appear on the balance sheet under GAAP.',
+          'When comparing asset-heavy and asset-light firms, adjust for unrecorded intangibles to make ROA comparisons meaningful.',
+          'A sudden change in useful life estimates for intangible assets warrants scrutiny — it directly affects amortization expense and income.',
+        ],
+        realWorldExample:
+          'When Kraft Heinz wrote down $15.4 billion in intangible assets and goodwill in 2019, it was the clearest signal that the company\'s brand values had deteriorated. The write-down forced analysts to reassess whether premium brand intangibles were really worth what acquisition accounting suggested.',
+        commonMistakes: [
+          'Amortizing goodwill — under current US GAAP, goodwill is not amortized (though private companies may elect to under ASU 2014-02).',
+          'Ignoring the footnote disclosure of expected future amortization — this helps forecast future earnings impact.',
+          'Treating all intangible asset impairments the same as goodwill impairments — the testing methodologies differ (ASC 360 vs ASC 350).',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company has two intangible assets: a patent (10-year useful life, cost $5M) and a trademark (indefinite life, cost $3M). What is the total annual amortization expense?',
+        options: [
+          { id: 'a', text: '$800,000 ($5M/10 + $3M/indefinite)', correct: false, explanation: 'Indefinite-life intangibles are NOT amortized. Only the finite-life patent generates amortization expense.' },
+          { id: 'b', text: '$500,000 (patent only)', correct: true, explanation: 'Correct. The patent is amortized: $5M / 10 years = $500,000 per year. The trademark has an indefinite life and is not amortized — it is only tested for impairment.' },
+          { id: 'c', text: '$0 — intangibles are tested for impairment, not amortized', correct: false, explanation: 'Only indefinite-life intangibles avoid amortization. Finite-life intangibles like patents must be amortized over their useful life.' },
+        ],
+      },
+    },
   ],
 
   5: [
@@ -557,6 +995,226 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Assuming "true sale" accounting treatment is correct just because counsel provided an opinion — Repo 105 had legal opinions that were technically valid under English law but violated the spirit of US GAAP.',
           'Ignoring the timing of repo settlements in the 10-K — Lehman disclosed that repos settled within days, not months.',
           'Failing to compare balance sheet leverage to book equity book value declines — Lehman\'s equity was declining while leverage appeared stable.',
+        ],
+      },
+    },
+
+    {
+      id: 'ch5-s4',
+      chapterId: 5,
+      sectionLabel: 'Fundamentals',
+      title: 'Current Liabilities: Accounts Payable, Accruals, and Other Obligations',
+      explanation:
+        'Current liabilities are obligations due within one year or one operating cycle. They include accounts payable, accrued liabilities (wages, interest, taxes), unearned revenue, and the current portion of long-term debt. Understanding current liabilities is essential for assessing short-term liquidity.',
+      formula: 'Working Capital = Current Assets - Current Liabilities',
+      highlights: [
+        'Accounts payable: amounts owed to suppliers for goods or services purchased on credit.',
+        'Accrued liabilities: expenses incurred but not yet paid — salaries payable, interest payable, taxes payable.',
+        'Unearned revenue: cash received before the performance obligation is satisfied — it is a liability until earned.',
+        'Current portion of long-term debt: the amount of long-term debt due within the next 12 months, reclassified as current.',
+        'The current ratio (Current Assets / Current Liabilities) and quick ratio measure short-term liquidity.',
+      ],
+      deepDive: {
+        body: [
+          'Current liabilities are critical for liquidity analysis. If current liabilities exceed current assets, the company may struggle to meet near-term obligations. The current ratio and quick ratio (which excludes inventory and prepaid expenses) are the primary liquidity metrics.',
+          'Accrued liabilities require estimates. Salaries payable at year-end depends on the number of workdays between the last payroll and the balance sheet date. Interest payable depends on time elapsed since the last interest payment. These estimates can be manipulated to shift expenses between periods.',
+          'Unearned revenue is an underappreciated liability. When customers pay in advance (subscriptions, gift cards, deposits), the company has a performance obligation. Revenue is recognized only when the obligation is satisfied. For software companies with annual subscriptions, unearned revenue can be a significant liability — and its growth rate is a leading indicator of future revenue.',
+        ],
+        keyInsights: [
+          'Growing unearned revenue is typically a positive signal — it means customers are pre-paying for future services.',
+          'Watch for reclassification of current to non-current liabilities to artificially improve the current ratio.',
+          'Under-accruing expenses at period-end is a common earnings management technique — compare accrued liabilities to prior periods.',
+        ],
+        realWorldExample:
+          'WorldCom improperly reduced its accrued line cost liabilities by billions of dollars, transferring the costs to capital accounts. This understated current liabilities and overstated both working capital and net income simultaneously.',
+        commonMistakes: [
+          'Forgetting that unearned revenue is a liability, not revenue — the cash has been received but the work has not been performed.',
+          'Ignoring the current portion of long-term debt when computing the current ratio — it must be reclassified as current.',
+          'Assuming all liabilities due within one year are operating — some (like the current portion of bonds) are financing.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A software company receives $120,000 for a 12-month subscription on October 1. At December 31, how much unearned revenue remains on the balance sheet?',
+        options: [
+          { id: 'a', text: '$120,000 — the full amount received', correct: false, explanation: 'Three months of service have been provided (Oct, Nov, Dec), so 3/12 of the revenue has been earned.' },
+          { id: 'b', text: '$90,000 — nine months of service remain undelivered', correct: true, explanation: 'Correct. $120,000 × (9/12) = $90,000 remains as unearned revenue. $30,000 has been recognized as earned revenue for the three months of service delivered.' },
+          { id: 'c', text: '$30,000 — three months of revenue earned', correct: false, explanation: '$30,000 is the revenue earned, not the unearned revenue. The question asks for the liability remaining on the balance sheet.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s5',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Bond Pricing: Present Value of Future Cash Flows',
+      explanation:
+        'A bond\'s price is the present value of its future cash flows: periodic coupon payments plus the face value at maturity. The discount rate used is the market (yield) rate, not the coupon rate. When the coupon rate differs from the market rate, the bond sells at a premium or discount.',
+      formula: 'Bond Price = C × [(1-(1+r)^{-n})/r] + F/(1+r)^n',
+      highlights: [
+        'A bond\'s cash flows: periodic coupon payments (C = Face Value × Coupon Rate) and the face value (F) at maturity.',
+        'Coupon rate > market rate → bond sells at a PREMIUM (price > face value).',
+        'Coupon rate < market rate → bond sells at a DISCOUNT (price < face value).',
+        'Coupon rate = market rate → bond sells at PAR (price = face value).',
+        'As market interest rates rise, existing bond prices fall (inverse relationship).',
+      ],
+      deepDive: {
+        body: [
+          'Bond pricing is a direct application of time-value-of-money. The coupon payments form an ordinary annuity, and the face value is a single lump sum. Both are discounted at the market rate. For example, a 5-year, $1,000 bond with a 6% coupon and 8% market rate: PV of coupons = $60 × [(1-1.08^-5)/0.08] = $239.56; PV of face = $1,000/1.08^5 = $680.58; Price = $920.14 (a discount).',
+          'The premium or discount represents the present value of the difference between the coupon and market rates over the bond\'s life. A premium bond pays more than the market requires, so investors pay extra. A discount bond pays less, so investors demand a lower price.',
+          'The inverse relationship between interest rates and bond prices is fundamental. When the Federal Reserve raises rates, existing bonds with lower coupon rates lose value. This is interest rate risk — the longer the maturity, the greater the price sensitivity to rate changes.',
+        ],
+        keyInsights: [
+          'Bond price is determined by the market — the coupon rate is fixed at issuance, but the yield adjusts through price changes.',
+          'Zero-coupon bonds sell at the deepest discount because all return comes from price appreciation, not coupons.',
+          'Duration measures a bond\'s price sensitivity to interest rate changes — longer duration means more price volatility.',
+        ],
+        realWorldExample:
+          'In 2022, as the Federal Reserve rapidly raised interest rates, the value of existing bonds plummeted. Silicon Valley Bank held $91 billion in bonds that had lost approximately $15 billion in market value — unrealized losses that ultimately triggered the bank\'s collapse when it was forced to sell at a loss.',
+        commonMistakes: [
+          'Using the coupon rate to discount cash flows — always use the market (yield) rate for discounting.',
+          'Confusing the coupon payment with the coupon rate — the payment is Face Value × Coupon Rate.',
+          'Thinking a premium bond is overpriced — the premium reflects its above-market coupon rate.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A $1,000 face value bond pays a 5% annual coupon. If the market rate is 7%, does the bond sell at a premium, discount, or par?',
+        options: [
+          { id: 'a', text: 'Premium — the bond pays more than the market requires', correct: false, explanation: 'A premium occurs when the coupon rate exceeds the market rate. Here, 5% < 7%, so the coupon is below market.' },
+          { id: 'b', text: 'Discount — the coupon rate is below the market rate', correct: true, explanation: 'Correct. Since the 5% coupon is less than the 7% market rate, investors demand a discount to compensate for the below-market coupon payments.' },
+          { id: 'c', text: 'Par — bonds always trade at face value', correct: false, explanation: 'Bonds trade at par only when the coupon rate equals the market rate. Any difference results in a premium or discount.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s6',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Bond Issuance: Recording at Par, Premium, and Discount',
+      explanation:
+        'When a company issues bonds, the journal entry depends on whether the bond sells at par, a premium, or a discount. The premium or discount is amortized over the bond\'s life, adjusting interest expense each period.',
+      highlights: [
+        'At par: Dr Cash (face), Cr Bonds Payable (face).',
+        'At premium: Dr Cash (> face), Cr Bonds Payable (face), Cr Premium on Bonds Payable (excess).',
+        'At discount: Dr Cash (< face), Dr Discount on Bonds Payable (shortfall), Cr Bonds Payable (face).',
+        'The premium or discount is a valuation adjustment that brings the carrying value to the issue price.',
+        'Carrying value = Face Value + Unamortized Premium (or - Unamortized Discount).',
+      ],
+      deepDive: {
+        body: [
+          'The premium and discount accounts are adjunct and contra accounts to Bonds Payable, respectively. A premium increases the carrying value above face value; a discount reduces it below face value. Over the bond\'s life, the carrying value converges to face value as the premium or discount is amortized.',
+          'For a premium bond: at issuance, the company receives more cash than face value because investors are willing to pay extra for above-market coupons. The premium represents this excess payment. For a discount bond: the company receives less cash because investors demand a lower price to compensate for below-market coupons.',
+          'Bond issuance costs (underwriting fees, legal costs, printing) are deducted from the carrying value of the bond under ASC 835-30, rather than being reported as a separate asset. This effectively increases the effective interest rate.',
+        ],
+        keyInsights: [
+          'The carrying value at issuance equals the market price (cash received), not the face value.',
+          'Over the bond\'s life, the carrying value always converges to face value at maturity.',
+          'Bond issuance costs are not expensed immediately — they are netted against the liability and amortized.',
+        ],
+        realWorldExample:
+          'Apple has issued bonds at both premiums and discounts depending on market conditions. In 2013, Apple issued $17 billion in bonds — the largest corporate bond offering at the time — with various maturities and coupon rates, some at slight premiums and others at slight discounts to par.',
+        commonMistakes: [
+          'Recording the full face value as cash received when the bond sells at a discount — cash received equals the discounted price.',
+          'Treating the premium or discount as a separate asset or liability — it is an adjustment to the Bonds Payable carrying value.',
+          'Forgetting that at maturity, the company pays face value regardless of the original issue price.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company issues $1,000,000 face value bonds at 103 (meaning 103% of face value). How much cash does the company receive?',
+        options: [
+          { id: 'a', text: '$1,000,000', correct: false, explanation: 'The bonds were issued at 103, meaning 103% of face value. The company receives more than face value.' },
+          { id: 'b', text: '$1,030,000', correct: true, explanation: 'Correct. Issued at 103 means 103% × $1,000,000 = $1,030,000. The $30,000 excess over face value is the premium.' },
+          { id: 'c', text: '$970,000', correct: false, explanation: 'This would be issuance at 97 (a discount). The bonds were issued at 103, which is a premium.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s7',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Effective Interest Method: Amortizing Bond Premium and Discount',
+      explanation:
+        'The effective interest method ensures that interest expense reflects a constant rate (the market rate at issuance) applied to the changing carrying value. Each period, interest expense equals the carrying value times the market rate, and the difference between expense and cash coupon payment amortizes the premium or discount.',
+      formula: 'Interest Expense = Carrying Value × Market Rate at Issuance',
+      highlights: [
+        'Cash coupon payment is fixed: Face Value × Coupon Rate (same every period).',
+        'Interest expense changes each period because it is based on the changing carrying value.',
+        'Discount bond: Interest Expense > Cash Coupon → discount is amortized (carrying value increases toward face).',
+        'Premium bond: Interest Expense < Cash Coupon → premium is amortized (carrying value decreases toward face).',
+        'At maturity, carrying value = face value and the entire premium/discount has been amortized.',
+      ],
+      deepDive: {
+        body: [
+          'For a discount bond example: Face = $1,000, Coupon = 5%, Market = 7%, 3-year annual. Issue price = $947.51. Year 1: Interest Expense = $947.51 × 7% = $66.33; Cash Coupon = $50; Discount Amortization = $16.33; New Carrying Value = $963.84. Each year, the carrying value rises, so interest expense rises, and more discount is amortized.',
+          'For a premium bond: the pattern reverses. Interest expense is less than the cash coupon, and the difference reduces the premium. The carrying value declines toward face value over time.',
+          'The straight-line method (equal amortization each period) is simpler but is only acceptable under GAAP if the results are not materially different from the effective interest method. The effective interest method is the required method and produces a constant interest rate rather than a constant dollar amount.',
+        ],
+        keyInsights: [
+          'The effective interest method produces a constant RATE of interest; the straight-line method produces a constant AMOUNT of amortization.',
+          'For discount bonds, interest expense INCREASES over time; for premium bonds, interest expense DECREASES.',
+          'Total interest cost over the bond\'s life equals total cash coupon payments plus discount (or minus premium).',
+        ],
+        realWorldExample:
+          'When analyzing corporate bond disclosures, compare the stated interest rate (coupon) to the effective interest rate in the footnotes. A large gap between the two indicates the bond was issued at a significant premium or discount, which has ongoing effects on reported interest expense.',
+        commonMistakes: [
+          'Using the coupon rate to compute interest expense — always use the market rate times carrying value.',
+          'Thinking interest expense is the same as the cash coupon — they differ by the amortization amount.',
+          'Assuming the carrying value stays constant — it changes every period as the premium/discount is amortized.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A discount bond has a carrying value of $950, a face value of $1,000, a coupon rate of 4%, and a market rate of 6%. What is the interest expense for this period?',
+        options: [
+          { id: 'a', text: '$40 (face × coupon rate)', correct: false, explanation: 'This is the cash coupon payment, not the interest expense. Interest expense uses the carrying value times the market rate.' },
+          { id: 'b', text: '$57 (carrying value × market rate)', correct: true, explanation: 'Correct. Interest Expense = $950 × 6% = $57. The cash coupon is $40, so $17 of discount is amortized, increasing carrying value to $967.' },
+          { id: 'c', text: '$60 (face × market rate)', correct: false, explanation: 'Interest expense uses the carrying value, not face value. The carrying value of a discount bond is below face.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s8',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Bond Repurchase, Debt Ratings, and the Cost of Debt',
+      explanation:
+        'Companies may retire bonds before maturity through open-market repurchase or call provisions. Any difference between the carrying value and the repurchase price results in a gain or loss. Credit ratings from agencies like S&P, Moody\'s, and Fitch determine a company\'s cost of debt.',
+      formula: 'Gain (Loss) on Repurchase = Carrying Value - Repurchase Price',
+      highlights: [
+        'Early extinguishment: if repurchase price < carrying value → gain; if > carrying value → loss.',
+        'The gain or loss is reported on the income statement (often as a non-operating item).',
+        'Credit ratings: investment grade (BBB-/Baa3 and above) vs speculative/junk (BB+/Ba1 and below).',
+        'Lower credit ratings → higher yields demanded by investors → higher borrowing costs.',
+        'Debt-to-equity, interest coverage, and cash flow metrics are key inputs to credit rating decisions.',
+      ],
+      deepDive: {
+        body: [
+          'Companies repurchase bonds for several reasons: to reduce leverage, to take advantage of falling bond prices (when their credit deteriorates, bonds trade at a discount), or to refinance at lower rates. When interest rates fall, callable bonds may be called at the call price.',
+          'Credit rating agencies evaluate a company\'s ability to service its debt. Key metrics include: interest coverage ratio (EBIT / Interest Expense), debt-to-EBITDA, free cash flow to debt, and total leverage. A downgrade from investment grade to speculative grade (a fallen angel) can dramatically increase borrowing costs and trigger covenant violations.',
+          'The cost of debt has a direct impact on firm value through the weighted average cost of capital (WACC). Debt has a tax advantage because interest is tax-deductible, making the after-tax cost of debt = Pre-tax cost × (1 - Tax Rate). This is why many companies use debt financing even when they could fund with equity.',
+        ],
+        keyInsights: [
+          'Gains on debt repurchase are often opportunities — companies buy back their own debt when it trades at a discount due to market distress.',
+          'A credit downgrade to below investment grade can be catastrophic — many institutional investors are prohibited from holding junk bonds.',
+          'The after-tax cost of debt is lower than the stated rate because of the interest tax deduction.',
+        ],
+        realWorldExample:
+          'During the 2008 financial crisis, many companies repurchased their own bonds at deep discounts, booking large gains. Goldman Sachs recorded gains on debt repurchases as market panic pushed bond prices far below face value. These gains boosted income but were clearly non-recurring.',
+        commonMistakes: [
+          'Confusing the coupon rate with the cost of debt — the cost of debt is the yield, which reflects the current market price.',
+          'Ignoring the tax benefit of debt — the after-tax cost is significantly lower than the pre-tax cost.',
+          'Treating gains on debt repurchase as operating income — they are non-operating and non-recurring.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company repurchases bonds with a carrying value of $980,000 for $950,000 in the open market. What is the result?',
+        options: [
+          { id: 'a', text: '$30,000 gain on extinguishment', correct: true, explanation: 'Correct. Carrying value ($980,000) minus repurchase price ($950,000) = $30,000 gain. The company retired its obligation for less than its book value.' },
+          { id: 'b', text: '$30,000 loss on extinguishment', correct: false, explanation: 'The company paid less than the carrying value, which creates a gain, not a loss. A loss would occur if the repurchase price exceeded carrying value.' },
+          { id: 'c', text: 'No gain or loss — bonds are always retired at face value', correct: false, explanation: 'Bonds can be retired at any price through open-market repurchase. The gain or loss is the difference between carrying value and the price paid.' },
         ],
       },
     },
@@ -669,6 +1327,224 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Conflating EPS growth (which buybacks mechanically increase) with intrinsic value per share growth (which depends on business performance).',
           'Assuming buyback announcements equal actual repurchases — authorization programs often go unexecuted or are executed over years.',
           'Ignoring that gross buybacks must be netted against SBC issuances — the net repurchase is the economically relevant number.',
+        ],
+      },
+    },
+
+    {
+      id: 'ch6-s4',
+      chapterId: 6,
+      sectionLabel: 'Contributed Capital',
+      title: 'Classes of Stock and Stock Issuance',
+      explanation:
+        'Stockholders\' equity begins with contributed capital — the amounts invested directly by shareholders. Companies may issue common stock and preferred stock, each with different rights. The accounting for stock issuance separates par value from additional paid-in capital (APIC).',
+      highlights: [
+        'Common stock: voting rights, residual claim on assets, dividends (if declared).',
+        'Preferred stock: priority in dividends and liquidation; may be cumulative, participating, convertible, or callable.',
+        'Authorized shares: maximum that can be issued. Issued shares: actually sold. Outstanding: issued minus treasury stock.',
+        'Stock issuance at par: Dr Cash (par × shares), Cr Common Stock (par × shares).',
+        'Stock issuance above par: Dr Cash (total), Cr Common Stock (par), Cr APIC (excess over par).',
+      ],
+      deepDive: {
+        body: [
+          'Par value is a legal concept with minimal economic significance — most companies set it at $0.01 or $0.001 per share. The real economic value is captured in APIC (Additional Paid-In Capital), which represents the excess of the issue price over par value. For example, if a company issues 1 million shares with $0.01 par at $25 per share: Dr Cash $25M, Cr Common Stock $10,000 (par), Cr APIC $24,990,000.',
+          'Preferred stock is a hybrid instrument with characteristics of both debt and equity. Cumulative preferred dividends must be paid before any common dividends, even if they were skipped in prior years. Convertible preferred can be exchanged for common shares at a predetermined ratio. Callable preferred can be redeemed by the issuing company.',
+          'No-par stock simplifies the accounting: the entire issue price is credited to Common Stock. Some states require a stated value for no-par stock, which functions like par value.',
+        ],
+        keyInsights: [
+          'Par value tells you almost nothing about a stock\'s worth — it is a legal artifact, not an economic measure.',
+          'Cumulative preferred dividends in arrears must be disclosed even though they are not a liability until declared.',
+          'Stock issuance always increases total equity — it never generates income or affects the income statement.',
+        ],
+        realWorldExample:
+          'Berkshire Hathaway Class A shares have a par value of $5 but trade at over $600,000 per share. The par value represents a tiny fraction of the stock\'s economic value, with the vast majority residing in retained earnings and APIC.',
+        commonMistakes: [
+          'Thinking par value represents market value — it does not.',
+          'Recording stock issuance as revenue — issuing stock increases equity, not income.',
+          'Forgetting that preferred dividends in arrears are not a liability — they are only disclosed in footnotes until declared.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company issues 10,000 shares of $1 par common stock for $50 per share. What is the credit to APIC?',
+        options: [
+          { id: 'a', text: '$500,000', correct: false, explanation: 'This is the total cash received, not the APIC. APIC is the excess over par value.' },
+          { id: 'b', text: '$490,000', correct: true, explanation: 'Correct. Total cash = 10,000 × $50 = $500,000. Par value = 10,000 × $1 = $10,000. APIC = $500,000 - $10,000 = $490,000.' },
+          { id: 'c', text: '$10,000', correct: false, explanation: 'This is the par value portion credited to Common Stock, not APIC.' },
+        ],
+      },
+    },
+    {
+      id: 'ch6-s5',
+      chapterId: 6,
+      sectionLabel: 'Earned Capital',
+      title: 'Cash Dividends: Declaration, Record, and Payment',
+      explanation:
+        'Cash dividends distribute a company\'s earnings to shareholders. The process involves three dates: declaration (board creates the obligation), record (determines eligible shareholders), and payment (cash is distributed). Dividends reduce retained earnings and are not an expense.',
+      highlights: [
+        'Declaration date: Dr Retained Earnings, Cr Dividends Payable — creates a current liability.',
+        'Record date: no journal entry — simply determines which shareholders are eligible.',
+        'Payment date: Dr Dividends Payable, Cr Cash — settles the liability.',
+        'Preferred dividends have priority over common dividends.',
+        'Dividend payout ratio = Dividends / Net Income. Dividend yield = Annual Dividend per Share / Stock Price.',
+      ],
+      deepDive: {
+        body: [
+          'Dividends are a distribution of earnings, not an expense. They do not appear on the income statement. The declaration of a dividend reduces retained earnings (earned capital) and creates a current liability (dividends payable). The payment of the dividend then reduces cash and eliminates the liability.',
+          'For cumulative preferred stock, any dividends in arrears (skipped in prior years) must be paid before common shareholders receive anything. If a company has 10,000 shares of $100 par, 6% cumulative preferred and has skipped dividends for 2 years, the arrearage is $120,000 (10,000 × $100 × 6% × 2). This must be paid first.',
+          'The dividend payout ratio and retention rate (1 - payout ratio) indicate how much of earnings the company reinvests vs distributes. Growth companies typically have low payout ratios; mature companies have high ones.',
+        ],
+        keyInsights: [
+          'Dividends are NOT an expense — they are a distribution of equity and never appear on the income statement.',
+          'After the declaration date, dividends payable is a legal obligation — it appears as a current liability on the balance sheet.',
+          'A sustainable dividend requires positive free cash flow, not just positive net income.',
+        ],
+        realWorldExample:
+          'General Electric maintained its dividend for decades as a signal of financial strength. When GE cut its dividend by 50% in November 2017 and then to $0.01 per share in 2018, it signaled severe financial distress and the stock price collapsed.',
+        commonMistakes: [
+          'Recording dividends as an expense on the income statement — they are a direct reduction of retained earnings.',
+          'Making a journal entry on the record date — no entry is required; it is solely a cutoff date.',
+          'Forgetting cumulative preferred arrearages — they must be satisfied before any common dividends.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'On December 15, the board declares a $2 per share dividend on 100,000 shares outstanding, payable January 15 to shareholders of record December 31. What is recorded on December 15?',
+        options: [
+          { id: 'a', text: 'Dr Cash $200,000, Cr Dividend Revenue $200,000', correct: false, explanation: 'This entry would be for the recipient investor, not the issuing company. Also, the company is paying dividends, not receiving revenue.' },
+          { id: 'b', text: 'Dr Retained Earnings $200,000, Cr Dividends Payable $200,000', correct: true, explanation: 'Correct. On the declaration date, the company debits Retained Earnings and credits Dividends Payable for $2 × 100,000 = $200,000. This creates the legal obligation.' },
+          { id: 'c', text: 'Dr Dividend Expense $200,000, Cr Cash $200,000', correct: false, explanation: 'Dividends are not an expense, and cash is not paid until the payment date (January 15), not the declaration date.' },
+        ],
+      },
+    },
+    {
+      id: 'ch6-s6',
+      chapterId: 6,
+      sectionLabel: 'Earned Capital',
+      title: 'Stock Dividends, Stock Splits, and Their Effects',
+      explanation:
+        'Stock dividends and stock splits increase the number of shares outstanding without changing total equity. Stock dividends transfer value from retained earnings to contributed capital; stock splits simply divide existing shares with no journal entry.',
+      highlights: [
+        'Small stock dividend (<25%): recorded at FAIR MARKET VALUE — Dr Retained Earnings, Cr Common Stock (par), Cr APIC (excess).',
+        'Large stock dividend (>25%): recorded at PAR VALUE — Dr Retained Earnings, Cr Common Stock (par).',
+        'Stock split: no journal entry — shares double (or triple, etc.) and par value is halved proportionally.',
+        'Neither stock dividends nor stock splits change total equity or any shareholder\'s proportional ownership.',
+        'After a stock split, earnings per share and dividends per share decline proportionally.',
+      ],
+      deepDive: {
+        body: [
+          'A 10% stock dividend on 1 million shares outstanding at $50 FMV with $1 par: 100,000 new shares issued. Entry: Dr Retained Earnings $5,000,000 (100,000 × $50 FMV), Cr Common Stock $100,000 (100,000 × $1 par), Cr APIC $4,900,000. Retained earnings decreases but total equity is unchanged — value shifts within equity.',
+          'A 2-for-1 stock split simply doubles the share count and halves the par value. If a company had 1 million shares at $2 par, it now has 2 million shares at $1 par. Total par value is unchanged. No journal entry is required — just a memo entry noting the new share count and par value.',
+          'Companies use stock splits to keep share prices in an accessible range for retail investors. Apple has split its stock five times (most recently 4-for-1 in 2020). Stock dividends are sometimes used as an alternative to cash dividends, though they provide no actual economic value to shareholders.',
+        ],
+        keyInsights: [
+          'Stock dividends and splits provide no economic value — every shareholder owns the same percentage of the company before and after.',
+          'The distinction between small (<25%) and large (>25%) stock dividends affects the accounting but not the economic result.',
+          'Historical per-share data must be retroactively adjusted for stock splits to maintain comparability.',
+        ],
+        realWorldExample:
+          'Tesla executed a 5-for-1 stock split in August 2020, reducing its share price from approximately $2,213 to $442 per share. The split had no effect on Tesla\'s total market capitalization — the same pie was simply divided into more pieces.',
+        commonMistakes: [
+          'Thinking stock dividends or splits create value for shareholders — they do not change total equity or ownership percentages.',
+          'Using par value for small stock dividends — small stock dividends must be recorded at fair market value.',
+          'Making a journal entry for a stock split — only a memo entry is needed.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'After a 2-for-1 stock split, a company\'s shares outstanding double from 1M to 2M. What happens to total stockholders\' equity?',
+        options: [
+          { id: 'a', text: 'Total equity doubles', correct: false, explanation: 'A stock split changes the share count and par value per share but does NOT change total equity. No journal entry is made.' },
+          { id: 'b', text: 'Total equity stays the same', correct: true, explanation: 'Correct. A stock split is a cosmetic change. Shares double, par value per share halves, and total equity is completely unchanged.' },
+          { id: 'c', text: 'Total equity decreases because retained earnings is debited', correct: false, explanation: 'No journal entry is made for a stock split. Retained earnings is debited for stock DIVIDENDS, not stock splits.' },
+        ],
+      },
+    },
+    {
+      id: 'ch6-s7',
+      chapterId: 6,
+      sectionLabel: 'Comprehensive Income',
+      title: 'Comprehensive Income and Other Comprehensive Income (OCI)',
+      explanation:
+        'Comprehensive income includes all changes in equity from non-owner sources. It equals net income plus Other Comprehensive Income (OCI). OCI captures unrealized gains and losses that bypass the income statement but still affect equity.',
+      formula: 'Comprehensive Income = Net Income + Other Comprehensive Income',
+      highlights: [
+        'OCI items: unrealized gains/losses on available-for-sale debt securities, foreign currency translation adjustments, pension/OPEB adjustments, cash flow hedge gains/losses.',
+        'OCI items bypass the income statement but are reported in the equity section as Accumulated OCI (AOCI).',
+        'AOCI is a component of stockholders\' equity — it can be positive or negative.',
+        'Comprehensive income can be reported in a separate statement or as a continuation of the income statement.',
+        'When OCI items are later realized (e.g., AFS securities are sold), they are reclassified from AOCI to net income.',
+      ],
+      deepDive: {
+        body: [
+          'OCI exists because some value changes are considered too volatile or unrealized to include in net income. Foreign currency translation adjustments fluctuate with exchange rates; pension liability adjustments reflect actuarial changes. Including these in net income would make earnings unpredictable and less useful for assessing ongoing performance.',
+          'However, OCI items ARE real economic gains and losses. Accumulated OCI (AOCI) can grow to represent a significant portion of equity. Large negative AOCI balances — common at companies with underfunded pensions or large foreign operations — effectively reduce the equity cushion available to creditors.',
+          'Reclassification occurs when OCI items are realized. For example, when an AFS debt security is sold, the accumulated unrealized gain/loss in AOCI is reclassified to net income as a realized gain/loss. This reclassification adjustment is disclosed to prevent double-counting.',
+        ],
+        keyInsights: [
+          'AOCI can significantly distort book value and equity-based ratios if ignored — always check its components.',
+          'Large negative AOCI from pension adjustments signals potential future charges that will eventually hit net income.',
+          'Comprehensive income gives a fuller picture of value creation than net income alone.',
+        ],
+        realWorldExample:
+          'During 2022, rising interest rates caused massive unrealized losses on bond portfolios. Banks reported these losses in OCI (not net income) for AFS securities. Silicon Valley Bank had $15 billion of unrealized losses in AOCI — technically transparent to anyone reading the balance sheet, but overlooked by many investors until the bank\'s collapse.',
+        commonMistakes: [
+          'Ignoring OCI when analyzing equity — AOCI can be material and significantly affect total equity.',
+          'Thinking OCI items never affect net income — they do upon reclassification (when realized).',
+          'Confusing OCI with non-cash charges — OCI items are not necessarily non-cash; they are unrealized or foreign-denominated.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports net income of $80M and has the following OCI items: unrealized loss on AFS securities of $5M and a foreign currency translation gain of $3M. What is comprehensive income?',
+        options: [
+          { id: 'a', text: '$80M — OCI does not affect income', correct: false, explanation: 'OCI does not affect NET income, but it is included in COMPREHENSIVE income. The question asks for comprehensive income.' },
+          { id: 'b', text: '$78M', correct: true, explanation: 'Correct. Comprehensive Income = Net Income ($80M) + OCI (-$5M + $3M = -$2M) = $78M.' },
+          { id: 'c', text: '$88M', correct: false, explanation: 'This adds both OCI items as gains. The AFS securities had an unrealized LOSS of $5M, which reduces comprehensive income.' },
+        ],
+      },
+    },
+    {
+      id: 'ch6-s8',
+      chapterId: 6,
+      sectionLabel: 'Equity Summary',
+      title: 'Summary of Stockholders\' Equity and the Equity Reconciliation',
+      explanation:
+        'The statement of stockholders\' equity reconciles the beginning and ending balances of each equity component: common stock, APIC, retained earnings, treasury stock, and AOCI. It provides a complete picture of all changes in equity during the period.',
+      formula: 'Book Value per Share = Total Equity / Shares Outstanding',
+      highlights: [
+        'Components: Common Stock + APIC + Retained Earnings - Treasury Stock + AOCI = Total Equity.',
+        'Changes: stock issuance increases CS and APIC; net income increases RE; dividends decrease RE.',
+        'Treasury stock (repurchased shares) is a contra-equity account that reduces total equity.',
+        'The equity reconciliation is a required financial statement that shows every transaction affecting equity.',
+        'Book value per share is a starting point for valuation but often understates economic value (especially for intangible-heavy firms).',
+      ],
+      deepDive: {
+        body: [
+          'Treasury stock represents shares that were issued and then repurchased by the company. Under the cost method (most common), treasury stock is recorded at the repurchase price as a contra-equity deduction. When treasury shares are reissued, any excess over cost goes to APIC; any deficit below cost is charged against APIC first, then retained earnings.',
+          'The complete equity reconciliation shows: beginning balance, stock issuance, net income, dividends, share repurchases, OCI items, and ending balance — for each component. This statement reveals far more than the balance sheet alone because it shows the flow of transactions.',
+          'Book value per share (total equity divided by outstanding shares) is often compared to market price. When price-to-book is less than 1.0, the market is saying the company\'s assets are worth less than their book value — or that significant impairments are expected. Most high-growth tech companies trade at multiples of book value because their unrecorded intangibles (brand, technology, human capital) are worth far more than recorded assets.',
+        ],
+        keyInsights: [
+          'Treasury stock reduces both total equity and shares outstanding — it is a contra-equity account.',
+          'The equity reconciliation is the most complete view of all transactions between the company and its shareholders.',
+          'Price-to-book ratios below 1.0 may indicate value opportunity or impending write-downs — context determines which.',
+        ],
+        realWorldExample:
+          'Apple has reduced its outstanding share count from approximately 26 billion shares in 2012 to under 16 billion by 2023 through aggressive buybacks. Treasury stock has consumed hundreds of billions of dollars of equity, sometimes making Apple\'s book value of equity negative despite being one of the most valuable companies in the world.',
+        commonMistakes: [
+          'Adding treasury stock to equity — it is a DEDUCTION (contra-equity) that reduces total equity.',
+          'Confusing book value with market value — book value reflects historical cost, not current economic value.',
+          'Ignoring AOCI when computing total equity — it is a real component that can be material.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company has: Common Stock $100K, APIC $900K, Retained Earnings $2M, Treasury Stock $300K, AOCI -$50K. What is total stockholders\' equity?',
+        options: [
+          { id: 'a', text: '$3,000,000', correct: false, explanation: 'This adds all components without subtracting treasury stock and AOCI. Treasury stock and negative AOCI reduce total equity.' },
+          { id: 'b', text: '$2,650,000', correct: true, explanation: 'Correct. $100K + $900K + $2,000K - $300K + (-$50K) = $2,650K. Treasury stock is subtracted and AOCI is added (here it\'s negative).' },
+          { id: 'c', text: '$2,950,000', correct: false, explanation: 'This subtracts treasury stock but ignores the -$50K AOCI. All components must be included.' },
         ],
       },
     },
@@ -785,6 +1661,94 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+
+    {
+      id: 'ch7-s4',
+      chapterId: 7,
+      sectionLabel: 'Preparation',
+      title: 'Preparing the SCF: Indirect Method Operating Activities',
+      explanation:
+        'The indirect method starts with net income and adjusts for non-cash items and changes in operating assets and liabilities to arrive at cash flow from operations. It is the most common presentation method because it reconciles net income (accrual) to actual cash generated.',
+      formula: 'CFO = Net Income + Non-cash Charges ± Gains/Losses ± Changes in Working Capital',
+      highlights: [
+        'Start with net income from the income statement.',
+        'Add back non-cash charges: depreciation, amortization, impairment losses, stock-based compensation.',
+        'Remove investing/financing gains: subtract gains on asset sales (add losses) — these belong in investing activities.',
+        'Adjust for working capital changes: increases in operating assets (A/R, inventory) SUBTRACT from CFO.',
+        'Increases in operating liabilities (AP, accrued expenses, unearned revenue) ADD to CFO.',
+      ],
+      deepDive: {
+        body: [
+          'The logic behind working capital adjustments: if A/R increased, the company recognized more revenue than it collected in cash — so subtract the increase from net income. If inventory increased, the company purchased more than it sold — subtract. If AP increased, the company incurred expenses it has not yet paid — add, because cash was preserved.',
+          'A complete indirect method CFO section looks like: Net Income $100M + Depreciation $20M + Amortization $5M - Gain on Sale of Equipment $3M + Increase in AP $8M - Increase in A/R $12M - Increase in Inventory $6M = CFO $112M.',
+          'The quality of earnings can be assessed by comparing net income to CFO. When net income consistently exceeds CFO, earnings may be of low quality — the company is generating accounting profits but not cash. This divergence is a classic early warning sign of earnings manipulation.',
+        ],
+        keyInsights: [
+          'CFO > Net Income generally signals high-quality earnings (cash backs up the accounting profits).',
+          'Depreciation is the largest add-back for most companies — it is a non-cash charge that reduced net income but did not use cash.',
+          'Changes in working capital can dramatically swing CFO — watch for period-end manipulation of receivables and payables.',
+        ],
+        realWorldExample:
+          'Enron reported growing net income for years, but its CFO told a different story. In the years before its collapse, the gap between net income and operating cash flow widened significantly. Analysts who focused on the SCF rather than the income statement would have seen the warning signs.',
+        commonMistakes: [
+          'Adding an increase in A/R — increases in operating ASSETS are subtracted because they represent cash not collected.',
+          'Forgetting to remove gains on asset sales — the gain is in net income but the full proceeds go to investing activities.',
+          'Confusing depreciation as a source of cash — depreciation is a non-cash charge; adding it back simply reverses its effect on net income.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports net income of $50M. Depreciation was $10M, A/R increased by $8M, and AP increased by $5M. What is CFO?',
+        options: [
+          { id: 'a', text: '$57M', correct: true, explanation: 'Correct. $50M + $10M (depreciation) - $8M (A/R increase) + $5M (AP increase) = $57M.' },
+          { id: 'b', text: '$73M', correct: false, explanation: 'This adds everything: $50 + $10 + $8 + $5 = $73. But the A/R increase should be subtracted (cash not collected).' },
+          { id: 'c', text: '$47M', correct: false, explanation: 'This subtracts depreciation instead of adding it. Depreciation is a non-cash charge that should be added back to net income.' },
+        ],
+      },
+    },
+    {
+      id: 'ch7-s5',
+      chapterId: 7,
+      sectionLabel: 'Preparation',
+      title: 'Preparing the SCF: Investing and Financing Activities',
+      explanation:
+        'The investing and financing sections of the SCF report cash flows from acquiring/disposing of long-term assets and from transactions with creditors and shareholders. These sections use the direct method — actual cash inflows and outflows are reported individually.',
+      highlights: [
+        'Investing inflows: sale proceeds from PP&E, sale of investments, collections on loans made.',
+        'Investing outflows: purchases of PP&E (capex), purchases of investments, loans made to others.',
+        'Financing inflows: proceeds from debt issuance, proceeds from stock issuance.',
+        'Financing outflows: debt repayments, stock repurchases (treasury stock), dividends paid.',
+        'KEY: Under US GAAP, interest paid is classified as OPERATING (not financing), and interest received is OPERATING.',
+      ],
+      deepDive: {
+        body: [
+          'The investing section uses actual cash amounts, not accrual-based figures. When equipment is sold, the cash proceeds go to investing — not the gain or book value. This is why gains must be removed from operating activities (to avoid double-counting: the gain is in net income, but the full cash proceeds go to investing).',
+          'Noncash investing and financing activities must be disclosed separately — not in the SCF body but in a supplemental schedule. Examples: converting debt to equity (no cash involved), acquiring assets via capital lease, issuing stock for an acquisition. These are significant transactions that users need to know about.',
+          'Under US GAAP, interest paid and received are classified as operating activities. Under IFRS, companies can choose to classify interest paid as operating or financing, and interest received as operating or investing. Dividends paid are financing under US GAAP but can be operating or financing under IFRS. These classification differences can make cross-border comparisons tricky.',
+        ],
+        keyInsights: [
+          'Capex (investing outflow) is the key metric for calculating free cash flow: FCF = CFO - Capex.',
+          'Noncash transactions are often larger than cash transactions — always check the supplemental schedule.',
+          'GAAP vs IFRS classification differences affect comparability: interest paid is operating under GAAP but may be financing under IFRS.',
+        ],
+        realWorldExample:
+          'WorldCom classified $3.8 billion of operating expenses as capital expenditures (investing activities). This fraudulently inflated CFO (because the expenses were removed from operating activities) while making capex appear larger. The SCF looked healthy because the cash outflow was simply reclassified from operating to investing.',
+        commonMistakes: [
+          'Reporting the gain on an asset sale in investing activities — only the total cash proceeds go to investing; the gain is removed from operating.',
+          'Classifying interest paid as a financing activity under US GAAP — it is an operating activity under US GAAP.',
+          'Ignoring the supplemental schedule of noncash activities — it often contains material transactions.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company pays $15M in interest on its bonds this year. Under US GAAP, where does this appear on the SCF?',
+        options: [
+          { id: 'a', text: 'Financing activities — interest is related to borrowing', correct: false, explanation: 'Under US GAAP, interest paid is classified as an operating activity, not financing. This surprises many students because interest is related to debt.' },
+          { id: 'b', text: 'Operating activities — US GAAP classifies interest paid as operating', correct: true, explanation: 'Correct. Under US GAAP (ASC 230), interest paid is classified as an operating activity. This differs from IFRS, which allows a choice between operating and financing.' },
+          { id: 'c', text: 'It depends on whether the debt is short-term or long-term', correct: false, explanation: 'The classification does not depend on the debt maturity. All interest payments are operating activities under US GAAP.' },
+        ],
+      },
+    },
   ],
 
   8: [
@@ -897,6 +1861,95 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+
+    {
+      id: 'ch8-s4',
+      chapterId: 8,
+      sectionLabel: 'Fundamentals',
+      title: 'Vertical Analysis: Common-Size Financial Statements',
+      explanation:
+        'Vertical analysis expresses each line item as a percentage of a base amount — revenue for the income statement and total assets for the balance sheet. This creates common-size statements that enable meaningful cross-company and cross-period comparisons regardless of company size.',
+      formula: 'Common-Size % = (Line Item / Base Amount) × 100',
+      highlights: [
+        'Income statement: each item as a percentage of revenue (e.g., COGS/Revenue = cost ratio, Gross Profit/Revenue = gross margin).',
+        'Balance sheet: each item as a percentage of total assets (e.g., Cash/Total Assets, Debt/Total Assets).',
+        'Enables comparison across companies of different sizes — a $1B company and a $100B company become comparable.',
+        'Reveals structural differences: which company spends more on R&D, has higher leverage, or carries more inventory?',
+        'Changes in common-size percentages across periods reveal shifts in cost structure or asset composition.',
+      ],
+      deepDive: {
+        body: [
+          'Common-size income statements are powerful for competitive analysis. If Company A has COGS at 60% of revenue and Company B has COGS at 45%, Company B has a structural cost advantage or operates in a higher-margin segment. SG&A as a percentage of revenue reveals operating efficiency.',
+          'Common-size balance sheets show capital structure and asset allocation. A company with 80% of assets in PP&E is asset-heavy (manufacturing); one with 80% in intangibles is asset-light (technology). Debt as a percentage of total assets reveals leverage without needing to compute ratios.',
+          'Trend analysis of common-size percentages over time is especially valuable. If gross margin has declined from 40% to 35% over three years, the company faces pricing pressure or rising input costs — regardless of whether revenue has grown or shrunk.',
+        ],
+        keyInsights: [
+          'Common-size analysis normalizes for size, making cross-company comparison meaningful.',
+          'Declining gross margin percentage is a stronger signal than declining gross profit dollars — it shows structural deterioration.',
+          'Compare common-size percentages to industry benchmarks to identify companies that are outliers.',
+        ],
+        realWorldExample:
+          'Comparing Apple and Samsung using common-size income statements reveals stark differences: Apple\'s gross margin typically exceeds 40% while Samsung\'s is around 35-40%. Apple\'s SG&A as a percentage of revenue is much lower, showing greater operating leverage. These structural differences explain much of Apple\'s premium valuation.',
+        commonMistakes: [
+          'Using different base amounts for the same analysis — always use revenue for the IS and total assets for the BS.',
+          'Comparing common-size percentages across different industries without considering industry norms.',
+          'Ignoring that a company can have stable margins but deteriorating dollar performance if revenue is declining.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Company A has revenue of $10M and COGS of $6M. Company B has revenue of $500M and COGS of $275M. Which has the higher gross margin?',
+        options: [
+          { id: 'a', text: 'Company A: 40% gross margin', correct: false, explanation: 'Company A\'s gross margin is ($10M - $6M) / $10M = 40%. But Company B\'s is higher.' },
+          { id: 'b', text: 'Company B: 45% gross margin', correct: true, explanation: 'Correct. Company B\'s gross margin is ($500M - $275M) / $500M = 45%, which exceeds Company A\'s 40%. Common-size analysis makes this comparison straightforward despite the 50x size difference.' },
+          { id: 'c', text: 'Company B — because it has higher revenue', correct: false, explanation: 'Higher revenue does not mean higher margins. Common-size analysis focuses on percentages, not absolute dollars.' },
+        ],
+      },
+    },
+    {
+      id: 'ch8-s5',
+      chapterId: 8,
+      sectionLabel: 'Fundamentals',
+      title: 'Horizontal Analysis: Trend Analysis Across Periods',
+      explanation:
+        'Horizontal analysis compares financial data across periods to identify trends. It calculates year-over-year dollar changes, percentage changes, and base-year indices. Combined with vertical analysis, it provides a comprehensive analytical framework.',
+      formula: '% Change = (Current Year - Prior Year) / Prior Year × 100',
+      highlights: [
+        'Dollar change: Current Year Amount - Prior Year Amount.',
+        'Percentage change: (Dollar Change / Prior Year Amount) × 100.',
+        'Base-year analysis: express all years as a percentage of the base year (Year 1 = 100%).',
+        'CAGR (Compound Annual Growth Rate) smooths multi-year trends: CAGR = (Ending/Beginning)^(1/n) - 1.',
+        'Red flags: revenue growth outpacing cash flow growth, or expenses growing faster than revenue.',
+      ],
+      deepDive: {
+        body: [
+          'Horizontal analysis reveals growth patterns that common-size statements miss. A company with stable 40% gross margins may look healthy in vertical analysis, but horizontal analysis might show revenue declining 10% per year — the margins are stable but the business is shrinking.',
+          'Base-year analysis (indexing) is particularly useful for multi-year comparisons. Set the base year to 100%, and all subsequent years are expressed relative to it. If revenue grows to 150% while COGS grows to 180%, the cost structure is deteriorating even though margins in any single year might look acceptable.',
+          'Beneish\'s M-Score, a widely-used earnings manipulation detection tool, relies heavily on horizontal analysis metrics: Days Sales in Receivables Index, Gross Margin Index, Asset Quality Index, Sales Growth Index, and others. These indices compare current-year ratios to prior-year ratios to detect unusual changes.',
+        ],
+        keyInsights: [
+          'Always analyze both vertical and horizontal together — vertical shows structure, horizontal shows trajectory.',
+          'Revenue growing faster than receivables is healthy; receivables growing faster than revenue is a warning sign.',
+          'Small percentage changes on large base amounts can be more significant than large percentage changes on small bases.',
+        ],
+        realWorldExample:
+          'Before Enron\'s collapse, horizontal analysis showed revenue growing at 150%+ annually while operating cash flow was flat or declining. This extreme divergence between accrual revenue and cash generation was one of the clearest red flags that the reported revenue was not backed by real economic activity.',
+        commonMistakes: [
+          'Computing percentage change with the wrong denominator — always use the PRIOR year as the base.',
+          'Ignoring that a 50% increase followed by a 50% decrease does NOT return to the starting point ($100 → $150 → $75).',
+          'Focusing only on revenue growth without comparing it to expense growth — profitability depends on the relationship between the two.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company\'s revenue grew from $100M to $150M over 3 years. Its A/R grew from $10M to $25M over the same period. What does this suggest?',
+        options: [
+          { id: 'a', text: 'Healthy growth — both revenue and A/R are increasing', correct: false, explanation: 'Revenue grew 50% but A/R grew 150% — A/R is growing 3x faster than revenue. This is a red flag, not healthy growth.' },
+          { id: 'b', text: 'Potential credit quality or revenue recognition concern — A/R grew much faster than revenue', correct: true, explanation: 'Correct. Revenue grew 50% while A/R grew 150%. This divergence suggests the company may be extending credit to weaker customers, stuffing channels, or recognizing revenue prematurely.' },
+          { id: 'c', text: 'Normal — A/R always grows faster than revenue in a growing company', correct: false, explanation: 'In a healthy business, A/R should grow roughly in line with revenue. When A/R grows significantly faster, it signals deteriorating collection quality or aggressive revenue recognition.' },
+        ],
+      },
+    },
   ],
 
   9: [
@@ -1006,6 +2059,223 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Using EPS accretion as the measure of deal value — EPS accretion can occur while intrinsic per-share value declines.',
           'Taking management synergy estimates at face value — independently estimating synergies from public data is more reliable.',
           'Ignoring the opportunity cost: cash used for acquisitions could have been returned to shareholders via buybacks (at presumably below-intrinsic-value prices) or invested in organic growth.',
+        ],
+      },
+    },
+
+    {
+      id: 'ch9-s4',
+      chapterId: 9,
+      sectionLabel: 'Fair Value',
+      title: 'Fair Value Hierarchy: Levels 1, 2, and 3',
+      explanation:
+        'ASC 820 establishes a three-level hierarchy for measuring fair value, prioritizing observable market inputs over management estimates. Level 1 uses quoted market prices, Level 2 uses observable inputs, and Level 3 relies on unobservable inputs. The hierarchy reflects the reliability of the measurement.',
+      highlights: [
+        'Level 1: Quoted prices in active markets for identical assets (most reliable — e.g., NYSE-traded stocks).',
+        'Level 2: Observable inputs other than Level 1 prices — quoted prices for similar assets, interest rates, yield curves.',
+        'Level 3: Unobservable inputs — management models, discounted cash flows, internal assumptions (least reliable).',
+        'Companies must use the highest level input available — Level 1 is preferred over Level 2, which is preferred over Level 3.',
+        'Level 3 measurements involve the most management discretion and are subject to the greatest scrutiny.',
+      ],
+      deepDive: {
+        body: [
+          'The fair value hierarchy was created after the 2008 financial crisis exposed the dangers of opaque, model-based valuations. Before ASC 820, companies had broad latitude in determining fair value with little transparency. The three-level hierarchy forces disclosure of measurement quality.',
+          'Level 3 measurements are sometimes called mark-to-model or even mark-to-myth, because they rely entirely on management assumptions. A discounted cash flow model, for example, depends on projected cash flows, growth rates, and discount rates — all chosen by management. Small changes in these inputs can produce dramatically different fair values.',
+          'Companies must disclose the amount of assets and liabilities in each level, and any transfers between levels. A transfer from Level 1 to Level 3 (e.g., because a market became illiquid) is a significant event that increases measurement uncertainty and warrants analyst attention.',
+        ],
+        keyInsights: [
+          'Level 3 fair values involve the most management judgment and are the most susceptible to manipulation.',
+          'Rising Level 3 assets relative to total assets signals increasing measurement uncertainty.',
+          'Transfers between levels — especially from Level 1 or 2 to Level 3 — are red flags for deteriorating asset quality.',
+        ],
+        realWorldExample:
+          'During the 2008 financial crisis, banks held billions in mortgage-backed securities that had no active market (Level 1 unavailable). Many transferred these assets to Level 3 and used internal models showing modest losses, even as actual defaults surged. This delayed loss recognition and understated the severity of the crisis.',
+        commonMistakes: [
+          'Thinking Level 3 means the fair value is wrong — it means it is less reliably measured, not necessarily inaccurate.',
+          'Ignoring fair value level disclosures in footnotes — they reveal how much of the balance sheet depends on management estimates.',
+          'Confusing fair value with market price — fair value is an estimate; market price is an observation.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company holds a portfolio of corporate bonds issued by private companies with no active trading market. What fair value level would most likely apply?',
+        options: [
+          { id: 'a', text: 'Level 1 — all bonds have fair values', correct: false, explanation: 'Level 1 requires quoted prices in active markets. Private company bonds with no active market do not have Level 1 inputs.' },
+          { id: 'b', text: 'Level 2 — using prices of similar publicly traded bonds', correct: true, explanation: 'Correct. If similar public bonds exist, their yields and prices can serve as observable inputs for valuing the private bonds. This makes Level 2 the most likely classification.' },
+          { id: 'c', text: 'Level 3 — private bonds always require models', correct: false, explanation: 'Level 3 is used only when Level 1 and 2 inputs are unavailable. If comparable public bonds exist, their observable data makes Level 2 appropriate.' },
+        ],
+      },
+    },
+    {
+      id: 'ch9-s5',
+      chapterId: 9,
+      sectionLabel: 'Debt Investments',
+      title: 'Passive Investments in Debt Securities: HTM, AFS, and Trading',
+      explanation:
+        'Investments in debt securities are classified based on management\'s intent and ability: Held-to-Maturity (HTM) is reported at amortized cost, Available-for-Sale (AFS) at fair value with unrealized gains/losses in OCI, and Trading at fair value with unrealized gains/losses in net income.',
+      highlights: [
+        'HTM: debt securities management intends and is able to hold to maturity — reported at amortized cost.',
+        'AFS: debt securities not classified as HTM or Trading — fair value with unrealized gains/losses in OCI.',
+        'Trading: debt securities held for short-term profit — fair value with unrealized gains/losses in net income.',
+        'Interest revenue is recognized for all three categories.',
+        'The HTM taint: selling HTM securities before maturity calls into question ALL remaining HTM classifications.',
+      ],
+      deepDive: {
+        body: [
+          'The classification choice has profound effects on reported income. Consider a $1M bond that drops to $900K in fair value. Under HTM: no income effect (amortized cost). Under AFS: no net income effect, but $100K unrealized loss goes to OCI. Under Trading: $100K loss hits net income immediately. Same economic event, three different income statement outcomes.',
+          'After ASU 2016-13 (CECL), HTM and AFS debt securities are subject to the current expected credit loss model. Companies must estimate lifetime expected credit losses at acquisition, rather than waiting for probable losses. For AFS securities, credit losses are recognized through an allowance (with the ability to reverse), while the remaining fair value changes go to OCI.',
+          'When AFS securities are sold, the accumulated unrealized gain/loss in OCI is reclassified to net income as a realized gain/loss. This gives management the ability to time sales to manage earnings — selling winners to realize gains or losers to realize losses.',
+        ],
+        keyInsights: [
+          'Classification is a management choice with significant income statement consequences — watch for reclassifications.',
+          'The sale of HTM securities is a serious event that taints the entire HTM portfolio and triggers regulatory scrutiny.',
+          'AFS classification gives management earnings management flexibility through the timing of sales.',
+        ],
+        realWorldExample:
+          'Silicon Valley Bank classified most of its bond portfolio as HTM to avoid reporting unrealized losses in equity. When it was forced to sell AFS bonds at a $1.8B loss to meet depositor withdrawals, the market realized the remaining HTM portfolio also had massive unrealized losses — triggering a bank run.',
+        commonMistakes: [
+          'Thinking HTM means the fair value does not matter — it still matters for disclosure and impairment testing.',
+          'Forgetting that AFS unrealized gains/losses go to OCI, not net income — they bypass the income statement.',
+          'Confusing interest revenue (all categories) with unrealized gain/loss recognition (category-dependent).',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company holds AFS debt securities that decreased in fair value by $50,000 this period (not due to credit loss). Where is this reported?',
+        options: [
+          { id: 'a', text: 'As a $50,000 loss on the income statement', correct: false, explanation: 'AFS unrealized losses go to Other Comprehensive Income, not the income statement. Only Trading securities hit net income.' },
+          { id: 'b', text: 'As a $50,000 unrealized loss in Other Comprehensive Income (OCI)', correct: true, explanation: 'Correct. For AFS securities, unrealized gains and losses that are not credit-related are reported in OCI, bypassing the income statement.' },
+          { id: 'c', text: 'Not reported — unrealized losses are only recognized when the security is sold', correct: false, explanation: 'AFS securities are reported at fair value on the balance sheet, with unrealized changes flowing to OCI each period. HTM securities would not report fair value changes.' },
+        ],
+      },
+    },
+    {
+      id: 'ch9-s6',
+      chapterId: 9,
+      sectionLabel: 'Equity Investments',
+      title: 'Passive Investments in Equity Securities',
+      explanation:
+        'Under ASC 321 (as amended by ASU 2016-01), equity securities with readily determinable fair values are measured at fair value with changes recognized in net income. The previous AFS category for equity securities was eliminated — all fair value changes now flow through the income statement.',
+      highlights: [
+        'Equity securities at fair value: unrealized gains/losses go directly to net income (no OCI treatment).',
+        'This differs from AFS debt securities, where unrealized changes go to OCI.',
+        'Measurement alternative for equity securities without readily determinable fair values: cost, adjusted for impairment and observable price changes.',
+        'Dividends received are recognized as income (unless the equity method applies).',
+        'The elimination of AFS for equities (ASU 2016-01) increased income statement volatility for companies holding equity portfolios.',
+      ],
+      deepDive: {
+        body: [
+          'Before ASU 2016-01, companies could classify equity securities as AFS and keep unrealized gains/losses in OCI — out of net income. This created earnings management opportunities: companies would sell winners (realizing gains) while holding losers (keeping unrealized losses in OCI). The new standard eliminated this by requiring all equity fair value changes to hit net income.',
+          'The measurement alternative (for equities without readily determinable fair values) allows reporting at cost minus impairment, adjusted for observable price changes from orderly transactions in similar securities. This is intended primarily for investments in private companies.',
+          'Berkshire Hathaway\'s financial statements illustrate the impact: Warren Buffett has been vocal that the requirement to mark equity investments through the income statement creates volatility that does not reflect Berkshire\'s operating performance. In some quarters, unrealized stock gains/losses dwarf actual operating earnings.',
+        ],
+        keyInsights: [
+          'All equity securities at fair value now hit net income — there is no AFS/OCI option for equities.',
+          'This creates significant income volatility for companies with large equity portfolios (like Berkshire Hathaway and insurance companies).',
+          'The measurement alternative for private equities is an important exception that reduces volatility for venture-stage investments.',
+        ],
+        realWorldExample:
+          'In Q1 2022, Berkshire Hathaway reported a net LOSS of $5.5 billion, despite strong operating earnings of $7.0 billion, because its equity portfolio declined by approximately $12.5 billion. Under the old rules, these unrealized losses would have been in OCI, and Berkshire would have reported positive net income.',
+        commonMistakes: [
+          'Applying the AFS treatment to equity securities — AFS with OCI treatment is only for DEBT securities.',
+          'Thinking the measurement alternative applies to all equities — it is only for those WITHOUT readily determinable fair values.',
+          'Confusing equity security accounting (ASC 321) with the equity METHOD (ASC 323) — they are completely different.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company holds shares of Apple stock that increased in value by $2M this quarter. Under current GAAP, where is this recognized?',
+        options: [
+          { id: 'a', text: 'In Other Comprehensive Income (OCI)', correct: false, explanation: 'Since ASU 2016-01, equity securities at fair value are measured through net income, not OCI. OCI treatment is only for AFS debt securities.' },
+          { id: 'b', text: 'As a $2M unrealized gain in net income', correct: true, explanation: 'Correct. Under ASC 321 (as amended), equity securities with readily determinable fair values are measured at fair value, with all changes recognized in net income.' },
+          { id: 'c', text: 'Not recognized until the shares are sold', correct: false, explanation: 'Equity securities are marked to fair value each period under current GAAP. Unrealized gains and losses are recognized in net income regardless of whether the security is sold.' },
+        ],
+      },
+    },
+    {
+      id: 'ch9-s7',
+      chapterId: 9,
+      sectionLabel: 'Equity Method',
+      title: 'Equity Method: Investments with Significant Influence (20-50%)',
+      explanation:
+        'When an investor owns 20-50% of an investee (or otherwise has significant influence), the equity method is required under ASC 323. The investment is initially recorded at cost, then adjusted for the investor\'s proportionate share of the investee\'s income and reduced by dividends received.',
+      formula: 'Carrying Value = Cost + Share of Income - Dividends Received',
+      highlights: [
+        'Significant influence is presumed at 20-50% ownership but can exist below 20% (board seats, policy influence).',
+        'Investment income = Investor\'s Ownership % × Investee\'s Net Income — recognized on the investor\'s income statement.',
+        'Dividends received REDUCE the carrying value — they are a return OF investment, not income.',
+        'The investment appears as a single line on the balance sheet and a single income line on the income statement (one-line consolidation).',
+        'Basis differences (excess of cost over book value) are amortized over the useful life of the underlying assets.',
+      ],
+      deepDive: {
+        body: [
+          'The equity method is sometimes called one-line consolidation because it captures the investor\'s share of the investee\'s performance in a single income line and a single balance sheet line. Unlike consolidation, the individual assets and liabilities of the investee are not shown.',
+          'The dividend treatment is counterintuitive but logical: since the investor recognizes its share of income when earned, receiving a dividend would be double-counting if treated as income. Instead, dividends reduce the carrying value because they represent the investee distributing assets that the investor has already recognized as income.',
+          'Equity method investments can significantly affect ratios. Because the investment is a single line, it does not contribute to operating assets or liabilities. This can make ROA look artificially high and can obscure the investor\'s true leverage when the investee carries significant debt.',
+        ],
+        keyInsights: [
+          'Under the equity method, income is recognized when EARNED by the investee, not when dividends are received.',
+          'Dividends reduce the carrying value — they do not create income under the equity method.',
+          'Equity method investments can hide leverage: the investee\'s debt does not appear on the investor\'s balance sheet.',
+        ],
+        realWorldExample:
+          'Starbucks uses the equity method for its joint ventures in several international markets. The income from these ventures flows through a single line, making it difficult to see the underlying revenue and expense details. Analysts must read the footnotes to understand the scale and profitability of these ventures.',
+        commonMistakes: [
+          'Recording dividends as income under the equity method — dividends reduce the carrying value, not create income.',
+          'Applying the equity method below 20% without evidence of significant influence — 20% is the presumption, not an absolute rule.',
+          'Ignoring basis differences — the excess of cost over book value must be amortized, reducing reported equity income.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'An investor owns 30% of an investee. The investee reports net income of $10M and pays $2M in dividends. What does the investor record?',
+        options: [
+          { id: 'a', text: 'Investment income of $3M; carrying value increases by $3M', correct: false, explanation: 'Investment income of $3M is correct (30% × $10M), but carrying value also decreases for dividends received. Net increase is $3M - $0.6M = $2.4M.' },
+          { id: 'b', text: 'Investment income of $3M; carrying value increases by $2.4M', correct: true, explanation: 'Correct. Income = 30% × $10M = $3M. Dividends received = 30% × $2M = $0.6M. Carrying value change = $3M - $0.6M = $2.4M increase.' },
+          { id: 'c', text: 'Dividend income of $0.6M; no change to carrying value', correct: false, explanation: 'Under the equity method, the investor recognizes its share of the investee\'s income ($3M), not just dividends. Dividends reduce carrying value.' },
+        ],
+      },
+    },
+    {
+      id: 'ch9-s8',
+      chapterId: 9,
+      sectionLabel: 'Control',
+      title: 'Consolidation and Noncontrolling Interest',
+      explanation:
+        'When an investor controls another entity (typically >50% ownership), the investee is consolidated — its individual assets, liabilities, revenues, and expenses are combined line by line with the parent\'s. Noncontrolling interest (NCI) represents the minority shareholders\' claim on the subsidiary\'s net assets and income.',
+      highlights: [
+        'Consolidation combines parent and subsidiary financials line by line, eliminating intercompany transactions.',
+        'Intercompany eliminations: sales between parent and sub, intercompany receivables/payables, intercompany dividends.',
+        'Noncontrolling interest appears in the equity section of the consolidated balance sheet.',
+        'NCI\'s share of income is deducted on the income statement to arrive at income attributable to the parent.',
+        'Variable Interest Entities (VIEs) may require consolidation even without majority ownership under ASC 810.',
+      ],
+      deepDive: {
+        body: [
+          'Consolidation assumes the economic entity perspective: the parent and subsidiary are reported as if they were a single company. Intercompany transactions are eliminated because you cannot sell to yourself. If the parent sold $5M in goods to the subsidiary, that $5M is eliminated from both revenue and COGS in the consolidated statements.',
+          'Noncontrolling interest is presented in two places: on the balance sheet as a separate component of equity (the minority\'s share of the subsidiary\'s net assets), and on the income statement as a deduction (the minority\'s share of the subsidiary\'s net income). The controlling interest gets what remains.',
+          'The VIE framework (ASC 810) is critical for understanding off-balance-sheet structures. If a company is the primary beneficiary of a VIE (it absorbs the majority of losses or receives the majority of benefits), it must consolidate the VIE regardless of voting ownership. This rule was created after Enron used unconsolidated SPEs to hide debt.',
+        ],
+        keyInsights: [
+          'Consolidation gives the fullest picture but can obscure individual subsidiary performance — read the segment disclosures.',
+          'NCI is real equity held by minority shareholders — it is not a liability.',
+          'VIE consolidation rules can capture entities with zero ownership but significant economic involvement.',
+        ],
+        realWorldExample:
+          'After Enron, the VIE rules in ASC 810 forced companies to consolidate entities they previously kept off-balance-sheet. When these rules took effect, many companies saw their reported debt increase significantly as previously unconsolidated entities were brought onto the balance sheet.',
+        commonMistakes: [
+          'Treating NCI as a liability — it is classified in equity, not liabilities.',
+          'Forgetting to eliminate intercompany transactions — failure to eliminate overstates both revenue and expenses.',
+          'Thinking consolidation only applies with >50% ownership — VIE rules can require consolidation at any ownership level.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A parent company owns 80% of a subsidiary. The subsidiary reports net income of $10M. How much income is attributable to the noncontrolling interest?',
+        options: [
+          { id: 'a', text: '$8M — the parent\'s 80% share', correct: false, explanation: 'The $8M is attributable to the parent, not the NCI. The noncontrolling interest is the minority\'s share.' },
+          { id: 'b', text: '$2M — the minority\'s 20% share', correct: true, explanation: 'Correct. NCI = 20% × $10M = $2M. This amount is deducted on the consolidated income statement to show that $8M is attributable to the parent\'s shareholders.' },
+          { id: 'c', text: '$10M — all income is consolidated', correct: false, explanation: 'All $10M is included in consolidated revenue and expenses, but $2M is allocated to NCI on the income statement. Net income attributable to the parent is $8M.' },
         ],
       },
     },
