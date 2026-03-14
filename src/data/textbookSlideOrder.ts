@@ -16,14 +16,18 @@ export const TEXTBOOK_SLIDE_ORDER: Record<number, string[]> = {
   // Original order: OBS financing, debt covenants, repos, current liabilities, bonds...
   // Textbook order: current liabilities first, then bonds, then forensic topics
   5: [
-    'ch5-s4', // Current Liabilities (fundamentals)
-    'ch5-s5', // Bond Pricing
-    'ch5-s6', // Bond Issuance
-    'ch5-s7', // Effective Interest Method
-    'ch5-s8', // Bond Repurchase
-    'ch5-s1', // Off-Balance-Sheet Financing (forensic)
-    'ch5-s2', // Debt Covenants (forensic)
-    'ch5-s3', // Repo Agreements (forensic)
+    'ch5-s11', // Why Firms Issue Debt: Financing Decisions (fundamentals)
+    'ch5-s4',  // Current Liabilities (fundamentals)
+    'ch5-s10', // Three Interest Rates for Bonds (fundamentals)
+    'ch5-s5',  // Bond Pricing
+    'ch5-s6',  // Bond Issuance
+    'ch5-s7',  // Effective Interest Method
+    'ch5-s9',  // Zero-Coupon Bond Accounting
+    'ch5-s12', // Bond Accounting Using BSE
+    'ch5-s8',  // Bond Repurchase, Ratings
+    'ch5-s1',  // Off-Balance-Sheet Financing (forensic)
+    'ch5-s2',  // Debt Covenants (forensic)
+    'ch5-s3',  // Repo Agreements (forensic)
   ],
 
   // Chapter 6 (Equity): Move fundamentals before forensic content

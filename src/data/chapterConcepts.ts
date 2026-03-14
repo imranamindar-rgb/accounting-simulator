@@ -1554,6 +1554,179 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+    {
+      id: 'ch5-s9',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Zero-Coupon Bonds: Discount Accounting and Interest Accrual',
+      explanation:
+        'A zero-coupon bond makes no periodic interest payments. Instead, it is issued at a deep discount to face value, and the issuer repays the full face (par) value at maturity. The difference between the issue price and face value represents total interest cost. The bond discount is recorded as a contra-liability and is amortized to interest expense over the bond\'s life using the effective interest method.',
+      formula: 'Interest\\ Expense = Net\\ Bond\\ Payable \\times Market\\ Rate\\ at\\ Issuance',
+      highlights: [
+        'At issuance: Debit Cash (proceeds), Debit Discount on Bonds Payable (contra-liability), Credit Bonds Payable (face value).',
+        'Net Bond Payable (carrying value) = Bonds Payable − Unamortized Discount.',
+        'Each period, interest expense = Net Bond Payable × market rate at issuance — no cash changes hands.',
+        'The discount amortization increases the net bond payable each period, reflecting accumulating unpaid interest.',
+        'At maturity, the discount is fully amortized and net bond payable equals face value — the company pays face value in cash.',
+      ],
+      deepDive: {
+        body: [
+          'Example: A company issues a 3-year zero-coupon bond with a face value of $11,910 when the market rate is 6%. It receives $10,000 (the present value of $11,910 discounted at 6% for 3 years). At issuance: Bonds Payable = $11,910, Discount = $1,910, Net Bond Payable = $10,000.',
+          'Year 1: Interest Expense = $10,000 × 6% = $600. No cash is paid, so the discount decreases by $600. New Net Bond Payable = $10,600. Year 2: Interest Expense = $10,600 × 6% = $636. Net Bond Payable rises to $11,236. Year 3: Interest Expense = $11,236 × 6% = $674. Net Bond Payable = $11,910 = Face Value. At maturity, the company pays $11,910 in cash.',
+          'The increasing interest expense each year reflects the compounding effect — the company is effectively borrowing more money each period by not making interim payments. This mirrors the future value formula: FV = PV × (1 + r)^n. Total interest cost = $11,910 − $10,000 = $1,910 = $600 + $636 + $674.',
+        ],
+        keyInsights: [
+          'Separating Bond Payable from the Discount helps users see both the ultimate cash obligation (face value at maturity) and the current economic liability (net bond payable).',
+          'For zero-coupon bonds, ALL interest is non-cash until maturity — a critical difference from coupon bonds for cash flow analysis.',
+          'The discount amortization schedule is the mirror image of a compound interest table — both grow at the effective rate.',
+        ],
+        realWorldExample:
+          'U.S. Treasury bills (T-bills) and STRIPS (Separate Trading of Registered Interest and Principal Securities) are common zero-coupon instruments. Companies also issue zero-coupon bonds when they want to defer all cash outflows to maturity. Berkshire Hathaway has historically issued zero-coupon convertible bonds, combining the discount feature with a conversion option.',
+        commonMistakes: [
+          'Recording only the cash received as the liability — the full face value must be recorded as Bonds Payable with the discount as a separate contra account.',
+          'Computing interest expense using the face value instead of the net bond payable — interest must be based on the carrying value.',
+          'Forgetting that interest expense for a zero-coupon bond is a non-cash charge — it does not appear in operating cash flows under the indirect method.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company issues a 3-year zero-coupon bond with a face value of $11,910 and receives $10,000. At the end of Year 1, what is the interest expense? (Market rate = 6%)',
+        options: [
+          { id: 'a', text: '$0 — no coupon payments are made', correct: false, explanation: 'Even though no cash is paid, interest expense must be accrued. The company is effectively borrowing more money each period by not paying interest.' },
+          { id: 'b', text: '$600 — net bond payable ($10,000) × market rate (6%)', correct: true, explanation: 'Correct. Interest expense = Net Bond Payable × Market Rate = $10,000 × 6% = $600. This reduces the discount and increases the net bond payable to $10,600.' },
+          { id: 'c', text: '$714.60 — face value ($11,910) × market rate (6%)', correct: false, explanation: 'Interest expense is based on the NET bond payable (carrying value), not the face value. Using face value would overstate the expense.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s10',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Three Interest Rates for Bonds: Coupon, Market, and Effective',
+      explanation:
+        'Three distinct interest rates are relevant to bond accounting, and confusing them is one of the most common errors. The coupon rate determines cash payments to investors. The current market rate determines the bond\'s current market value. The market rate at issuance (effective rate) determines interest expense on the income statement. Only the coupon rate is fixed — the others change.',
+      highlights: [
+        'Coupon rate: stated on the bond face. Determines periodic cash payments: Coupon Payment = Face Value × Coupon Rate. Fixed for the bond\'s life.',
+        'Market rate (current): reflects current investor expectations based on risk and macroeconomic conditions. Determines the bond\'s current market VALUE. Changes continuously.',
+        'Market rate at issuance (effective rate): the market rate on the date the bond was issued. Determines interest EXPENSE. Fixed at issuance — never changes for accounting purposes.',
+        'Key distinction: Cash paid to investors uses the coupon rate. Interest expense on the income statement uses the effective rate. The difference is the amortization of premium or discount.',
+        'The current market rate matters for disclosure (fair value reporting) and for early retirement decisions, but it does not affect the carrying value or interest expense under amortized cost.',
+      ],
+      deepDive: {
+        body: [
+          'Why three rates? Consider a Kroger bond issued in 2021: at issuance, the coupon rate was set at 4.5% and the market rate was also approximately 4.5% (issued near par). By 2023, after the Federal Reserve raised rates aggressively, the current market rate for similar Kroger debt might be 6%. The coupon rate is still 4.5% (fixed), the effective rate for accounting is still ~4.5% (locked at issuance), but the market value of the bond has declined because the current market rate is now 6%.',
+          'This three-rate distinction explains why two bonds with the same coupon rate can have different interest expenses: if one was issued when market rates were 4% and another when rates were 7%, their effective rates differ, producing different carrying values and interest expense even though both pay the same coupon.',
+          'For the balance sheet, bonds are typically reported at amortized cost (carrying value), not fair value. However, companies must disclose the fair value of their debt in the footnotes (ASC 825), computed using the current market rate. When market rates rise above the effective rate, the fair value of debt falls below carrying value — a benefit not reflected on the balance sheet.',
+        ],
+        keyInsights: [
+          'Cash payment → coupon rate × face value. Always the same dollar amount each period.',
+          'Interest expense → effective rate × carrying value. Changes each period as premium/discount amortizes.',
+          'Fair value disclosure → current market rate applied to remaining cash flows. Changes with market conditions.',
+        ],
+        realWorldExample:
+          'During the 2022-2023 rate hiking cycle, many companies saw the fair value of their fixed-rate debt drop well below book value. Meta Platforms disclosed that the fair value of its $9.9 billion in long-term debt was approximately $8.5 billion — a $1.4 billion "hidden gain" not reflected on the balance sheet. Conversely, if rates had fallen, the fair value of their debt would have exceeded book value.',
+        commonMistakes: [
+          'Using the current market rate to compute interest expense — always use the effective rate (market rate at issuance), which is fixed.',
+          'Using the coupon rate to compute interest expense — the coupon rate determines cash payments, not expense.',
+          'Assuming the carrying value changes when market rates change — under amortized cost, carrying value changes only through premium/discount amortization, not market rate fluctuations.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A bond was issued at a market rate of 5% with a 4% coupon rate. Today\'s market rate for similar bonds is 6%. What rate does the company use to compute interest expense?',
+        options: [
+          { id: 'a', text: '4% — the coupon rate stated on the bond', correct: false, explanation: 'The coupon rate determines the CASH payment to investors, not the interest expense. Interest expense is based on the market rate at issuance.' },
+          { id: 'b', text: '5% — the market rate at issuance (effective rate)', correct: true, explanation: 'Correct. Interest expense is always computed using the effective rate — the market rate at the time the bond was issued. This rate is locked in and does not change.' },
+          { id: 'c', text: '6% — the current market rate', correct: false, explanation: 'The current market rate affects the bond\'s fair VALUE (for disclosure purposes and trading), but it does not affect the interest expense calculation or carrying value under amortized cost.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s11',
+      chapterId: 5,
+      sectionLabel: 'Financing',
+      title: 'Why Firms Issue Debt: Financing Decisions and Capital Structure',
+      explanation:
+        'Companies choose between debt and equity financing based on cost, control, risk, and tax considerations. Debt creates a legal obligation to repay principal and interest, but interest is tax-deductible, lowering the effective cost. Equity has no required payments but dilutes ownership. The capital structure decision — how much debt vs. equity to use — is one of the most important strategic choices a firm makes.',
+      highlights: [
+        'Interest is tax-deductible, creating a "tax shield": After-tax cost of debt = Pre-tax rate × (1 − Tax Rate). At a 21% corporate rate, 6% debt costs only 4.74% after tax.',
+        'Debt creates financial leverage: using borrowed money to amplify returns on equity. If the return on assets exceeds the cost of debt, leverage increases ROE.',
+        'The trade-off: too little debt misses the tax benefit; too much debt increases bankruptcy risk and can trigger covenant violations.',
+        'FASB defines a liability as a "probable future sacrifice of economic benefits arising from present obligations." Issuing a bond creates a liability because cash received now creates a promise to repay.',
+        'The debt-to-equity ratio and interest coverage ratio (EBIT / Interest Expense) measure a company\'s leverage and ability to service its debt.',
+      ],
+      deepDive: {
+        body: [
+          'The Modigliani-Miller theorem (1958) established that in a perfect market, capital structure is irrelevant — the value of a firm is the same regardless of how it is financed. But real-world imperfections make capital structure matter: (1) the tax deductibility of interest creates a preference for debt, (2) bankruptcy costs create a limit on debt, and (3) information asymmetry means debt signals management confidence (issuing equity may signal overvaluation).',
+          'The "pecking order" theory suggests firms prefer internal funds first, then debt, and equity as a last resort. This explains why profitable companies often have low debt — they generate enough cash internally. Conversely, high-growth companies with insufficient cash flows may need to access external capital markets.',
+          'Debt covenants impose restrictions (minimum current ratio, maximum leverage, limits on dividends) that protect lenders but reduce managerial flexibility. The tension between the tax benefits of debt and the costs of financial distress drives the optimal capital structure.',
+        ],
+        keyInsights: [
+          'Interest is tax-deductible but dividends are not — this fundamental asymmetry drives the preference for debt financing.',
+          'Leverage is a double-edged sword: it amplifies both gains and losses. High leverage increases ROE when times are good but can destroy a company when revenues decline.',
+          'The weighted average cost of capital (WACC) is minimized at the optimal capital structure — where the marginal benefit of the debt tax shield equals the marginal increase in financial distress costs.',
+        ],
+        realWorldExample:
+          'Apple historically held no debt despite having over $100 billion in cash. In 2013, under pressure from activist investor Carl Icahn, Apple issued $17 billion in bonds — the largest corporate bond offering at the time — to fund share buybacks. The logic: borrowing at ~2.4% (after tax: ~1.9%) was cheaper than repatriating overseas cash and paying taxes. Apple now has over $100 billion in long-term debt.',
+        commonMistakes: [
+          'Thinking debt is always "bad" — moderate debt with a low interest rate can significantly enhance shareholder returns through leverage and the tax shield.',
+          'Ignoring the tax benefit when comparing costs — the pre-tax interest rate overstates the true cost of debt.',
+          'Confusing the ability to make payments (liquidity) with overall solvency — a company can be liquid but over-leveraged, or illiquid but solvent.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company borrows $1,000,000 at 6% interest. The corporate tax rate is 21%. What is the after-tax cost of this debt?',
+        options: [
+          { id: 'a', text: '6.00% — the stated interest rate', correct: false, explanation: 'This is the pre-tax cost. Because interest is tax-deductible, the actual cost to the company is lower.' },
+          { id: 'b', text: '4.74% — the interest rate reduced by the tax benefit', correct: true, explanation: 'Correct. After-tax cost = 6% × (1 − 0.21) = 6% × 0.79 = 4.74%. The tax deductibility of interest saves the company 1.26% per year on this debt.' },
+          { id: 'c', text: '1.26% — just the tax savings', correct: false, explanation: '1.26% is the tax savings (6% × 21%), not the after-tax cost. The after-tax cost is 6% minus the savings: 6% − 1.26% = 4.74%.' },
+        ],
+      },
+    },
+    {
+      id: 'ch5-s12',
+      chapterId: 5,
+      sectionLabel: 'Bonds',
+      title: 'Bond Accounting Using the Balance Sheet Equation',
+      explanation:
+        'Bond transactions can be understood through the Balance Sheet Equation: Assets = Liabilities + Stockholders\' Equity. At issuance, cash (asset) and bond payable (liability) increase equally. Each period, interest expense reduces equity (retained earnings) while either reducing cash (coupon bonds) or reducing the discount (zero-coupon bonds). This framework makes the dual impact of every bond transaction visible.',
+      highlights: [
+        'Issuance at par: Assets (Cash) ↑ $10,000 = Liabilities (Bond Payable) ↑ $10,000.',
+        'Coupon payment: Assets (Cash) ↓ $600 = Stockholders\' Equity (RE) ↓ $600 via Interest Expense.',
+        'Zero-coupon interest accrual: Liabilities (Discount ↓ $600, increasing net liability) = Stockholders\' Equity (RE) ↓ $600 via Interest Expense. No cash moves.',
+        'At maturity: Assets (Cash) ↓ = Liabilities (Bond Payable) ↓ by the face value.',
+        'Early retirement: if repurchase price ≠ carrying value, the difference flows to Stockholders\' Equity as a Gain or Loss.',
+      ],
+      deepDive: {
+        body: [
+          'BSE walkthrough for a coupon bond at par ($10,000, 6%, 3 years): Issuance: Cash +$10,000 | Bond Payable +$10,000. Year 1: Cash −$600 | RE −$600 (Interest Expense). Year 2: Cash −$600 | RE −$600 (Interest Expense). Year 3: Cash −$600 | RE −$600 (Interest Expense). Maturity: Cash −$10,000 | Bond Payable −$10,000. Total cash outflow = $11,800 ($1,800 interest + $10,000 principal).',
+          'BSE walkthrough for a zero-coupon bond ($10,000 proceeds, $11,910 face, 6%, 3 years): Issuance: Cash +$10,000 | Bond Payable +$11,910, Discount +$1,910 (net liability = $10,000). Year 1: Discount −$600 | RE −$600 (Interest Expense). Year 2: Discount −$636 | RE −$636. Year 3: Discount −$674 | RE −$674. Maturity: Cash −$11,910 | Bond Payable −$11,910. Total interest = $1,910, same as the original discount.',
+          'BSE walkthrough for early retirement: If the zero-coupon bond is repurchased at end of Year 1 when market rate rises to 7%, market price = $11,910 / (1.07)² = $10,403. Net book value = $10,600. BSE: Cash −$10,403 | Bond Payable −$11,910, Discount −$1,310 | RE +$197 (Gain on Retirement). The gain arises because rising rates reduced the bond\'s market value below its carrying value.',
+        ],
+        keyInsights: [
+          'The BSE framework reveals that coupon bonds and zero-coupon bonds have IDENTICAL total interest costs — only the timing of cash flows differs.',
+          'For zero-coupon bonds, the BSE shows that the "missing" cash from not paying coupons simply accumulates as additional liability (shrinking discount).',
+          'Early retirement gains/losses are symmetrical: when rates rise, bond values fall, creating gains for the issuer who can repurchase cheaply.',
+        ],
+        realWorldExample:
+          'In Professor Nemit Shroff\'s MIT Financial Accounting course, the BSE framework is used to trace bond transactions because it reveals both the balance sheet and income statement impact simultaneously. This is particularly powerful for zero-coupon bonds, where the non-cash nature of interest expense can be confusing — the BSE shows exactly where the expense flows without any cash changing hands.',
+        commonMistakes: [
+          'Forgetting to show the discount as a separate contra-liability column in the BSE — lumping it with bond payable hides the distinction between face value and carrying value.',
+          'Assuming early retirement gains are "good news" — they often result from the company\'s credit deterioration (higher required yields), which reduced the bond\'s market price.',
+          'Not reconciling total interest expense to total cash outflow minus proceeds — for any bond, total interest expense over its life equals total cash paid minus cash received.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A zero-coupon bond has a face value of $11,910 and was issued for $10,000. At the end of Year 2, the net bond payable is $11,236. The company repurchases the bond in the open market for $10,403. What is recorded?',
+        options: [
+          { id: 'a', text: 'Gain of $833 — the net bond payable exceeds the repurchase price', correct: true, explanation: 'Correct. Net Bond Payable ($11,236) is reduced by Discount balance (need to calculate: $11,910 - $11,236 = $674 remaining discount). Actually: Carrying value $11,236 minus repurchase price $10,403 = $833 gain. The company settled its $11,236 obligation for only $10,403.' },
+          { id: 'b', text: 'Loss of $403 — the company paid more than the original proceeds of $10,000', correct: false, explanation: 'The gain or loss is based on the CURRENT carrying value (net bond payable), not the original proceeds. The carrying value at end of Year 2 is $11,236, not $10,000.' },
+          { id: 'c', text: 'No gain or loss — the company should retire at face value of $11,910', correct: false, explanation: 'Bonds can be retired at any price through open-market repurchase. The $11,910 face value is what would be due at MATURITY, not what must be paid for early retirement.' },
+        ],
+      },
+    },
   ],
 
   6: [
