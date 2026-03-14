@@ -12,11 +12,15 @@ import RevenueRecognitionTimer from '../components/simulations/RevenueRecognitio
 import InventoryCostComparator from '../components/simulations/InventoryCostComparator'
 import DepreciationScheduleBuilder from '../components/simulations/DepreciationScheduleBuilder'
 import CovenantStressTester from '../components/simulations/CovenantStressTester'
+import BondAmortizationExplorer from '../components/simulations/BondAmortizationExplorer'
 import EPSDilutionCalculator from '../components/simulations/EPSDilutionCalculator'
 import CFOBridgeBuilder from '../components/simulations/CFOBridgeBuilder'
 import DuPontExplorer from '../components/simulations/DuPontExplorer'
 import PPACalculator from '../components/simulations/PPACalculator'
 import BenfordDetector from '../components/simulations/BenfordDetector'
+import FinancialStatementBuilder from '../components/simulations/FinancialStatementBuilder'
+import AdjustingEntryWorkshop from '../components/simulations/AdjustingEntryWorkshop'
+import LeaseClassifier from '../components/simulations/LeaseClassifier'
 
 const StatementsPage = lazy(() => import('./StatementsPage'))
 
@@ -25,12 +29,15 @@ const SIM_CHAPTERS = [
   { id: 2, title: 'Revenue Recognition', component: <RevenueRecognitionTimer /> },
   { id: 3, title: 'Inventory', component: <InventoryCostComparator /> },
   { id: 4, title: 'Fixed Assets', component: <DepreciationScheduleBuilder /> },
-  { id: 5, title: 'Liabilities', component: <CovenantStressTester /> },
+  { id: 5, title: 'Bonds & Liabilities', component: <><BondAmortizationExplorer /><div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '2px solid var(--color-border)' }}><h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--color-accent)', marginBottom: '1rem' }}>Covenant Stress Tester</h3><CovenantStressTester /></div></> },
   { id: 6, title: 'Equity & EPS', component: <EPSDilutionCalculator /> },
   { id: 7, title: 'Cash Flow', component: <CFOBridgeBuilder /> },
   { id: 8, title: 'Ratio Analysis', component: <DuPontExplorer /> },
   { id: 9, title: 'M&A Accounting', component: <PPACalculator /> },
   { id: 10, title: 'Fraud Detection', component: <BenfordDetector /> },
+  { id: 11, title: 'Financial Statements', component: <FinancialStatementBuilder /> },
+  { id: 12, title: 'Adjusting Entries', component: <AdjustingEntryWorkshop /> },
+  { id: 13, title: 'Leases & Pensions', component: <LeaseClassifier /> },
 ]
 
 function SectionHeader({ label, title, subtitle }: { label: string; title: string; subtitle: string }) {
