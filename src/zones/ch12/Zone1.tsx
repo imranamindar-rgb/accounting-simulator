@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { CHAPTER_CONCEPTS } from '../../data/chapterConcepts'
 import { FRAUD_CASES } from '../../data/fraudCases'
 import { CHAPTER_TAKEAWAYS } from '../../data/chapterTakeaways'
+import { getTextbookOrderedSlides } from '../../data/textbookSlideOrder'
 import ConceptSlideViewer from '../../components/concepts/ConceptSlideViewer'
 import { useProgressStore } from '../../store/progressStore'
 
@@ -13,7 +14,7 @@ export default function Zone1() {
     markVisited(chapterId, 1)
   }, [chapterId, markVisited])
 
-  const slides = CHAPTER_CONCEPTS[chapterId] ?? []
+  const slides = getTextbookOrderedSlides(chapterId, CHAPTER_CONCEPTS[chapterId] ?? [])
   const fraudCases = FRAUD_CASES[chapterId] ?? []
   const skepticsLens = CHAPTER_TAKEAWAYS[chapterId]?.skepticsLens ?? []
 

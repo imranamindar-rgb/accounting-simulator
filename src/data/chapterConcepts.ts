@@ -77,6 +77,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Assuming equal debits and credits means the entries are correct — they can be consistently wrong.',
         ],
       },
+      predictionPrompt: {
+        question: 'A company purchases equipment for $50,000 cash. How many accounts are affected in the journal entry, and what are the debits and credits?',
+        options: [
+          { id: 'a', text: 'One account — Equipment increases by $50,000', correct: false, explanation: 'Double-entry bookkeeping requires every transaction to affect at least two accounts. A single-account entry would violate the fundamental principle.' },
+          { id: 'b', text: 'Two accounts — Debit Equipment $50,000 and Credit Cash $50,000', correct: true, explanation: 'Correct. Equipment (an asset) increases with a debit, and Cash (an asset) decreases with a credit. Total debits ($50,000) equal total credits ($50,000), maintaining the balance.' },
+          { id: 'c', text: 'Three accounts — Debit Equipment, Credit Cash, Credit Expense', correct: false, explanation: 'Purchasing equipment is a capital expenditure, not an operating expense. The cost is capitalized as an asset and depreciated over its useful life — the expense recognition comes later through depreciation.' },
+        ],
+      },
     },
     {
       id: 'ch1-s3',
@@ -108,6 +116,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Confusing "adjusting entries" with corrections — they are normal accrual-basis entries, not error fixes.',
           'Thinking closing entries change the balance sheet — they transfer revenue/expense balances to retained earnings, affecting equity.',
           'Overlooking contra accounts (like Accumulated Depreciation, which has a credit balance even though it offsets an asset).',
+        ],
+      },
+      predictionPrompt: {
+        question: 'An account has a normal debit balance. Which type of account could it be?',
+        options: [
+          { id: 'a', text: 'Revenue — because revenue entries always start with a debit', correct: false, explanation: 'Revenue has a normal credit balance. Revenue increases with credits (right side of the T-account). A debit to revenue would decrease it.' },
+          { id: 'b', text: 'Assets or Expenses — both have normal debit balances', correct: true, explanation: 'Correct. Assets and expenses both increase with debits (left side of the T-account). Assets appear on the balance sheet; expenses appear on the income statement. Both have normal debit balances.' },
+          { id: 'c', text: 'Liabilities — because liabilities are recorded with debits when paid', correct: false, explanation: 'Liabilities have a normal credit balance. While paying a liability involves a debit (decreasing it), the normal balance — the side that increases the account — is a credit.' },
         ],
       },
     },
@@ -242,6 +258,48 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+    {
+      id: 'ch1-s7',
+      chapterId: 1,
+      sectionLabel: 'Context',
+      title: 'Who Uses Financial Accounting Information and Business Activities',
+      explanation:
+        'Financial accounting information serves diverse users: investors (evaluating whether to buy, hold, or sell), creditors (deciding whether to extend credit), management (making operational decisions), regulators (ensuring compliance), employees (assessing job security and compensation), and customers/suppliers (evaluating counterparty risk). Business activities are organized into four categories: Planning (setting goals and strategies), Investing (acquiring productive assets), Financing (raising capital through debt or equity), and Operating (conducting core business activities). Financial statements report the results of these activities.',
+      highlights: [
+        'External users (investors, creditors) cannot access internal data — financial statements are their primary information source.',
+        'Planning activities set the stage; investing and financing activities provide resources; operating activities generate returns.',
+        'The balance sheet reflects investing and financing decisions; the income statement reflects operating performance.',
+        'The statement of cash flows bridges all three activity types by showing actual cash movements.',
+      ],
+      deepDive: {
+        body: [
+          'Different users ask different questions of the same financial statements. An equity investor asks: "Is this company growing and profitable enough to generate returns above my required rate?" A creditor asks: "Can this company generate enough cash flow to pay interest and repay principal?" A supplier asks: "Will this customer be around in 12 months to pay my invoice?" Each perspective emphasizes different ratios and different statements.',
+          'The four business activities create a logical flow: Planning defines what the company will do. Financing raises the capital (debt from creditors + equity from shareholders). Investing deploys that capital into productive assets (factories, equipment, technology). Operating uses those assets to generate revenue and profit. The financial statements capture this entire cycle: the balance sheet shows the investing/financing structure, the income statement shows operating results, and the cash flow statement shows how cash moved through all three activities.',
+          'The costs and benefits of financial disclosure create inherent tension. More disclosure helps investors and creditors make better decisions (reducing cost of capital), but it also reveals proprietary information to competitors. Accounting standards represent a socially negotiated balance between transparency and confidentiality.',
+        ],
+        keyInsights: [
+          'The SEC mandates disclosure for public companies — private companies have much more flexibility in what they report.',
+          'The two most-watched financial statement metrics for investors are earnings per share (EPS) and free cash flow (FCF).',
+          'Creditors prioritize the cash flow statement and solvency ratios; equity investors prioritize the income statement and growth metrics.',
+        ],
+        realWorldExample:
+          'When Nike reports quarterly earnings, different users react differently. Equity analysts focus on revenue growth and operating margins (is the brand gaining or losing market share?). Bond analysts focus on cash flow coverage and debt levels (can Nike service its $9B in long-term debt?). Suppliers focus on accounts payable trends (is Nike paying on time?). Each user extracts different value from the same set of financial statements.',
+        commonMistakes: [
+          'Assuming financial statements are only for investors — creditors, regulators, employees, and competitors all use them.',
+          'Thinking the income statement is the most important statement — for creditors, the cash flow statement often matters more.',
+          'Ignoring the link between business activities and financial statements — every line item maps to a planning, investing, financing, or operating decision.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A bank is deciding whether to extend a $50M credit line to a manufacturing company. Which financial statement and ratio category would be MOST important to the credit decision?',
+        options: [
+          { id: 'a', text: 'Income statement and profitability ratios — the bank needs to see strong earnings', correct: false, explanation: 'While earnings matter, a profitable company can still default if it cannot generate sufficient cash to service debt. Creditors focus on cash flow and leverage, not just profitability.' },
+          { id: 'b', text: 'Cash flow statement and liquidity/solvency ratios — the bank needs to see cash generation and debt capacity', correct: true, explanation: 'Correct. Creditors are primarily concerned with: (1) Can the company generate enough cash to make payments? (CFO, FCF), (2) How much existing debt is there? (D/E, leverage), (3) What\'s the cushion for a downturn? (TIE, current ratio). The cash flow statement is the creditor\'s most important document.' },
+          { id: 'c', text: 'Balance sheet and equity ratios — the bank needs to see strong net worth', correct: false, explanation: 'While the balance sheet shows the capital structure, book value of equity can be misleading (especially for companies with significant intangible assets). Cash flow generation is a more reliable indicator of debt service capacity.' },
+        ],
+      },
+    },
   ],
 
   2: [
@@ -321,6 +379,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring deferred revenue as a positive quality indicator: a company with growing deferred revenue has future revenue locked in.',
         ],
       },
+      predictionPrompt: {
+        question: 'A company performs $30,000 of services in December but collects cash in January. Under accrual accounting, when is revenue recognized?',
+        options: [
+          { id: 'a', text: 'January — when cash is collected', correct: false, explanation: 'This is cash basis accounting, not accrual. Under GAAP-required accrual accounting, revenue is recognized when the performance obligation is satisfied, regardless of when cash changes hands.' },
+          { id: 'b', text: 'December — when the services are performed', correct: true, explanation: 'Correct. Under accrual accounting, revenue is recognized when earned (performance obligation satisfied). The December entry: Debit A/R $30,000, Credit Revenue $30,000. Cash collection in January: Debit Cash $30,000, Credit A/R $30,000.' },
+          { id: 'c', text: 'Split between December and January — half in each period', correct: false, explanation: 'Revenue recognition is not based on cash timing. Since all services were performed in December, 100% of revenue is recognized in December under accrual accounting.' },
+        ],
+      },
     },
     {
       id: 'ch2-s3',
@@ -352,6 +418,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Assuming only small companies commit revenue fraud — Enron, Xerox, Lucent, and WorldCom were all large-cap companies.',
           'Ignoring non-cash revenue — barter transactions and round-trips can inflate revenue without any cash changing hands.',
           'Overlooking adjustments to "estimates" — revenue reversals are often buried in footnotes as "changes in accounting estimates."',
+        ],
+      },
+      predictionPrompt: {
+        question: 'A company\'s revenue grows 25% but accounts receivable grows 60% in the same period. What does this likely signal?',
+        options: [
+          { id: 'a', text: 'Strong growth — customers are buying more on credit terms', correct: false, explanation: 'While credit sales growth is one possibility, A/R growing at 2.4× the rate of revenue is a red flag. In a healthy business, A/R should grow roughly in proportion to revenue.' },
+          { id: 'b', text: 'Potential revenue manipulation — A/R growing faster than revenue suggests aggressive recognition or channel stuffing', correct: true, explanation: 'Correct. When A/R grows disproportionately to revenue, it suggests the company may be recording revenue that hasn\'t truly been earned, extending lenient credit terms, or stuffing the distribution channel. This is one of the top 3 financial statement red flags.' },
+          { id: 'c', text: 'Improved collections — the company is offering better payment terms to attract customers', correct: false, explanation: 'Better payment terms would actually increase A/R growth relative to revenue, which is what we see — but this is a risk signal, not a sign of improvement. Extending payment terms to boost sales is a common form of earnings management.' },
         ],
       },
     },
@@ -487,6 +561,48 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+    {
+      id: 'ch2-s7',
+      chapterId: 2,
+      sectionLabel: 'Special Items',
+      title: 'Discontinued Operations, Nonrecurring Items, and Earnings Quality',
+      explanation:
+        'Discontinued operations are components of a business that have been sold or are held for sale, reported separately on the income statement (net of tax) below income from continuing operations. Nonrecurring items include restructuring charges, asset impairments, litigation settlements, and gains/losses on asset sales. Separating recurring from nonrecurring items is critical for forecasting — only income from continuing operations represents the sustainable earning power of the business.',
+      highlights: [
+        'Discontinued operations are reported net of tax as a separate line item below income from continuing operations.',
+        'ASC 205-20 defines a discontinued operation as a component that has been disposed of or is classified as held for sale.',
+        'Restructuring charges (severance, facility closures) are nonrecurring but often recurring in practice for serial restructurers.',
+        'Analysts build "normalized" or "core" earnings by stripping out all nonrecurring items from reported net income.',
+      ],
+      deepDive: {
+        body: [
+          'The income statement\'s multi-step format is designed to separate sustainable earnings from one-time events. Income from continuing operations reflects ongoing business performance. Discontinued operations reflect businesses being exited. This separation is crucial because investors value sustainable earnings at a much higher multiple than one-time items. A company reporting $5/share from continuing operations and $2/share from discontinued operations should be valued on the $5, not the $7.',
+          'The challenge is that the line between "nonrecurring" and "recurring" is often blurry. Many companies take restructuring charges almost every year — are these really nonrecurring? Companies that consistently report "one-time" charges may be using them to keep the core operating expense line artificially low. A useful test: if a company has reported nonrecurring charges in 4 of the last 5 years, they are effectively recurring costs of doing business.',
+          'Non-GAAP earnings adjustments have exploded in recent years. Companies routinely present "adjusted earnings" that exclude stock-based compensation, amortization of acquired intangibles, restructuring charges, and other items. While some adjustments are legitimate (removing truly one-time items), aggressive adjustment can make unprofitable companies appear profitable. The SEC has increased scrutiny of non-GAAP presentations.',
+        ],
+        keyInsights: [
+          'The gain or loss on discontinued operations often includes operating results of the discontinued component during the disposal period, not just the sale gain/loss.',
+          'Serial restructurers who take charges every year are effectively shifting recurring costs below the operating line — always add these back for normalized analysis.',
+          'If non-GAAP earnings consistently exceed GAAP earnings by 20%+ and the gap is growing, it suggests the excluded items are actually part of the normal cost of doing business.',
+        ],
+        realWorldExample:
+          'GE\'s 2018 annual report included $22B in goodwill impairment charges, $2B in restructuring costs, and significant losses from discontinued operations (GE Capital insurance). Strip out these items, and GE\'s "core" industrial earnings were positive — but investors had to wade through layers of non-recurring items to find them. This complexity is why GE eventually broke itself into three separate public companies.',
+        commonMistakes: [
+          'Treating all items below operating income as irrelevant — some (like interest expense) are recurring and essential to valuation.',
+          'Accepting management\'s non-GAAP adjustments without scrutiny — always reconcile back to GAAP earnings and question each exclusion.',
+          'Ignoring discontinued operations entirely — the cash from disposal can be significant and may fund future growth investments.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports GAAP net income of $3/share but "adjusted" non-GAAP earnings of $5/share, excluding $1.50 in stock-based compensation and $0.50 in restructuring charges. The company has reported restructuring charges in 4 of the last 5 years. How should an analyst treat this?',
+        options: [
+          { id: 'a', text: 'Use the $5 adjusted figure — these are legitimate non-cash and non-recurring exclusions', correct: false, explanation: 'Stock-based compensation is a real economic cost (ASC 718) — it dilutes existing shareholders. And restructuring charges recurring in 4 of 5 years are effectively part of the normal cost structure.' },
+          { id: 'b', text: 'Use $3.50 — add back the restructuring (it\'s genuinely non-recurring) but keep SBC (it\'s a real cost)', correct: false, explanation: 'Restructuring charges appearing in 4 of 5 years fail the "non-recurring" test. A cost that happens almost every year is a recurring cost of doing business, regardless of what management calls it.' },
+          { id: 'c', text: 'Use $3 GAAP — recurring restructuring is a normal cost and SBC is a real expense; the adjusted figure overstates sustainable earnings', correct: true, explanation: 'Correct. SBC is a real economic cost that transfers value from existing to new shareholders (ASC 718 requires expense recognition). Restructuring charges in 4 of 5 years are de facto recurring. The $2/share gap between GAAP and non-GAAP should concern analysts — the company is potentially making itself look 67% more profitable than it really is.' },
+        ],
+      },
+    },
   ],
 
   3: [
@@ -565,6 +681,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring the asymmetry: US GAAP prohibits write-ups, so once inventory is impaired, it creates permanently lower asset values.',
         ],
       },
+      predictionPrompt: {
+        question: 'A retailer\'s inventory cost is $500,000 but net realizable value has fallen to $380,000 due to a new competitor. What is required under GAAP?',
+        options: [
+          { id: 'a', text: 'Disclose the decline in footnotes but keep inventory at cost on the balance sheet', correct: false, explanation: 'LCNRV is mandatory, not optional. When NRV falls below cost, GAAP requires an immediate write-down — footnote disclosure alone is insufficient.' },
+          { id: 'b', text: 'Write down inventory by $120,000 — debit COGS, credit Inventory', correct: true, explanation: 'Correct. LCNRV requires inventory to be reported at the lower of cost ($500K) or NRV ($380K). The $120K write-down hits COGS immediately, reducing gross margin and reported earnings.' },
+          { id: 'c', text: 'Wait to see if the market recovers — write-downs should only be taken when items are sold', correct: false, explanation: 'GAAP requires immediate write-down when NRV falls below cost. The conservatism principle says potential losses should be recognized immediately; potential gains are recognized only when realized.' },
+        ],
+      },
     },
     {
       id: 'ch3-s3',
@@ -597,6 +721,186 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Using revenue instead of COGS to calculate turnover — revenue is subject to markup and varies by pricing strategy.',
           'Comparing inventory turnover across industries without adjustment — a 5× turnover is excellent for a furniture retailer but concerning for a software company.',
           'Ignoring that different inventory costing methods (FIFO vs LIFO) affect both COGS and average inventory — always normalize.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'Company A has inventory turnover of 12× and Company B has turnover of 4×. Company A is a grocery chain; Company B manufactures aircraft. Which company is performing better relative to expectations?',
+        options: [
+          { id: 'a', text: 'Company A — 12× turnover is three times higher than Company B', correct: false, explanation: 'Absolute turnover numbers are meaningless without industry context. A grocery chain SHOULD turn inventory 12-15× per year (perishable goods). An aircraft manufacturer might only turn inventory 2-4× per year due to long production cycles.' },
+          { id: 'b', text: 'Cannot determine without comparing each to their industry peers', correct: true, explanation: 'Correct. Company A\'s 12× is average for groceries (peer range: 10-15×). Company B\'s 4× is actually strong for aerospace (peer range: 2-4×). Inventory ratios MUST be benchmarked against industry peers — cross-industry comparison is misleading.' },
+          { id: 'c', text: 'Company B — lower turnover means it\'s holding premium inventory that commands higher margins', correct: false, explanation: 'While aircraft do have higher margins than groceries, low turnover doesn\'t automatically signal premium positioning. In Company B\'s case, 4× is the upper end of normal for aerospace — but you\'d need peer comparison to know if it\'s truly performing well.' },
+        ],
+      },
+    },
+    {
+      id: 'ch3-s4',
+      chapterId: 3,
+      sectionLabel: 'Conversion',
+      title: 'LIFO Reserve and LIFO-to-FIFO Conversion',
+      explanation:
+        'The LIFO reserve is the cumulative difference between inventory reported under LIFO and what it would be under FIFO. Companies using LIFO must disclose this reserve in footnotes, enabling analysts to convert LIFO statements to FIFO for cross-company comparison. To convert: add the LIFO reserve to inventory (increasing assets), add the after-tax portion to retained earnings, and recalculate COGS by adjusting for the change in the reserve during the period.',
+      formula: 'FIFO Inventory = LIFO Inventory + LIFO Reserve',
+      highlights: [
+        'The LIFO reserve is disclosed in footnotes — it is the key to cross-method comparability.',
+        'FIFO COGS = LIFO COGS − Change in LIFO Reserve (decrease in reserve means higher FIFO COGS).',
+        'Tax effect: LIFO-to-FIFO conversion increases pre-tax income by the reserve change, so multiply by (1 − tax rate) for after-tax impact.',
+        'ExxonMobil\'s LIFO reserve was $22B in 2022 — meaning LIFO understated inventory by $22B vs FIFO.',
+      ],
+      deepDive: {
+        body: [
+          'The LIFO reserve is arguably the single most important footnote disclosure for inventory-heavy companies. Without it, comparing a LIFO company (like ExxonMobil) to a FIFO company (like BP) would be like comparing apples to oranges — same physical barrels of oil, completely different financial statements.',
+          'The conversion mechanics are straightforward: (1) Add the full LIFO reserve to inventory on the balance sheet, (2) Increase retained earnings by LIFO Reserve × (1 − tax rate), (3) Increase deferred tax liability by LIFO Reserve × tax rate. For the income statement, FIFO COGS = LIFO COGS minus the increase in LIFO reserve during the period.',
+          'A declining LIFO reserve in an inflationary environment is a red flag — it suggests LIFO liquidation (selling old, cheap inventory layers) which produces artificially high margins. A growing LIFO reserve in inflation is normal and expected.',
+        ],
+        keyInsights: [
+          'The LIFO reserve grows during inflation and shrinks during deflation or LIFO liquidation.',
+          'A sudden drop in the LIFO reserve without a change in pricing trends signals LIFO liquidation.',
+          'When converting to FIFO for analysis, always adjust both the balance sheet AND income statement — partial conversion produces inconsistent ratios.',
+        ],
+        realWorldExample:
+          'Caterpillar reports LIFO inventory of $11.3B with a LIFO reserve of $3.6B. The FIFO-equivalent inventory would be $14.9B — a 32% increase in reported inventory. This significantly changes inventory turnover ratios and makes Caterpillar\'s working capital look very different when compared to FIFO-reporting competitors like Komatsu.',
+        commonMistakes: [
+          'Forgetting the tax effect when converting — the full LIFO reserve does NOT flow to retained earnings; only the after-tax portion does.',
+          'Comparing LIFO companies to FIFO companies without conversion — this is the most common analytical error in inventory analysis.',
+          'Assuming LIFO reserve always grows — it shrinks when prices decline or when LIFO liquidation occurs.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A LIFO company reports inventory of $500M with a LIFO reserve of $120M. At a 25% tax rate, what is the FIFO-equivalent retained earnings adjustment?',
+        options: [
+          { id: 'a', text: '$120M increase — the full LIFO reserve flows to retained earnings', correct: false, explanation: 'The full reserve is pre-tax. You must reduce it by the tax effect: $120M × 25% = $30M in additional deferred tax liability.' },
+          { id: 'b', text: '$90M increase — the after-tax portion of the LIFO reserve', correct: true, explanation: 'Correct. FIFO retained earnings = LIFO retained earnings + LIFO Reserve × (1 − tax rate) = $120M × 0.75 = $90M. The remaining $30M goes to deferred tax liability.' },
+          { id: 'c', text: '$30M increase — only the tax savings portion affects equity', correct: false, explanation: '$30M is the deferred tax liability increase, not the equity adjustment. The equity adjustment is the larger after-tax amount of $90M.' },
+        ],
+      },
+    },
+    {
+      id: 'ch3-s5',
+      chapterId: 3,
+      sectionLabel: 'Comparison',
+      title: 'Financial Statement Effects of Inventory Costing Methods',
+      explanation:
+        'In rising price environments, FIFO reports higher ending inventory (balance sheet) and lower COGS (higher net income), while LIFO reports lower ending inventory and higher COGS (lower net income but lower taxes). Weighted average falls between the two. These differences are not cosmetic — they affect profitability ratios, liquidity ratios, tax payments, and debt covenant compliance. Understanding these effects is essential for comparing companies using different methods.',
+      formula: 'Tax Savings_{LIFO} = (FIFO\ NI - LIFO\ NI) \times Tax\ Rate',
+      highlights: [
+        'FIFO: Higher inventory, higher NI, higher taxes, higher current ratio — looks more profitable.',
+        'LIFO: Lower inventory, lower NI, lower taxes, lower current ratio — generates more cash.',
+        'In deflation, the effects reverse: LIFO produces higher income than FIFO.',
+        'The LIFO conformity rule: if you use LIFO for taxes, you must use LIFO for financial reporting.',
+      ],
+      deepDive: {
+        body: [
+          'The financial statement effects create a genuine economic trade-off. FIFO makes the company look more profitable (higher NI, higher inventory values) but costs real cash in higher taxes. LIFO reports lower profits but saves cash through tax deferral. The LIFO tax savings are real economic value — companies like ExxonMobil have saved billions cumulatively.',
+          'For ratio analysis, the effects cascade: FIFO inflates the current ratio (higher inventory in current assets), improves gross margin (lower COGS), and increases ROA (higher net income on similar assets). LIFO deflates all these ratios. An analyst comparing a FIFO company to a LIFO company without adjusting for these differences will draw incorrect conclusions.',
+          'The weighted average method produces results between FIFO and LIFO and is the most commonly used method globally (since LIFO is prohibited under IFRS). It smooths out price fluctuations and is considered the most neutral method.',
+        ],
+        keyInsights: [
+          'About 30% of US companies use LIFO — primarily in industries with rising input costs (oil, chemicals, metals, retail).',
+          'The cumulative LIFO tax savings can be enormous: some companies have deferred billions in taxes over decades.',
+          'When a company switches from LIFO to FIFO, the entire LIFO reserve becomes taxable income — creating a huge one-time tax hit.',
+        ],
+        realWorldExample:
+          'In 2015, Eli Lilly switched from LIFO to FIFO for US inventories, resulting in a $200M increase to retained earnings (after tax). The switch was motivated by better comparability with global pharmaceutical peers who use FIFO under IFRS. However, it also meant Lilly would pay higher taxes going forward on its US operations.',
+        commonMistakes: [
+          'Thinking FIFO is "better" because it shows higher profits — LIFO generates more actual cash through tax savings.',
+          'Forgetting that in a deflationary environment, all the FIFO/LIFO effects reverse direction.',
+          'Assuming inventory method choice doesn\'t matter for analysis — it can change reported profit by 20-40% in commodity-intensive industries.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Two identical oil companies operate in a period of rising crude prices. Company A uses FIFO, Company B uses LIFO. Which company reports higher cash flow from operations?',
+        options: [
+          { id: 'a', text: 'Company A (FIFO) — higher net income means higher cash flow', correct: false, explanation: 'Higher net income does not mean higher cash flow. Company A pays more taxes because FIFO reports higher taxable income.' },
+          { id: 'b', text: 'Company B (LIFO) — lower taxable income means lower actual tax payments', correct: true, explanation: 'Correct. LIFO\'s higher COGS reduces taxable income, resulting in lower cash tax payments. The tax savings are real cash flow — Company B keeps more cash despite reporting lower accounting profit.' },
+          { id: 'c', text: 'Both report the same CFO — inventory method doesn\'t affect cash', correct: false, explanation: 'Inventory method affects taxable income, which affects actual tax payments (cash out). LIFO saves real cash through tax deferral.' },
+        ],
+      },
+    },
+    {
+      id: 'ch3-s6',
+      chapterId: 3,
+      sectionLabel: 'Manufacturing',
+      title: 'Manufacturing Inventory: Raw Materials, Work-in-Process, and Finished Goods',
+      explanation:
+        'Manufacturing companies carry three categories of inventory: Raw Materials (purchased inputs awaiting production), Work-in-Process (partially completed goods in the production pipeline), and Finished Goods (completed products ready for sale). Costs flow through these accounts as production progresses. Product costs (direct materials, direct labor, manufacturing overhead) are capitalized into inventory; period costs (selling and administrative) are expensed immediately.',
+      formula: 'Finished\ Goods = Beginning\ FG + Cost\ of\ Goods\ Manufactured - COGS',
+      highlights: [
+        'Raw Materials → Work-in-Process → Finished Goods → Cost of Goods Sold.',
+        'Product costs (DM + DL + MOH) attach to inventory; period costs (SGA) hit the income statement immediately.',
+        'WIP buildup without corresponding finished goods growth can signal production problems.',
+        'Manufacturing overhead allocation (how factory costs are spread across products) involves significant judgment.',
+      ],
+      deepDive: {
+        body: [
+          'The distinction between product costs and period costs is fundamental. Product costs (direct materials, direct labor, and manufacturing overhead) are capitalized as inventory and only become expenses when the goods are sold (as COGS). Period costs (selling expenses, administrative expenses) are expensed in the period incurred regardless of production or sales volume.',
+          'Manufacturing overhead allocation is one of the most judgment-intensive areas in accounting. Factory rent, utilities, equipment depreciation, and supervisory salaries must be allocated across products. The choice of allocation base (machine hours, labor hours, units produced) can significantly affect per-unit costs and therefore ending inventory valuation and COGS.',
+          'Analyzing manufacturing inventory requires examining all three categories relative to sales trends. Rising raw materials may signal planned production increases or inability to convert inputs. Rising WIP may signal production bottlenecks. Rising finished goods may signal slowing demand. The pattern across categories tells a story about operational health.',
+        ],
+        keyInsights: [
+          'Over-absorption of manufacturing overhead (allocating more overhead than actually incurred) inflates inventory and reduces COGS — a form of profit inflation.',
+          'Companies with high fixed manufacturing overhead can boost profits by overproducing (spreading fixed costs across more units), even if the excess inventory never sells.',
+          'The Cost of Goods Manufactured schedule bridges the factory and the financial statements — it\'s the manufacturing equivalent of COGS.',
+        ],
+        realWorldExample:
+          'Boeing\'s 787 Dreamliner program used "program accounting" that spread development costs across a projected 1,400-aircraft production run. This capitalized billions into inventory (WIP/deferred production costs) rather than expensing them. When production estimates were later reduced, massive write-downs followed — the inventory had been carrying costs that would never be recovered.',
+        commonMistakes: [
+          'Treating all manufacturing costs as product costs — only costs directly tied to production are capitalized; administrative and selling costs are always period costs.',
+          'Ignoring overhead allocation methods when comparing manufacturers — different allocation bases produce different per-unit costs.',
+          'Assuming rising inventory is always bad — a manufacturer building seasonal inventory before peak demand is acting rationally.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A manufacturer reports rising WIP inventory for three consecutive quarters while finished goods inventory is declining. What is the most likely explanation?',
+        options: [
+          { id: 'a', text: 'Strong demand is pulling finished goods out faster than production can complete them', correct: true, explanation: 'Correct. Declining finished goods with rising WIP suggests demand is outpacing production capacity — goods are being shipped as fast as they\'re completed, while more raw materials enter the production pipeline. This is typically a positive signal.' },
+          { id: 'b', text: 'Production problems are preventing WIP from being completed into finished goods', correct: false, explanation: 'While possible, production problems would typically also show up in declining revenue and customer complaints. The declining finished goods inventory suggests products ARE being completed and sold — just not fast enough to keep up.' },
+          { id: 'c', text: 'The company is capitalizing period costs into WIP to inflate inventory', correct: false, explanation: 'While cost capitalization fraud exists, it would typically show rising WIP AND rising finished goods. The declining finished goods pattern is inconsistent with cost inflation — products are being moved out.' },
+        ],
+      },
+    },
+    {
+      id: 'ch3-s7',
+      chapterId: 3,
+      sectionLabel: 'LIFO Issues',
+      title: 'LIFO Liquidation and Its Profit Impact',
+      explanation:
+        'LIFO liquidation occurs when a LIFO company sells more inventory units than it purchases during a period, causing it to dip into older, lower-cost inventory layers. This produces artificially high gross margins because old (cheap) costs are matched against current (high) selling prices. The resulting profit boost is non-recurring and non-operational — it reflects the depletion of a cost advantage, not genuine business improvement. GAAP requires disclosure of LIFO liquidation effects in footnotes.',
+      formula: 'LIFO\ Liquidation\ Profit = Units\ Liquidated \times (Current\ Cost - Old\ Layer\ Cost)',
+      highlights: [
+        'LIFO liquidation produces phantom profits — high margins from selling old cheap layers, not from business improvement.',
+        'Required to be disclosed in footnotes under GAAP (often buried in the inventory note).',
+        'Can be intentional (management choosing not to replenish) or unintentional (supply chain disruptions).',
+        'Triggers a real tax cost: the phantom profits are taxable, consuming the LIFO tax savings built up over years.',
+      ],
+      deepDive: {
+        body: [
+          'LIFO liquidation is one of the most counterintuitive concepts in inventory accounting. A company sells old inventory at current prices, producing a large gross margin. But this margin is not sustainable — once the old layers are depleted, future COGS will be at current (higher) costs. The one-time profit boost from liquidation actually signals that the company is consuming a valuable asset (its low-cost inventory base).',
+          'The tax consequences are significant. Years or decades of LIFO tax deferral can unwind in a single period of LIFO liquidation. The phantom profits are fully taxable, meaning the company pays taxes on income that was previously deferred. Companies sometimes engage in year-end purchasing specifically to avoid LIFO liquidation and its tax consequences.',
+          'Analysts must identify LIFO liquidation and exclude it from normalized earnings. The disclosure is typically in the inventory footnote: "During [year], certain LIFO inventory quantities were reduced, resulting in a liquidation of LIFO inventory layers carried at lower costs. The effect was to increase net income by $X million." This amount should be subtracted from reported earnings for trend analysis.',
+        ],
+        keyInsights: [
+          'A declining LIFO reserve in an inflationary environment is the primary quantitative signal of LIFO liquidation.',
+          'Year-end inventory purchases ("LIFO replenishment") are often timed specifically to avoid triggering liquidation.',
+          'LIFO liquidation gains can be material: some companies have reported 10-20% of net income from liquidation alone.',
+        ],
+        realWorldExample:
+          'During the 2008-2009 financial crisis, many LIFO companies experienced involuntary liquidation as they drew down inventory faster than they could replenish it. A major steel manufacturer reported LIFO liquidation gains of $180M in a single quarter — representing nearly 40% of reported earnings. Without that disclosure, analysts would have dramatically overestimated the company\'s sustainable earning power.',
+        commonMistakes: [
+          'Treating LIFO liquidation profits as sustainable earnings — they are one-time, non-recurring, and represent asset depletion.',
+          'Ignoring the tax consequences — LIFO liquidation triggers real tax payments that reduce cash flow.',
+          'Failing to check the footnotes for LIFO liquidation disclosure when analyzing a LIFO company with unusually high gross margins.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A LIFO company reports a 5-point increase in gross margin this quarter. Footnotes disclose $50M in LIFO liquidation gains on $400M total gross profit. What is the adjusted gross profit margin change?',
+        options: [
+          { id: 'a', text: 'Still a 5-point increase — LIFO liquidation is part of normal operations', correct: false, explanation: 'LIFO liquidation is non-recurring and non-operational. It must be excluded from trend analysis because it represents depletion of old cost layers, not business improvement.' },
+          { id: 'b', text: 'Approximately a 1.8-point increase — after removing the $50M liquidation gain', correct: true, explanation: 'Correct. Adjusted gross profit = $400M − $50M = $350M. The $50M represents 12.5% of gross profit (about 3.2 margin points if the 5-point increase was from, say, 30% to 35%). Removing it shows the real operational improvement was much smaller.' },
+          { id: 'c', text: 'A decrease — LIFO liquidation means the company is running out of inventory', correct: false, explanation: 'While LIFO liquidation does mean inventory levels are declining, the remaining business may still be improving. The point is to separate the one-time liquidation effect from the underlying trend.' },
         ],
       },
     },
@@ -678,6 +982,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring that different depreciation methods don\'t affect tax cash flows (tax depreciation uses MACRS, not book depreciation).',
         ],
       },
+      predictionPrompt: {
+        question: 'Equipment costs $240,000 with a $15,000 salvage value and 15-year useful life. What is Year 1 depreciation under straight-line vs double-declining balance?',
+        options: [
+          { id: 'a', text: 'SL: $15,000 per year; DDB: $32,000 in Year 1', correct: true, explanation: 'Correct. SL = ($240K − $15K) / 15 = $15,000/year. DDB rate = 2 × (1/15) = 13.33%. DDB Year 1 = $240,000 × 13.33% = $32,000. DDB front-loads depreciation, producing lower early-year income but higher later-year income.' },
+          { id: 'b', text: 'SL: $16,000 per year; DDB: $16,000 in Year 1', correct: false, explanation: 'SL should subtract salvage value first: ($240K − $15K) / 15 = $15,000. DDB does not deduct salvage value from the base — it applies double the SL rate to the full carrying value.' },
+          { id: 'c', text: 'SL: $15,000 per year; DDB: $15,000 in Year 1 — both methods produce the same total depreciation', correct: false, explanation: 'While both methods depreciate the same total amount over the asset\'s life, the timing differs dramatically. DDB front-loads expense, producing $32,000 in Year 1 vs SL\'s $15,000.' },
+        ],
+      },
     },
     {
       id: 'ch4-s3',
@@ -709,6 +1021,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Confusing impairment (triggered by specific indicators) with depreciation (systematic allocation over useful life) — they are separate processes.',
           'Assuming impairment only affects goodwill — long-lived PP&E, intangibles, and equity investments also require impairment testing.',
           'Ignoring the difference between "recoverable amount" (IFRS: higher of fair value less costs to sell or value in use) and "fair value" (US GAAP) — they can produce different impairment thresholds.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'A company\'s factory has a book value of $80M. Undiscounted future cash flows are estimated at $70M and fair value is $55M. What impairment loss, if any, should be recorded?',
+        options: [
+          { id: 'a', text: '$10M — the difference between book value and undiscounted cash flows', correct: false, explanation: 'The two-step test first compares book value to undiscounted cash flows (Step 1: is there impairment?). Since $80M > $70M, the asset IS impaired. But the loss amount uses fair value, not undiscounted cash flows.' },
+          { id: 'b', text: '$25M — book value ($80M) minus fair value ($55M)', correct: true, explanation: 'Correct. Step 1: Book value ($80M) exceeds undiscounted cash flows ($70M), so the asset is impaired. Step 2: Loss = Book value ($80M) − Fair value ($55M) = $25M. The asset is written down to $55M.' },
+          { id: 'c', text: 'No impairment — the asset is still generating positive cash flows', correct: false, explanation: 'Positive cash flows don\'t prevent impairment. The test is whether undiscounted future cash flows are LESS than book value. $70M < $80M, so the asset fails Step 1 and must be written down.' },
         ],
       },
     },
@@ -964,6 +1284,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Overlooking that covenant headroom narrows in good-to-bad transitions — when a sector turns down, the most covenant-constrained companies are the highest fraud risk.',
         ],
       },
+      predictionPrompt: {
+        question: 'A company\'s debt covenant requires a minimum interest coverage ratio of 3.0×. EBIT is $90M and interest expense is $28M. What is the headroom before covenant violation?',
+        options: [
+          { id: 'a', text: 'ICR is 3.21× with $6M of EBIT headroom before violation', correct: true, explanation: 'Correct. ICR = $90M / $28M = 3.21×. At the 3.0× minimum: minimum EBIT = 3.0 × $28M = $84M. Headroom = $90M − $84M = $6M. A relatively small EBIT decline of just 6.7% would trigger violation.' },
+          { id: 'b', text: 'ICR is 3.21× with $18M of headroom — the company is well within the covenant', correct: false, explanation: 'The headroom calculation must use the minimum ratio times actual interest expense. At 3.0× minimum, the floor is $84M EBIT, giving only $6M headroom — much tighter than $18M.' },
+          { id: 'c', text: 'ICR is 0.31× — the company is already in violation', correct: false, explanation: 'ICR = EBIT / Interest Expense = $90M / $28M = 3.21×, not 0.31×. You may have divided interest by EBIT, which would be the inverse.' },
+        ],
+      },
     },
     {
       id: 'ch5-s3',
@@ -995,6 +1323,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Assuming "true sale" accounting treatment is correct just because counsel provided an opinion — Repo 105 had legal opinions that were technically valid under English law but violated the spirit of US GAAP.',
           'Ignoring the timing of repo settlements in the 10-K — Lehman disclosed that repos settled within days, not months.',
           'Failing to compare balance sheet leverage to book equity book value declines — Lehman\'s equity was declining while leverage appeared stable.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'A bank sells $100M of mortgage-backed securities via repo agreement with a commitment to repurchase at $101M in 14 days. Is this a true sale or a borrowing?',
+        options: [
+          { id: 'a', text: 'True sale — the bank received $100M and the buyer owns the securities', correct: false, explanation: 'A repo with a repurchase commitment is economically a secured borrowing, not a sale. The bank retains the risks and rewards of ownership and is obligated to repurchase. The $1M premium is effectively interest.' },
+          { id: 'b', text: 'Secured borrowing — the repurchase obligation means this is a loan collateralized by the securities', correct: true, explanation: 'Correct. The economic substance is that the bank borrowed $100M using MBS as collateral and will repay $101M (principal + $1M interest). Proper accounting: Debit Cash $100M, Credit Repo Obligation $100M. The securities remain on the bank\'s books.' },
+          { id: 'c', text: 'It depends on the maturity — short-term repos are sales; long-term repos are borrowings', correct: false, explanation: 'The accounting treatment depends on economic substance (who bears risks/rewards), not maturity. A repo with a repurchase commitment is a borrowing regardless of whether it\'s 14 days or 14 months.' },
         ],
       },
     },
@@ -1296,6 +1632,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring the future dilution impact of unvested equity grants — outstanding unvested awards represent future dilution that isn\'t yet in the share count.',
         ],
       },
+      predictionPrompt: {
+        question: 'A tech company reports $500M net income but excludes $180M of stock-based compensation from its "adjusted earnings" of $680M. Which figure better represents economic reality?',
+        options: [
+          { id: 'a', text: '$680M adjusted — SBC is non-cash and doesn\'t reduce available funds', correct: false, explanation: 'While SBC doesn\'t reduce cash immediately, it dilutes existing shareholders by creating new shares. If the company had to pay cash compensation instead, the cost would be the same. SBC is a real economic transfer of value.' },
+          { id: 'b', text: '$500M GAAP — SBC is a real cost that transfers value from existing shareholders to employees', correct: true, explanation: 'Correct. ASC 718 requires SBC expense recognition because it IS a real cost. When employees exercise options or receive restricted stock, existing shareholders\' ownership is diluted. The $180M represents value transferred to employees — if excluded, the company appears 36% more profitable than economic reality.' },
+          { id: 'c', text: 'Somewhere between $500M and $680M — SBC is partially real', correct: false, explanation: 'SBC is fully a real economic cost under GAAP (ASC 718). The $500M GAAP figure properly reflects this. The question isn\'t whether SBC is real (it is), but whether using non-GAAP metrics helps or misleads investors.' },
+        ],
+      },
     },
     {
       id: 'ch6-s3',
@@ -1327,6 +1671,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Conflating EPS growth (which buybacks mechanically increase) with intrinsic value per share growth (which depends on business performance).',
           'Assuming buyback announcements equal actual repurchases — authorization programs often go unexecuted or are executed over years.',
           'Ignoring that gross buybacks must be netted against SBC issuances — the net repurchase is the economically relevant number.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'A company with 100M shares outstanding and $400M net income buys back 20M shares using $500M of borrowed money. What happens to EPS?',
+        options: [
+          { id: 'a', text: 'EPS rises from $4.00 to $5.00 — fewer shares means higher EPS', correct: false, explanation: 'Close, but you must account for the after-tax interest cost on the $500M borrowed. If interest rate is 5% and tax rate is 25%, after-tax interest = $500M × 5% × (1−0.25) = $18.75M. Adjusted NI = $381.25M / 80M shares = $4.77 EPS.' },
+          { id: 'b', text: 'EPS rises, but less than from $4.00 to $5.00 because the borrowed money has an interest cost that reduces net income', correct: true, explanation: 'Correct. Reducing shares from 100M to 80M mechanically boosts EPS, but the $500M in new debt generates interest expense that reduces net income. The net effect is a smaller EPS increase than the naive calculation suggests. This is why debt-funded buybacks are "financial engineering" — the EPS boost comes with added financial risk.' },
+          { id: 'c', text: 'EPS falls — using debt for buybacks always destroys value', correct: false, explanation: 'EPS will still likely increase because the share reduction effect typically outweighs the interest cost. But the increase is smaller than it appears, and the company now carries significantly more debt risk.' },
         ],
       },
     },
@@ -1626,6 +1978,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring lease payments in FCF calculations — under ASC 842, lease obligations show up as financing outflows, not operating outflows, potentially overstating true FCF.',
         ],
       },
+      predictionPrompt: {
+        question: 'A company reports CFO of $300M and spent $180M on capital expenditures and $50M on acquisitions. What is Free Cash Flow and why does it matter?',
+        options: [
+          { id: 'a', text: 'FCF = $70M ($300M − $180M − $50M) — it represents cash available after all investment spending', correct: false, explanation: 'The standard FCF definition uses only maintenance/growth CapEx: FCF = CFO − CapEx = $300M − $180M = $120M. Acquisitions are separate investing activities. Some analysts calculate "levered FCF" differently, but the base definition excludes acquisitions.' },
+          { id: 'b', text: 'FCF = $120M ($300M − $180M) — it represents cash available after maintaining and growing the asset base', correct: true, explanation: 'Correct. FCF = CFO − CapEx = $300M − $180M = $120M. This $120M is cash available to pay debt, distribute dividends, fund acquisitions, or build cash reserves. FCF is the foundation of intrinsic valuation (DCF models discount projected FCF).' },
+          { id: 'c', text: 'FCF = $300M — free cash flow is the same as cash flow from operations', correct: false, explanation: 'CFO and FCF are different. CFO includes cash from all operating activities but ignores the capital investment needed to sustain operations. FCF subtracts CapEx to show what\'s truly "free" after maintaining the business.' },
+        ],
+      },
     },
     {
       id: 'ch7-s3',
@@ -1658,6 +2018,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Calculating working capital changes on end-of-period balance sheet snapshots only — quarter-end window dressing makes snapshots unreliable; use averages.',
           'Ignoring that AP can be large at period-end due to large purchases — context matters for AP analysis.',
           'Conflating operating working capital (AR + Inventory − AP) with total working capital (which includes cash and short-term debt).',
+        ],
+      },
+      predictionPrompt: {
+        question: 'A company\'s accounts receivable increased by $25M, inventory increased by $40M, and accounts payable increased by $15M during the year. What is the net working capital effect on CFO (indirect method)?',
+        options: [
+          { id: 'a', text: 'Decrease CFO by $50M — all working capital increases reduce cash flow', correct: false, explanation: 'Not all working capital increases reduce CFO. An increase in accounts payable (a liability) means the company is delaying payments — this INCREASES CFO. Only increases in current assets (A/R, inventory) reduce CFO.' },
+          { id: 'b', text: 'Decrease CFO by $50M: (−$25M A/R) + (−$40M inventory) + (+$15M A/P) = −$50M net effect', correct: true, explanation: 'Correct. A/R increase = cash NOT collected ($−25M). Inventory increase = cash spent on unsold goods ($−40M). A/P increase = cash NOT paid to suppliers ($+15M). Net effect: −$25 − $40 + $15 = −$50M reduction to CFO.' },
+          { id: 'c', text: 'Increase CFO by $50M — working capital growth shows a healthy, expanding business', correct: false, explanation: 'Working capital growth requires cash investment. Increasing A/R means collecting less cash than revenue earned. Increasing inventory means buying more than selling. While growth can be healthy, it consumes cash and reduces CFO.' },
         ],
       },
     },
@@ -1749,6 +2117,49 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+    {
+      id: 'ch7-s6',
+      chapterId: 7,
+      sectionLabel: 'Disclosures',
+      title: 'Noncash Activities, Supplemental Disclosures, and Cash Flow Quality',
+      explanation:
+        'Significant investing and financing activities that do not involve cash are excluded from the statement of cash flows but must be disclosed separately (either in footnotes or a supplemental schedule). Examples include converting debt to equity, acquiring assets through capital leases, and issuing stock for assets. Supplemental disclosures include cash paid for interest and cash paid for income taxes. Cash flow quality analysis compares CFO to net income — a persistent gap where net income exceeds CFO is the single strongest indicator of aggressive accounting or fraud.',
+      formula: 'Cash\ Flow\ Quality\ Ratio = \\frac{CFO}{Net\ Income}',
+      highlights: [
+        'Noncash investing/financing activities are disclosed but NOT on the SCF — they appear in footnotes or a supplemental schedule.',
+        'Common noncash activities: debt-to-equity conversions, stock issued for acquisitions, capital lease obligations.',
+        'Cash paid for interest and taxes are required supplemental disclosures under US GAAP.',
+        'CFO/NI ratio consistently below 1.0 over multiple periods is the #1 fraud red flag in academic research.',
+      ],
+      deepDive: {
+        body: [
+          'Noncash investing and financing activities represent real economic transactions that reshape the balance sheet without moving cash. A company converting $100M of bonds to equity has fundamentally changed its capital structure, but this transaction would be completely invisible on the cash flow statement without the supplemental disclosure requirement. Analysts must review these disclosures to get a complete picture of balance sheet changes.',
+          'The supplemental disclosure of cash paid for interest is particularly useful because it differs from interest expense on the income statement. Interest expense reflects the accrual-basis cost; cash paid for interest reflects actual cash outflows. The difference arises from interest accrued but not yet paid, and amortization of bond premiums/discounts. For leveraged companies, the cash interest payment is a critical indicator of debt service burden.',
+          'Cash flow quality analysis is arguably the most powerful analytical tool in financial accounting. Academic research (Sloan 1996, Richardson et al. 2005) consistently shows that companies with high accruals (net income significantly exceeding CFO) underperform in subsequent periods, while companies with low accruals (CFO exceeding net income) outperform. The accrual component of earnings is less persistent than the cash component — making CFO a better predictor of future performance than net income.',
+        ],
+        keyInsights: [
+          'Every major accounting fraud in history (Enron, WorldCom, Tyco) showed CFO persistently below net income for years before collapse.',
+          'The Sloan Accrual Anomaly: stocks with high accruals (NI >> CFO) underperform by 10%+ annually vs stocks with low accruals.',
+          'Restricted cash must be disclosed separately — it looks like cash but cannot be used for general purposes.',
+        ],
+        realWorldExample:
+          'Enron reported positive net income for years while CFO was consistently negative. The gap was funded by increasingly complex financing transactions classified as operating inflows. Any analyst who simply compared the cash flow statement to the income statement would have seen that Enron\'s reported profits were not generating actual cash — the most fundamental test of earnings quality.',
+        commonMistakes: [
+          'Ignoring noncash disclosures when analyzing balance sheet changes — significant transactions may not appear on the SCF.',
+          'Accepting net income as a reliable performance measure without checking CFO — the cash flow statement is the truth test for the income statement.',
+          'Confusing cash equivalents with investments — cash equivalents are highly liquid investments with maturities of 3 months or less at purchase.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company reports net income of $200M but CFO of only $80M for the third consecutive year. What should an analyst conclude?',
+        options: [
+          { id: 'a', text: 'The company is growing and reinvesting earnings — this is normal for a growth company', correct: false, explanation: 'Growth investment appears in the investing section (CapEx), not in the CFO-to-NI gap. A persistent gap between NI and CFO in the operating section indicates that reported earnings are not translating to cash — a fundamental quality concern.' },
+          { id: 'b', text: 'Earnings quality is poor — $120M of annual income is coming from accruals, not cash, which is unsustainable', correct: true, explanation: 'Correct. A CFO/NI ratio of 0.40 for three consecutive years means 60% of reported earnings are non-cash accruals. Academic research shows this pattern is the strongest predictor of future earnings disappointment or restatement. The analyst should investigate what is driving the accruals.' },
+          { id: 'c', text: 'Cannot draw conclusions — different companies have different CFO/NI relationships', correct: false, explanation: 'While some variation is normal, a persistent CFO/NI ratio below 0.5 for multiple years is a red flag regardless of industry. Sustainable businesses must eventually convert reported profits into cash.' },
+        ],
+      },
+    },
   ],
 
   8: [
@@ -1827,6 +2238,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring structural explanations: a ratio change due to deliberate business model shift is different from unexplained deterioration.',
         ],
       },
+      predictionPrompt: {
+        question: 'A company\'s ROE has improved from 12% to 18% over three years. Without further analysis, can you conclude the business has improved?',
+        options: [
+          { id: 'a', text: 'Yes — ROE increasing by 50% clearly indicates stronger performance', correct: false, explanation: 'ROE can increase through higher leverage (equity multiplier) without any operational improvement. Share buybacks funded by debt reduce equity and mechanically increase ROE even if net income is flat.' },
+          { id: 'b', text: 'No — you need DuPont decomposition to determine whether the improvement came from margins, efficiency, or leverage', correct: true, explanation: 'Correct. ROE = Net Margin × Asset Turnover × Equity Multiplier. The ROE increase could come from: (1) better margins (positive), (2) more efficient asset use (positive), or (3) increased leverage (risky). Only DuPont decomposition reveals the source.' },
+          { id: 'c', text: 'No — ROE is unreliable because it uses book value of equity', correct: false, explanation: 'While book equity has limitations, ROE is widely used and informative when properly decomposed. The issue isn\'t that ROE is unreliable — it\'s that a single number can\'t tell you WHY it changed.' },
+        ],
+      },
     },
     {
       id: 'ch8-s3',
@@ -1858,6 +2277,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Accepting reported EPS as the fundamental measure without analyzing share count changes.',
           'Ignoring the timing of debt paydowns relative to reporting dates — quarterly presentations often show period-end snapshots that are more favorable than period averages.',
           'Treating non-GAAP adjustments as equivalent to GAAP add-backs — only items that are (1) non-cash, (2) non-recurring, and (3) unrelated to core operations qualify for legitimate exclusion.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'A company\'s EPS grew 15% last year. Analysis reveals net income grew 3% while the share count decreased 12% from buybacks. How should an analyst interpret this?',
+        options: [
+          { id: 'a', text: 'Strong performance — 15% EPS growth is impressive regardless of the source', correct: false, explanation: 'The source matters enormously. Only 3% of the EPS growth came from actual business improvement. The other 12% came from financial engineering (reducing the denominator through buybacks).' },
+          { id: 'b', text: 'Denominator management — nearly all EPS growth came from share reduction, not earnings improvement', correct: true, explanation: 'Correct. This is textbook denominator management. Net income grew only 3% while the share count shrank 12%. The 15% EPS growth is almost entirely driven by fewer shares, not more earnings. An analyst should evaluate whether the buyback was funded by debt (adding risk) and whether the 3% income growth is sustainable.' },
+          { id: 'c', text: 'Irrelevant distinction — EPS is EPS regardless of whether the numerator or denominator changed', correct: false, explanation: 'The distinction is critical for forecasting and valuation. Buyback-driven EPS growth is not operational improvement and may not be sustainable (the company can\'t buy back shares forever, especially if funded by debt).' },
         ],
       },
     },
@@ -1950,6 +2377,135 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+    {
+      id: 'ch8-s6',
+      chapterId: 8,
+      sectionLabel: 'Liquidity',
+      title: 'Liquidity Ratios: Current Ratio, Quick Ratio, and Cash Ratio',
+      explanation:
+        'Liquidity ratios measure a company\'s ability to meet short-term obligations. The Current Ratio (Current Assets / Current Liabilities) is the broadest measure. The Quick Ratio excludes inventory and prepaid expenses for a stricter test. The Cash Ratio (Cash / Current Liabilities) is the most conservative. Creditors and analysts use these ratios to assess whether a company can pay its bills as they come due without distress.',
+      formula: 'Current\ Ratio = \\frac{Current\ Assets}{Current\ Liabilities}',
+      highlights: [
+        'Current Ratio > 1.0 means current assets exceed current liabilities — but "good" varies by industry.',
+        'Quick Ratio = (Cash + Short-term Investments + Accounts Receivable) / Current Liabilities — excludes illiquid current assets.',
+        'Operating Cash Flow Ratio = CFO / Current Liabilities — measures cash generation relative to obligations.',
+        'Window dressing: companies may temporarily pay down payables or draw on credit lines at period-end to improve liquidity ratios.',
+      ],
+      deepDive: {
+        body: [
+          'Liquidity analysis is the first thing a credit analyst examines when evaluating a borrower. A current ratio below 1.0 means the company cannot cover its near-term obligations from current assets alone — it would need to sell long-term assets or secure new financing. However, many successful companies (like Amazon or Walmart) operate with current ratios near or below 1.0 because their business models generate cash faster than obligations come due.',
+          'The quick ratio (also called the acid-test ratio) provides a more stringent measure by excluding inventory (which may be slow to convert to cash) and prepaid expenses (which cannot be converted to cash at all). For companies in industries with slow inventory turns (manufacturing, real estate), the quick ratio gives a much more realistic picture of short-term liquidity.',
+          'The most reliable liquidity measure is the operating cash flow ratio because it uses actual cash generation rather than balance sheet snapshots. A company with a low current ratio but strong cash flow ratio is usually in good health — it generates enough cash to meet obligations regardless of what the balance sheet shows at a point in time.',
+        ],
+        keyInsights: [
+          'A very high current ratio (>3.0) may indicate inefficient use of assets — too much cash sitting idle or too much inventory on hand.',
+          'The current ratio can be manipulated through year-end transactions: paying off current debt just before the reporting date improves the ratio (if it was already above 1.0).',
+          'Industry benchmarks matter enormously: grocery stores operate at 0.8-1.0 current ratios; pharmaceutical companies at 2.0-3.0.',
+        ],
+        realWorldExample:
+          'In 2018, General Electric\'s current ratio dropped below 1.0 as its short-term commercial paper obligations exceeded current assets. This triggered a credit downgrade and forced GE to sell assets and restructure debt — demonstrating that liquidity ratios have real consequences when they breach thresholds watched by creditors and rating agencies.',
+        commonMistakes: [
+          'Thinking a higher current ratio is always better — above a certain point, it signals inefficient capital deployment.',
+          'Using the current ratio alone without the quick ratio — a company with a 2.0 current ratio but most current assets in slow-moving inventory may actually be illiquid.',
+          'Ignoring seasonal patterns — retail companies have very different liquidity profiles in Q4 (holiday inventory buildup) vs Q1.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company has: Cash $50M, A/R $80M, Inventory $120M, Prepaid $10M, Current Liabilities $200M. What are its current ratio and quick ratio?',
+        options: [
+          { id: 'a', text: 'Current: 1.3, Quick: 0.65', correct: true, explanation: 'Correct. Current Ratio = ($50+$80+$120+$10)/$200 = $260/$200 = 1.3. Quick Ratio = ($50+$80)/$200 = $130/$200 = 0.65. The gap between 1.3 and 0.65 reveals heavy reliance on inventory for liquidity.' },
+          { id: 'b', text: 'Current: 1.3, Quick: 1.05', correct: false, explanation: 'The quick ratio excludes BOTH inventory ($120M) AND prepaid expenses ($10M). Including inventory in the quick ratio defeats its purpose as a stricter liquidity test.' },
+          { id: 'c', text: 'Current: 0.65, Quick: 0.25', correct: false, explanation: 'You\'ve inverted the ratios. Current ratio includes ALL current assets ($260M/$200M = 1.3). The cash ratio (Cash only / CL) would be $50M/$200M = 0.25.' },
+        ],
+      },
+    },
+    {
+      id: 'ch8-s7',
+      chapterId: 8,
+      sectionLabel: 'Solvency',
+      title: 'Solvency Ratios: Debt-to-Equity, Times Interest Earned, and Financial Leverage',
+      explanation:
+        'Solvency ratios measure a company\'s ability to meet long-term obligations and assess capital structure risk. Debt-to-Equity (Total Liabilities / Total Equity) shows how much the company relies on creditor vs shareholder financing. Times Interest Earned (EBIT / Interest Expense) measures the cushion available to cover interest payments. The Equity Multiplier (Total Assets / Total Equity) captures overall financial leverage. Higher leverage amplifies both returns and risk.',
+      formula: 'Times\ Interest\ Earned = \\frac{EBIT}{Interest\ Expense}',
+      highlights: [
+        'Debt-to-Equity > 2.0 is considered highly leveraged in most industries.',
+        'Times Interest Earned < 3.0 signals potential difficulty covering interest — credit analysts watch this closely.',
+        'The Equity Multiplier connects to DuPont: ROE = Net Margin × Asset Turnover × Equity Multiplier.',
+        'Off-balance-sheet obligations (operating leases pre-ASC 842, guarantees) should be added to debt for true leverage.',
+      ],
+      deepDive: {
+        body: [
+          'Solvency analysis answers a fundamental question: can this company survive a downturn? High leverage means fixed interest payments consume a larger share of operating income, leaving less cushion for revenue declines. A company with TIE of 8× can absorb a 75% decline in EBIT before defaulting on interest; a company with TIE of 2× can only absorb a 50% decline.',
+          'The debt-to-equity ratio must be interpreted carefully. Capital-intensive industries (utilities, airlines, telecom) naturally carry higher leverage because their stable cash flows support more debt. Technology companies and pharmaceutical firms typically carry less debt because their cash flows are less predictable. Comparing a utility\'s D/E to a software company\'s is meaningless.',
+          'Financial leverage is a double-edged sword captured by the Return on Financial Leverage (ROFL) concept: ROFL = ROE − ROA. When ROA exceeds the after-tax cost of debt, leverage amplifies shareholder returns (positive ROFL). When ROA falls below the cost of debt, leverage destroys shareholder value (negative ROFL). This is why leverage works in good times and kills in bad times.',
+        ],
+        keyInsights: [
+          'Debt covenant violations are often triggered by solvency ratios — breaching a maximum D/E or minimum TIE can accelerate all debt repayment.',
+          'ROFL (Return on Financial Leverage) = ROE − ROA. Positive ROFL means leverage is creating value; negative means it\'s destroying value.',
+          'Companies approaching covenant limits have powerful incentives to manage earnings upward — this is where forensic analysis becomes critical.',
+        ],
+        realWorldExample:
+          'Toys "R" Us carried $5B in debt from its 2005 leveraged buyout. Its Times Interest Earned ratio fell below 1.5× as revenue declined from online competition. When it could no longer cover interest payments from operations, it filed for bankruptcy in 2017 — a textbook example of how excessive leverage turns a business downturn into a death spiral.',
+        commonMistakes: [
+          'Using only book value of equity in D/E — market value provides a more current picture of shareholder cushion.',
+          'Ignoring off-balance-sheet debt when calculating leverage — operating leases, pension obligations, and guarantees are real obligations.',
+          'Treating all debt equally — short-term debt that must be refinanced is riskier than long-term fixed-rate debt.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company has EBIT of $150M and interest expense of $50M. After a leveraged acquisition, EBIT stays at $150M but interest rises to $120M. What happens to the TIE ratio and what does it signal?',
+        options: [
+          { id: 'a', text: 'TIE drops from 3.0× to 1.25× — the company now has very little margin for any decline in earnings', correct: true, explanation: 'Correct. Pre-acquisition TIE = $150M/$50M = 3.0×. Post-acquisition TIE = $150M/$120M = 1.25×. At 1.25×, even a 20% decline in EBIT would make the company unable to cover interest from operations — extremely risky.' },
+          { id: 'b', text: 'TIE drops from 3.0× to 1.25× — but this is fine because acquisitions always increase future EBIT', correct: false, explanation: 'While acquisitions may increase future EBIT, the TIE of 1.25× means the company has almost no cushion NOW. If synergies don\'t materialize or integration problems arise, the company could default.' },
+          { id: 'c', text: 'TIE is unchanged because EBIT didn\'t change', correct: false, explanation: 'TIE = EBIT / Interest Expense. Even though EBIT is the same, the denominator (interest expense) more than doubled, dramatically reducing the coverage ratio.' },
+        ],
+      },
+    },
+    {
+      id: 'ch8-s8',
+      chapterId: 8,
+      sectionLabel: 'Profitability',
+      title: 'Profitability Ratios: Margins, Returns, and Efficiency',
+      explanation:
+        'Profitability ratios measure how effectively a company generates profit from its revenue, assets, and equity. Gross Margin (Gross Profit / Revenue) measures production efficiency. Operating Margin (Operating Income / Revenue) measures core business profitability. Net Margin (Net Income / Revenue) captures the bottom line. Return on Assets (Net Income / Average Total Assets) measures asset productivity. These ratios must be analyzed together — a company can have strong gross margins but weak net margins if operating expenses are high.',
+      formula: 'ROA = \\frac{Net\ Income}{Average\ Total\ Assets} = Net\ Margin \times Asset\ Turnover',
+      highlights: [
+        'Gross Margin reveals pricing power and cost structure — high margins mean the company can charge well above cost.',
+        'Operating Margin strips out financing and tax effects — the purest measure of business model profitability.',
+        'ROA decomposition (Net Margin × Asset Turnover) shows whether returns come from high margins or high efficiency.',
+        'Trend analysis of margins is more revealing than absolute levels — deteriorating margins signal competitive pressure.',
+      ],
+      deepDive: {
+        body: [
+          'Profitability ratios tell fundamentally different stories depending on the business model. A luxury goods company (Hermès: 70% gross margin) operates with high margins on low volume. A discount retailer (Costco: 13% gross margin) operates with thin margins on enormous volume. Both can be excellent businesses with strong ROA — they just achieve returns differently. This is why ROA decomposition matters: it reveals the strategic path to profitability.',
+          'The progression from gross margin to operating margin to net margin reveals where value is being created or destroyed. A company with 40% gross margin but 5% operating margin is spending heavily on SGA — either investing in growth (acceptable) or running an inefficient operation (concerning). A company with 40% gross margin and 25% operating margin has excellent cost control.',
+          'Asset-light business models (software, consulting) naturally produce high margins and high ROA because they require minimal physical assets. Asset-heavy models (airlines, utilities, manufacturing) produce lower margins and lower ROA but can still create shareholder value through leverage. Comparing across business models without understanding these structural differences leads to incorrect conclusions.',
+        ],
+        keyInsights: [
+          'Declining gross margins often signal competitive pressure, commodity cost increases, or product mix shifts — they are rarely manipulated.',
+          'Operating margin is the best single profitability metric because it excludes capital structure and tax effects.',
+          'ROA is the key link between profitability and DuPont analysis: ROA = Net Margin × Asset Turnover, and ROE = ROA × Equity Multiplier.',
+        ],
+        realWorldExample:
+          'Apple\'s profitability ratios illustrate the power of brand and ecosystem: 43% gross margin, 30% operating margin, 25% net margin, and 28% ROA (2023). Compare to HP: 20% gross margin, 8% operating margin, 6% net margin, 12% ROA. Despite selling similar hardware, Apple\'s pricing power (from brand and ecosystem lock-in) produces dramatically superior profitability at every level.',
+        commonMistakes: [
+          'Comparing gross margins across industries — a 30% gross margin is excellent for a grocery chain but poor for a software company.',
+          'Ignoring that ROA varies with asset intensity — asset-light companies will always have higher ROA than capital-intensive ones.',
+          'Using net margin alone to judge profitability — it includes non-operating items (interest, tax benefits) that may not recur.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'Company A has 40% gross margin, 8% operating margin. Company B has 25% gross margin, 15% operating margin. Which is the more efficiently run business?',
+        options: [
+          { id: 'a', text: 'Company A — higher gross margin means better pricing and cost of production', correct: false, explanation: 'Gross margin only measures production/procurement efficiency. Company A loses most of its margin to operating expenses (40% → 8% = 32 points consumed by SGA). Company B retains a much higher proportion.' },
+          { id: 'b', text: 'Company B — it converts a higher percentage of gross profit into operating profit', correct: true, explanation: 'Correct. Company B retains 60% of its gross margin as operating income (15/25), while Company A retains only 20% (8/40). Company B has much better operating expense control — its SGA consumes only 10 points vs Company A\'s 32 points.' },
+          { id: 'c', text: 'Cannot determine — need to see net margin and ROA', correct: false, explanation: 'While net margin and ROA provide additional context, the gross-to-operating margin compression directly reveals operating efficiency. Company B is clearly more efficient at converting revenue into operating profit.' },
+        ],
+      },
+    },
   ],
 
   9: [
@@ -2028,6 +2584,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Ignoring that large acquisition reserves reduce goodwill (since they are liabilities written up at acquisition) — making future goodwill impairment tests easier to pass.',
         ],
       },
+      predictionPrompt: {
+        question: 'An acquiring company records $200M in restructuring reserves at the time of acquisition. Over the next two years, it releases $80M of those reserves into income. What is happening?',
+        options: [
+          { id: 'a', text: 'The acquisition created genuine savings that exceeded the restructuring estimate', correct: false, explanation: 'While possible, the pattern of creating large reserves at acquisition and releasing them later is a classic "cookie jar" technique. The initial reserves were likely inflated specifically to create a pool of future income.' },
+          { id: 'b', text: 'Cookie jar accounting — reserves were over-accrued at acquisition to be released as needed to smooth future earnings', correct: true, explanation: 'Correct. This is the textbook cookie jar pattern: (1) Over-accrue reserves at acquisition (goodwill absorbs the excess), (2) Release reserves into income in future periods when earnings need a boost. The $80M release makes two years of post-acquisition results look better than operational reality.' },
+          { id: 'c', text: 'Normal accounting — reserves are always adjusted as better information becomes available', correct: false, explanation: 'While estimate revisions are normal, a pattern of consistently RELEASING reserves (always in the income-increasing direction) is suspicious. If estimates were truly being corrected, you\'d expect some increases and some decreases.' },
+        ],
+      },
     },
     {
       id: 'ch9-s3',
@@ -2059,6 +2623,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Using EPS accretion as the measure of deal value — EPS accretion can occur while intrinsic per-share value declines.',
           'Taking management synergy estimates at face value — independently estimating synergies from public data is more reliable.',
           'Ignoring the opportunity cost: cash used for acquisitions could have been returned to shareholders via buybacks (at presumably below-intrinsic-value prices) or invested in organic growth.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'Research shows that 60-70% of acquisitions destroy value for acquiring shareholders. Why do companies continue to make acquisitions?',
+        options: [
+          { id: 'a', text: 'CEO overconfidence and empire building — executives overestimate their ability to create synergies', correct: true, explanation: 'Correct. The hubris hypothesis (Roll, 1986) explains that CEO overconfidence drives most value-destroying acquisitions. Executives believe they can manage the target better than its current management. Additionally, CEO compensation often increases with company size, creating incentives for growth even without value creation.' },
+          { id: 'b', text: 'The research is flawed — most acquisitions actually do create value over the long term', correct: false, explanation: 'Decades of consistent academic research across thousands of transactions confirms the value destruction pattern. While some acquisitions succeed, the majority result in overpayment, failed integration, or unrealized synergies.' },
+          { id: 'c', text: 'Tax benefits of acquisitions make them worthwhile even when the operating synergies don\'t materialize', correct: false, explanation: 'While acquisitions can produce tax benefits (like net operating loss carryforwards), these are rarely sufficient to offset the typical acquisition premium of 20-40% above market price. The primary driver remains strategic/ego factors, not tax optimization.' },
         ],
       },
     },
@@ -2357,6 +2929,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Forgetting that both the first digit AND the second digit distributions should be tested — fraud often passes first-digit tests but fails second-digit analysis.',
         ],
       },
+      predictionPrompt: {
+        question: 'An analyst applies Benford\'s Law to a company\'s revenue transactions and finds that the digit "5" appears as the leading digit 22% of the time (expected: 7.9%). What should the analyst conclude?',
+        options: [
+          { id: 'a', text: 'Definitive proof of fraud — the deviation is too large to be coincidental', correct: false, explanation: 'Benford\'s Law deviations are a screening tool, not proof of fraud. The deviation indicates that something unusual is happening with transactions starting with 5 (perhaps a pricing convention, rounding policy, or threshold). Further investigation is needed to determine if the cause is innocent or fraudulent.' },
+          { id: 'b', text: 'A significant red flag warranting investigation — the deviation suggests potential fabrication or manipulation of transactions in that range', correct: true, explanation: 'Correct. A 22% occurrence vs 7.9% expected is nearly 3× the expected frequency — a statistically significant deviation. Common explanations include: fabricated invoices clustered around a threshold (e.g., $500 or $5,000), pricing policies producing many transactions at specific amounts, or deliberate manipulation. The next step is to examine the specific transactions for patterns.' },
+          { id: 'c', text: 'Nothing meaningful — Benford\'s Law only applies to naturally occurring data, not business transactions', correct: false, explanation: 'Benford\'s Law applies to any dataset that spans multiple orders of magnitude — which business transactions typically do ($10 to $10M+). Revenue transactions, expense reports, and journal entries all follow Benford distributions when they are naturally generated.' },
+        ],
+      },
     },
     {
       id: 'ch10-s3',
@@ -2388,6 +2968,14 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           'Conflating skepticism with cynicism — a skeptic requires evidence; a cynic dismisses everything. Skeptics find legitimate companies and confirm their quality; cynics miss good investments.',
           'Applying skepticism retroactively (after bad news is known) rather than prospectively (based on available signals).',
           'Overlooking that the quality of governance and management character is as important as quantitative analysis — Enron had beautiful financial ratios and excellent governance optics until the day it didn\'t.',
+        ],
+      },
+      predictionPrompt: {
+        question: 'An auditor is reviewing a company where the CEO personally controls all vendor approvals above $10,000 and the internal audit function reports directly to the CEO. What fraud triangle element is most concerning?',
+        options: [
+          { id: 'a', text: 'Pressure — the CEO must be under financial pressure to control spending so tightly', correct: false, explanation: 'Tight spending control alone doesn\'t indicate pressure. The issue here is the control environment: the CEO has both authority over transactions AND oversight of the function that should be checking those transactions.' },
+          { id: 'b', text: 'Opportunity — the CEO has both transaction authority and control over the internal audit function that should provide oversight', correct: true, explanation: 'Correct. This is a textbook opportunity condition: the CEO can approve transactions (vendor payments) and simultaneously suppress the function (internal audit) that should detect irregularities. Internal audit should report to the Audit Committee of the Board, not to management. This structure makes fraud possible and difficult to detect.' },
+          { id: 'c', text: 'Rationalization — the CEO believes they know best how to manage the company\'s spending', correct: false, explanation: 'While the CEO may rationalize this structure as efficiency, the primary concern is Opportunity. The concentration of authority without independent oversight is a control weakness that enables fraud, regardless of the CEO\'s intentions.' },
         ],
       },
     },
@@ -2737,6 +3325,90 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
         ],
       },
     },
+    {
+      id: 'ch11-s9',
+      chapterId: 11,
+      sectionLabel: 'Recording',
+      title: 'Transaction Analysis and the Journal Entry',
+      explanation:
+        'Every business transaction must be analyzed and recorded as a journal entry — a dated record showing the accounts affected, the amounts, and the debit/credit direction. The analysis follows a structured process: (1) Identify the accounts affected, (2) Determine if each account increases or decreases, (3) Apply debit/credit rules (assets and expenses increase with debits; liabilities, equity, and revenue increase with credits), (4) Verify that total debits equal total credits. The journal is the chronological book of original entry.',
+      highlights: [
+        'Every journal entry must have equal total debits and total credits — this is the self-checking mechanism.',
+        'Assets and Expenses increase with debits (left side); Liabilities, Equity, and Revenue increase with credits (right side).',
+        'Compound journal entries affect more than two accounts but still must balance.',
+        'The journal entry includes: date, account names, amounts, and a brief explanation (narration).',
+      ],
+      deepDive: {
+        body: [
+          'Transaction analysis is the foundation of all accounting. Before any financial statement is prepared, every economic event must be translated into the language of debits and credits. The process seems mechanical, but it requires judgment: Is this a capital expenditure or an operating expense? Should revenue be recognized now or deferred? Is this a liability or equity? These classification decisions drive the journal entry and ultimately the financial statements.',
+          'The general journal is the chronological record of all transactions. Each entry is then posted to the general ledger, which organizes transactions by account. The trial balance is simply a list of all ledger account balances at a point in time. If the trial balance does not balance (total debits ≠ total credits), there is an error somewhere in the recording or posting process.',
+          'Understanding journal entries is essential for reading financial statements critically. Every number on a financial statement is the result of accumulated journal entries. When you see accounts receivable of $5M on the balance sheet, that represents the net effect of all revenue recognition entries, cash collection entries, and write-off entries posted to that account. Understanding the entries behind the numbers reveals what management decisions created them.',
+        ],
+        keyInsights: [
+          'The most common source of accounting fraud is fictitious journal entries — fabricated debits to assets or credits to revenue that have no underlying transaction.',
+          'Adjusting journal entries (made at period-end) are where the most judgment and manipulation risk exists.',
+          'Journal entry testing is a core audit procedure — auditors specifically look for unusual entries near period-end.',
+        ],
+        realWorldExample:
+          'HealthSouth\'s $2.7B fraud was perpetrated through thousands of small, fictitious journal entries. Each entry was kept below the materiality threshold to avoid auditor scrutiny: debiting various asset accounts and crediting revenue. The entries had no supporting documentation — they were pure fabrications designed to hit earnings targets. Modern audit software now flags unusual journal entry patterns automatically.',
+        commonMistakes: [
+          'Confusing debits with "bad" and credits with "good" — debits and credits are simply left and right; their effect depends on the account type.',
+          'Forgetting that every transaction affects at least two accounts — single-entry bookkeeping does not satisfy GAAP.',
+          'Recording cash basis entries instead of accrual entries — revenue is recorded when earned, not when cash is received.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company provides $10,000 of consulting services on December 15 but won\'t collect cash until January 20. What is the correct December journal entry?',
+        options: [
+          { id: 'a', text: 'No entry until January — revenue is recognized when cash is collected', correct: false, explanation: 'This is cash basis accounting, which is not permitted under GAAP. Under accrual accounting, revenue is recognized when the performance obligation is satisfied (services delivered), regardless of when cash is received.' },
+          { id: 'b', text: 'Debit Accounts Receivable $10,000, Credit Service Revenue $10,000', correct: true, explanation: 'Correct. The service was performed in December, so revenue is earned in December. A/R increases (debit an asset) because the company has a right to collect. Service Revenue increases (credit revenue). Cash will be recorded in January when collected.' },
+          { id: 'c', text: 'Debit Cash $10,000, Credit Unearned Revenue $10,000', correct: false, explanation: 'Cash has not been received yet (that happens in January), so you cannot debit Cash. And the revenue is earned (services delivered), not unearned. Unearned revenue applies when cash is received BEFORE services are performed.' },
+        ],
+      },
+    },
+    {
+      id: 'ch11-s10',
+      chapterId: 11,
+      sectionLabel: 'Recording',
+      title: 'The 3-Step Process: Analyze, Journalize, and Post',
+      explanation:
+        'Financial accounting follows a systematic 3-step process for every transaction: Step 1 — Analyze the transaction\'s effect on the accounting equation and financial statements using a financial statement effects template. Step 2 — Journalize the transaction by recording the formal journal entry with debits and credits. Step 3 — Post the journal entry to T-accounts in the general ledger. This process ensures every transaction is captured completely, accurately, and in a way that maintains the accounting equation balance.',
+      highlights: [
+        'Step 1 (Analyze): Use the financial statement effects template — which accounts are affected and in which direction?',
+        'Step 2 (Journalize): Write the formal entry with date, accounts, amounts, and debit/credit classification.',
+        'Step 3 (Post): Transfer each debit and credit to the appropriate T-account in the general ledger.',
+        'After posting all transactions, prepare a trial balance to verify total debits = total credits.',
+      ],
+      deepDive: {
+        body: [
+          'The Hanlon textbook\'s financial statement effects template is a powerful analytical tool. For each transaction, you trace the effect across: Cash | Noncash Assets | Liabilities | Contributed Capital | Earned Capital, and simultaneously: Revenues − Expenses = Net Income. This dual-tracking ensures you understand both the balance sheet and income statement effects of every transaction before you write the journal entry.',
+          'The posting process transfers information from the chronological journal to the account-organized ledger. Think of the journal as a diary (events in date order) and the ledger as a filing cabinet (events organized by account). Both contain the same information, just organized differently. The trial balance is simply a summary of all ledger account balances — it proves the books are in balance but does NOT guarantee all entries are correct (a balanced but incorrect entry would not be caught).',
+          'This 3-step process repeats for every transaction throughout the accounting period. At period-end, adjusting entries follow the same process. After adjustments, the adjusted trial balance is prepared, financial statements are created, and temporary accounts are closed. The entire sequence — from first transaction to closing entries — is called the accounting cycle.',
+        ],
+        keyInsights: [
+          'A trial balance can balance perfectly and still contain errors — if you debited and credited the wrong accounts by equal amounts, the totals still match.',
+          'The ledger is the "book of final entry" while the journal is the "book of original entry" — auditors examine both.',
+          'Modern accounting software automates posting (Step 3), but understanding the process is essential for identifying errors and fraud.',
+        ],
+        realWorldExample:
+          'When Walgreens records a prescription sale of $50 paid by insurance, the 3-step process works as follows: Step 1 (Analyze): Cash doesn\'t change immediately; A/R increases; Revenue increases; Inventory decreases; COGS increases. Step 2 (Journalize): Dr. A/R $50, Cr. Sales Revenue $50; and Dr. COGS $15, Cr. Inventory $15. Step 3 (Post): Post each debit and credit to the respective T-accounts. Two journal entries capture the complete economic reality of one transaction.',
+        commonMistakes: [
+          'Skipping the analysis step and jumping straight to the journal entry — this leads to incorrect account classifications.',
+          'Posting only one side of a journal entry — every debit must have a corresponding credit posted to the ledger.',
+          'Confusing the trial balance with proof of accuracy — it only proves that debits equal credits, not that entries are correct or complete.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'After posting all transactions and preparing a trial balance, total debits are $847,500 and total credits are $847,500. Does this guarantee the books are error-free?',
+        options: [
+          { id: 'a', text: 'Yes — if debits equal credits, all entries must be correct', correct: false, explanation: 'A balanced trial balance only proves that the mechanical equality of debits and credits is maintained. Many errors can hide within balanced books.' },
+          { id: 'b', text: 'No — errors like posting to wrong accounts, omitted transactions, or duplicate entries would not be detected', correct: true, explanation: 'Correct. A trial balance will NOT catch: (1) entries posted to the wrong account (debit Supplies instead of Equipment), (2) completely omitted transactions, (3) transactions recorded at the wrong amount if both sides are wrong equally, or (4) duplicate postings of the same entry.' },
+          { id: 'c', text: 'No — but only if a transaction was completely omitted; all other errors would be caught', correct: false, explanation: 'Omitted transactions are just one type of error the trial balance misses. Wrong account classifications, compensating errors, and duplicate entries would also go undetected.' },
+        ],
+      },
+    },
   ],
   12: [
     {
@@ -3080,6 +3752,90 @@ export const CHAPTER_CONCEPTS: Record<number, ConceptSlide[]> = {
           { id: 'a', text: 'Improved credit quality justified the lower allowance', correct: false, explanation: 'The allowance was cut by more than half without any disclosed improvement in credit quality. The near-perfect match between the release ($12M) and the earnings beat ($13M) strongly suggests the reserve was reduced to meet the earnings target.' },
           { id: 'b', text: 'The reserve reduction was used to manage earnings to meet the target — the precision match and lack of supporting evidence are red flags', correct: true, explanation: 'Correct. An 8-year history of 4-5% suddenly dropping to 2% without disclosed credit improvement, combined with the release almost exactly matching the earnings beat, is a textbook earnings management signal. The reserve was reduced to manufacture the earnings result, not to reflect genuine changes in credit risk.' },
           { id: 'c', text: 'The company is simply being more accurate in its estimates', correct: false, explanation: 'If 4-5% was appropriate for 8 years, halving it without any documented change in the customer base or credit environment is not increased accuracy — it is a change in judgment that coincidentally matches the earnings target.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s9',
+      chapterId: 12,
+      sectionLabel: 'Accounting Cycle',
+      title: 'The Complete Accounting Cycle: From Transactions to Financial Statements',
+      explanation:
+        'The accounting cycle is the complete sequence of steps that transforms raw business transactions into finished financial statements, repeated each reporting period. The ten steps are: (1) Analyze transactions, (2) Journalize in the general journal, (3) Post to the general ledger, (4) Prepare an unadjusted trial balance, (5) Journalize adjusting entries, (6) Post adjusting entries, (7) Prepare an adjusted trial balance, (8) Prepare financial statements, (9) Journalize and post closing entries, (10) Prepare a post-closing trial balance. Understanding this cycle is essential for knowing where every number on a financial statement comes from.',
+      highlights: [
+        'Steps 1-4 happen continuously throughout the period as transactions occur.',
+        'Steps 5-8 happen at period-end: adjustments ensure proper accrual accounting.',
+        'Steps 9-10 happen after statements are prepared: closing resets temporary accounts to zero for the next period.',
+        'Revenue, expense, and dividend accounts are temporary (closed each period); asset, liability, and equity accounts are permanent.',
+      ],
+      deepDive: {
+        body: [
+          'The accounting cycle provides a systematic framework that ensures completeness and accuracy. Each step builds on the previous one: you cannot prepare meaningful financial statements without first posting adjusting entries, and you cannot close temporary accounts until financial statements are prepared. Skipping or rushing any step introduces risk of material misstatement.',
+          'The distinction between temporary and permanent accounts is crucial for the closing process. Temporary accounts (revenues, expenses, dividends) accumulate activity for one period and are then closed (zeroed out) to Retained Earnings. Permanent accounts (assets, liabilities, equity) carry their balances forward from period to period. After closing, only permanent accounts have balances — this is confirmed by the post-closing trial balance.',
+          'In practice, modern accounting software automates many of these steps. But understanding the manual process is critical because (1) you need to know what the software is doing to verify its output, (2) adjusting entries still require human judgment, (3) errors in automated systems follow the same patterns as manual errors, and (4) forensic analysis requires tracing transactions through the complete cycle to find where manipulation occurred.',
+        ],
+        keyInsights: [
+          'The income summary account is used during closing: all revenues and expenses are closed to Income Summary, then Income Summary is closed to Retained Earnings.',
+          'A worksheet (optional) can be used to organize the entire cycle from unadjusted TB through financial statements on a single document.',
+          'Most accounting fraud occurs at steps 5-6 (adjusting entries) because these involve the most judgment and are made at period-end under time pressure.',
+        ],
+        realWorldExample:
+          'Walgreens processes millions of transactions daily across thousands of stores. Each sale, purchase, and payment follows the accounting cycle. At quarter-end, the company\'s accounting team prepares hundreds of adjusting entries: accruing pharmacy rebates, adjusting inventory for shrinkage, recording depreciation on fixtures, and estimating bad debts on insurance receivables. These adjustments — requiring significant judgment — are where the financial statements take shape.',
+        commonMistakes: [
+          'Thinking the accounting cycle is only relevant for manual bookkeeping — the same logical sequence underlies all computerized accounting systems.',
+          'Forgetting to close temporary accounts — this would cause revenue and expense balances to accumulate across periods, making the income statement meaningless.',
+          'Preparing financial statements from the unadjusted trial balance — without adjusting entries, revenue and expenses would not reflect proper accrual accounting.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'After closing entries are posted, which accounts should have a zero balance?',
+        options: [
+          { id: 'a', text: 'All accounts — closing resets everything to start fresh', correct: false, explanation: 'Only temporary accounts are closed. Permanent accounts (assets, liabilities, stockholders\' equity) carry their balances forward to the next period. Zeroing everything would erase the entire balance sheet.' },
+          { id: 'b', text: 'Revenue, expense, and dividend accounts — all temporary accounts are closed to Retained Earnings', correct: true, explanation: 'Correct. Temporary accounts accumulate activity for one period only. Revenues and expenses are closed to Income Summary, then Income Summary is closed to Retained Earnings. Dividends are closed directly to Retained Earnings. After closing, only permanent (balance sheet) accounts have balances.' },
+          { id: 'c', text: 'Only expense accounts — revenue accounts carry forward as retained earnings', correct: false, explanation: 'Both revenue AND expense accounts are temporary and must be closed. Revenue doesn\'t "become" retained earnings directly — it flows through the closing process via Income Summary.' },
+        ],
+      },
+    },
+    {
+      id: 'ch12-s10',
+      chapterId: 12,
+      sectionLabel: 'Accounting Cycle',
+      title: 'Post-Closing Trial Balance, Subsequent Events, and Financial Statement Preparation',
+      explanation:
+        'The post-closing trial balance is the final verification step — it lists only permanent accounts (assets, liabilities, equity) and confirms that debits still equal credits after all closing entries. Subsequent events are material transactions occurring between the balance sheet date and the date financial statements are issued. Type I subsequent events (conditions existing at the BS date) require adjustment to the statements; Type II subsequent events (conditions arising after the BS date) require footnote disclosure only.',
+      highlights: [
+        'Post-closing TB contains ONLY permanent accounts — all temporary accounts should show zero balances.',
+        'Type I subsequent events: adjust the financial statements (e.g., settlement of a lawsuit that was pending at year-end).',
+        'Type II subsequent events: disclose in footnotes only (e.g., a factory fire occurring after year-end).',
+        'Financial statements are prepared directly from the adjusted trial balance in a specific order: IS → SE → BS → SCF.',
+      ],
+      deepDive: {
+        body: [
+          'The preparation order of financial statements matters because each statement feeds into the next. The income statement is prepared first because net income is needed for the statement of stockholders\' equity. The equity statement is prepared second because ending retained earnings is needed for the balance sheet. The balance sheet is prepared third. The statement of cash flows is prepared last because it requires information from both the income statement and comparative balance sheets.',
+          'Subsequent events represent a gray area between two reporting periods. The key question is: did the condition exist at the balance sheet date? If a customer was in financial trouble at December 31 and declares bankruptcy on January 15, the bad debt existed at the BS date — adjust the statements. If a healthy customer\'s warehouse burns down on January 15, the loss arose after the BS date — disclose in footnotes but don\'t adjust.',
+          'The evaluation period for subsequent events extends to the date the financial statements are "available to be issued" (for public companies) or "issued" (for non-public companies). Management must evaluate all events through this date, which can be weeks or months after year-end. This is why 10-K filings often include subsequent event disclosures dated well after December 31.',
+        ],
+        keyInsights: [
+          'If the post-closing trial balance does not balance, there is an error in the closing entries — go back and verify.',
+          'Subsequent event evaluation is a key audit procedure — auditors specifically test the period between year-end and the audit report date.',
+          'Companies sometimes time material transactions to fall just after the reporting date to avoid affecting the current period\'s statements — a form of window dressing.',
+        ],
+        realWorldExample:
+          'In early 2020, COVID-19 emerged as a subsequent event for companies with December 31, 2019 fiscal year-ends. Companies had to evaluate: was COVID a Type I event (condition existed at 12/31/19) or Type II (arose after)? Most concluded it was Type II — requiring disclosure but not adjustment to 2019 statements. Companies with March 31 year-ends, however, had to adjust their financial statements to reflect COVID\'s impact, since the pandemic was well established by then.',
+        commonMistakes: [
+          'Confusing Type I and Type II subsequent events — the key test is whether the CONDITION existed at the balance sheet date, not whether the EVENT occurred.',
+          'Thinking the post-closing TB should include revenue and expense accounts — these should all be zero after closing.',
+          'Preparing the balance sheet before the income statement — net income must be calculated first because it flows to retained earnings.',
+        ],
+      },
+      predictionPrompt: {
+        question:
+          'A company with a December 31 fiscal year-end learns on February 10 that a major customer filed for bankruptcy on January 25. The customer had a $3M receivable at December 31. How should this be handled?',
+        options: [
+          { id: 'a', text: 'Type I subsequent event — adjust the December 31 financial statements to write down the receivable', correct: true, explanation: 'Correct. The customer\'s financial deterioration was a condition that existed at December 31 (they were already in trouble). The January 25 bankruptcy filing merely confirms what was true at year-end. The allowance for doubtful accounts should be increased to reflect the likely uncollectible amount.' },
+          { id: 'b', text: 'Type II subsequent event — disclose in footnotes but do not adjust the statements', correct: false, explanation: 'Type II events involve conditions that arose AFTER the balance sheet date. A customer\'s financial deterioration doesn\'t happen overnight — the bankruptcy filing confirms a pre-existing condition at December 31.' },
+          { id: 'c', text: 'No action needed — the bankruptcy occurred in the next fiscal year', correct: false, explanation: 'Subsequent events that provide evidence about conditions existing at the balance sheet date MUST be evaluated and may require adjustment, regardless of when the confirming event occurs.' },
         ],
       },
     },
