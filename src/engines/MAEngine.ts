@@ -162,6 +162,16 @@ function safeDiv(numerator: number, denominator: number): number | null {
 }
 
 /**
+ * Financing mix must sum to 100%.
+ */
+export function isFinancingMixValid(
+  deal: Pick<MADealInput, 'cashPct' | 'stockPct' | 'debtPct'>,
+): boolean {
+  const mixSum = deal.cashPct + deal.stockPct + deal.debtPct
+  return Number.isFinite(mixSum) && Math.abs(mixSum - 100) < 0.01
+}
+
+/**
  * Computes the median of a numeric array. Filters out null, NaN, non-positive
  * values. Uses floor-index median matching monolith line 8961.
  */
@@ -190,6 +200,10 @@ export function computeMA(
     !acquirer.sharePrice || !acquirer.sharesOut ||
     !target.sharePrice || !target.sharesOut
   ) {
+    return null
+  }
+
+  if (!isFinancingMixValid(deal)) {
     return null
   }
 
@@ -369,7 +383,7 @@ export function computeComps(subject: CompInput, allCompanies: CompInput[]): Com
         ? revenue - cogs - salariesExp - depreciationExp
         : 0
       const ebitda = operatingIncome + depreciationExp
-      const interestExp = b['Interest Payable'] || 0
+      const interestExp = b['Interest Expense'] || 0
       const netIncome = revenue > 0
         ? revenue - cogs - salariesExp - depreciationExp - interestExp - taxExp
         : 0

@@ -1,4 +1,5 @@
 import { useMAStore } from '../../store/maStore'
+import { isFinancingMixValid } from '../../engines/MAEngine'
 import StatementPanel from '../statements/StatementPanel'
 
 function fmt(n: number): string {
@@ -19,7 +20,7 @@ export default function StrategizeStep() {
   }
 
   const financingSum = dealTerms.cashPct + dealTerms.stockPct + dealTerms.debtPct
-  const financingValid = Math.abs(financingSum - 100) < 0.01
+  const financingValid = isFinancingMixValid(dealTerms)
 
   const offerPrice = target.sharePrice * (1 + dealTerms.premiumPct / 100)
   const purchasePrice = offerPrice * target.sharesOut
